@@ -19,7 +19,13 @@
 #include <cassert>
 #include <cstring>
 #include <math.h>
-
+/*	Modulation Coding Schemes (MCS)
+		IEEE 802.11 (2007): See Page 597
+		n_bpsc: bits per subcarrier
+		n_cbps: coded bits per OFDM symbol
+		n_dbps: data bits per symbol
+		rate_field: data rate Mbit/s (rate bits)
+*/
 ofdm_param::ofdm_param(Encoding e) {
 	encoding = e;
 
@@ -79,6 +85,52 @@ ofdm_param::ofdm_param(Encoding e) {
 			n_dbps = 216;
 			rate_field = 0x03; // 0b00000011
 			break;
+
+		// TODO: Add MCS for 802.11ah (See Page 513)
+		/* 1 MHz S1G MCS (SS=1) */
+		case S1G_1M_BPSK_1_2: // MCS 0
+		    n_bpsc = 1;
+		    n_cbps = 24;
+		    n_dbps = 12;
+			break;
+
+		case S1G_1M_QPSK_1_2: // MCS 1
+		    n_bpsc = 2;
+		    n_cbps = 48;
+		    n_dbps = 24;
+			break;
+		
+		case S1G_1M_QPSK_3_4: // MCS 2
+		    n_bpsc = 2;
+		    n_cbps = 48;
+		    n_dbps = 36;
+			break;
+		
+		case S1G_1M_DUP_BPSK_1_2: // MCS 10
+		    n_bpsc = 1;
+		    n_cbps = 24;
+		    n_dbps = 6;
+			break;
+	
+		/* 2 MHz S1G MCS (SS=1) */
+		case S1G_2M_BPSK_1_2: // MCS 0 
+		    n_bpsc = 1;
+		    n_cbps = 52;
+		    n_dbps = 26;
+			break;
+	
+		case S1G_2M_QPSK_1_2: // MCS 1 
+		    n_bpsc = 2;
+		    n_cbps = 104;
+		    n_dbps = 52;
+			break;
+	
+		case S1G_2M_QPSK_3_4: // MCS 2 
+		    n_bpsc = 2;
+		    n_cbps = 104;
+		    n_dbps = 78;
+			break;
+	
 		defaut:
 			assert(false);
 			break;

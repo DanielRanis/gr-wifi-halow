@@ -46,6 +46,34 @@
 			<name>64QAM 3/4</name>
 			<key>ieee802_11.64QAM_3_4</key>
 		</option>
+		<option>
+			<name>S1G BPSK 1/2 (1MHz Channel)</name>
+			<key>ieee802_11.S1G_1M_BPSK_1_2</key>
+		</option>
+		<option>
+			<name>S1G QPSK 1/2 (1MHz Channel)</name>
+			<key>ieee802_11.S1G_1M_QPSK_1_2</key>
+		</option>
+		<option>
+			<name>S1G QPSK 3/4 (1MHz Channel)</name>
+			<key>ieee802_11.S1G_1M_QPSK_3_4</key>
+		</option>
+		<option>
+			<name>S1G BPSK 1/2 with 2x repetition (1MHz Channel)</name>
+			<key>ieee802_11.S1G_1M_DUP_BPSK_1_2</key>
+		</option>
+		<option>
+			<name>S1G BPSK 1/2 (2MHz Channel)</name>
+			<key>ieee802_11.S1G_2M_BPSK_1_2</key>
+		</option>
+		<option>
+			<name>S1G QPSK 1/2 (2MHz Channel)</name>
+			<key>ieee802_11.S1G_2M_QPSK_1_2</key>
+		</option>
+		<option>
+			<name>S1G QPSK 3/4 (2MHz Channel)</name>
+			<key>ieee802_11.S1G_2M_QPSK_3_4</key>
+		</option>
 	</param>
 
 	<param>
