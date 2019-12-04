@@ -28,6 +28,22 @@
 		<type>int_vector</type>
 	</param>
 
+	<param>
+		<name>Protocol Version (PV) Frame</name>
+		<key>pv_frame</key>
+		<value>False</value>
+		<type>bool</type>
+
+		<option>
+			<name>PV 1</name>
+			<key>True</key>
+		</option>
+		<option>
+			<name>PV 0</name>
+			<key>False</key>
+		</option>
+	</param>
+
 	<check>len($src_mac) == 6</check>
 	<check>len($dst_mac) == 6</check>
 	<check>len($bss_mac) == 6</check>

@@ -46,6 +46,14 @@ struct mac_header {
 	uint16_t seq_nr;
 }__attribute__((packed));
 
+struct pv1_mac_header {
+	//protocol version, a1, a2, sequence control, ...
+	uint16_t frame_control;
+	uint8_t addr1[6];
+	uint8_t addr2[6];
+	uint16_t seq_nr;
+}__attribute__((packed));
+
 /**
  * WIFI parameters
  */

@@ -38,11 +38,12 @@ class mac_impl : public mac {
 
 public:
 
-mac_impl(std::vector<uint8_t> src_mac, std::vector<uint8_t> dst_mac, std::vector<uint8_t> bss_mac) :
+mac_impl(std::vector<uint8_t> src_mac, std::vector<uint8_t> dst_mac, std::vector<uint8_t> bss_mac, bool pv_frame) :
 		block("mac",
 			gr::io_signature::make(0, 0, 0),
 			gr::io_signature::make(0, 0, 0)),
-		d_seq_nr(0) {
+		d_seq_nr(0),
+		d_pv1_seq_nr(0) {
 
 	message_port_register_out(pmt::mp("phy out"));
 	message_port_register_out(pmt::mp("app out"));
@@ -62,6 +63,7 @@ mac_impl(std::vector<uint8_t> src_mac, std::vector<uint8_t> dst_mac, std::vector
 		d_dst_mac[i] = dst_mac[i];
 		d_bss_mac[i] = bss_mac[i];
 	}
+	d_pv_frame = pv_frame;
 }
 
 void phy_in (pmt::pmt_t msg) {
@@ -128,34 +130,55 @@ void generate_mac_data_frame(const char *msdu, int msdu_size, int *psdu_size) {
 	header.frame_control = 0x0008;
 	header.duration = 0x0000;
 
-	for(int i = 0; i < 6; i++) {
-		header.addr1[i] = d_dst_mac[i];
-		header.addr2[i] = d_src_mac[i];
-		header.addr3[i] = d_bss_mac[i];
-	}
+	//TODO: Implement PV1 MAC Frame Format
+	pv1_mac_header pv1_header;
+	pv1_header.frame_control = 0x800D;
+	uint8_t payld_len;
 
-	header.seq_nr = 0;
-	for (int i = 0; i < 12; i++) {
-		if(d_seq_nr & (1 << i)) {
-			header.seq_nr |=  (1 << (i + 4));
+	if(d_pv_frame){ //PV1 Frame
+		payld_len = 20;
+		for(int i = 0; i < 6; i++) {
+			pv1_header.addr1[i] = d_dst_mac[i];
+			pv1_header.addr2[i] = d_src_mac[i];
 		}
+		pv1_header.seq_nr = 0;
+		for (int i = 0; i < 12; i++) {
+			if(d_pv1_seq_nr & (1 << i)) {
+				pv1_header.seq_nr |=  (1 << (i + 4));
+			}
+		}
+		pv1_header.seq_nr = htole16(header.seq_nr);
+		d_pv1_seq_nr++;
+	}else{ //PV0 Frame
+		payld_len = 24;
+		for(int i = 0; i < 6; i++) {
+			header.addr1[i] = d_dst_mac[i];
+			header.addr2[i] = d_src_mac[i];
+			header.addr3[i] = d_bss_mac[i];
+		}
+		header.seq_nr = 0;
+		for (int i = 0; i < 12; i++) {
+			if(d_seq_nr & (1 << i)) {
+				header.seq_nr |=  (1 << (i + 4));
+			}
+		}
+		header.seq_nr = htole16(header.seq_nr);
+		d_seq_nr++;
 	}
-	header.seq_nr = htole16(header.seq_nr);
-	d_seq_nr++;
 
 	//header size is 24, plus 4 for FCS means 28 bytes
-	*psdu_size = 28 + msdu_size;
+	*psdu_size = payld_len + 4 + msdu_size;
 
 	//copy mac header into psdu
-	std::memcpy(d_psdu, &header, 24);
+	std::memcpy(d_psdu, &header, payld_len);
 	//copy msdu into psdu
-	memcpy(d_psdu + 24, msdu, msdu_size);
+	memcpy(d_psdu + payld_len, msdu, msdu_size);
 	//compute and store fcs
 	boost::crc_32_type result;
-	result.process_bytes(d_psdu, msdu_size + 24);
+	result.process_bytes(d_psdu, msdu_size + payld_len);
 
 	uint32_t fcs = result.checksum();
-	memcpy(d_psdu + msdu_size + 24, &fcs, sizeof(uint32_t));
+	memcpy(d_psdu + msdu_size + payld_len, &fcs, sizeof(uint32_t));
 }
 
 bool check_mac(std::vector<uint8_t> mac) {
@@ -165,14 +188,15 @@ bool check_mac(std::vector<uint8_t> mac) {
 
 private:
 	uint16_t d_seq_nr;
+	uint16_t d_pv1_seq_nr;
 	uint8_t d_src_mac[6];
 	uint8_t d_dst_mac[6];
 	uint8_t d_bss_mac[6];
+	bool d_pv_frame;
 	uint8_t d_psdu[MAX_PSDU_SIZE];
 };
 
 mac::sptr
-mac::make(std::vector<uint8_t> src_mac, std::vector<uint8_t> dst_mac, std::vector<uint8_t> bss_mac) {
-	return gnuradio::get_initial_sptr(new mac_impl(src_mac, dst_mac, bss_mac));
+mac::make(std::vector<uint8_t> src_mac, std::vector<uint8_t> dst_mac, std::vector<uint8_t> bss_mac, bool pv_frame) {
+	return gnuradio::get_initial_sptr(new mac_impl(src_mac, dst_mac, bss_mac, pv_frame));
 }
-

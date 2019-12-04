@@ -30,7 +30,8 @@ public:
 	typedef boost::shared_ptr<mac> sptr;
 	static sptr make(std::vector<uint8_t> src_mac,
 			std::vector<uint8_t> dst_mac,
-			std::vector<uint8_t> bss_mac);
+			std::vector<uint8_t> bss_mac,
+			bool pv_frame);
 };
 
 }  // namespace ieee802_11
