@@ -92,7 +92,7 @@
 		</option>
 	</param>
 
-	<check>$encoding in range(8)</check>
+	<check>$encoding in range(15)</check>
 
 	<sink>
 		<name>in</name>
