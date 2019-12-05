@@ -99,38 +99,38 @@ ofdm_param::ofdm_param(Encoding e) {
 		    n_cbps = 48;
 		    n_dbps = 24;
 			break;
-		
+
 		case S1G_1M_QPSK_3_4: // MCS 2
 		    n_bpsc = 2;
 		    n_cbps = 48;
 		    n_dbps = 36;
 			break;
-		
-		case S1G_1M_DUP_BPSK_1_2: // MCS 10
+
+		case S1G_1M_REP_BPSK_1_2: // MCS 10
 		    n_bpsc = 1;
 		    n_cbps = 24;
 		    n_dbps = 6;
 			break;
-	
+
 		/* 2 MHz S1G MCS (SS=1) */
-		case S1G_2M_BPSK_1_2: // MCS 0 
+		case S1G_2M_BPSK_1_2: // MCS 0
 		    n_bpsc = 1;
 		    n_cbps = 52;
 		    n_dbps = 26;
 			break;
-	
-		case S1G_2M_QPSK_1_2: // MCS 1 
+
+		case S1G_2M_QPSK_1_2: // MCS 1
 		    n_bpsc = 2;
 		    n_cbps = 104;
 		    n_dbps = 52;
 			break;
-	
-		case S1G_2M_QPSK_3_4: // MCS 2 
+
+		case S1G_2M_QPSK_3_4: // MCS 2
 		    n_bpsc = 2;
 		    n_cbps = 104;
 		    n_dbps = 78;
 			break;
-	
+
 		defaut:
 			assert(false);
 			break;

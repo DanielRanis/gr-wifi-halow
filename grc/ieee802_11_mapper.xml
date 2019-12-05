@@ -60,7 +60,7 @@
 		</option>
 		<option>
 			<name>S1G BPSK 1/2 with 2x repetition (1MHz Channel)</name>
-			<key>ieee802_11.S1G_1M_DUP_BPSK_1_2</key>
+			<key>ieee802_11.S1G_1M_REP_BPSK_1_2</key>
 		</option>
 		<option>
 			<name>S1G BPSK 1/2 (2MHz Channel)</name>
@@ -75,6 +75,9 @@
 			<key>ieee802_11.S1G_2M_QPSK_3_4</key>
 		</option>
 	</param>
+
+	<!-- 	TODO: Add S1G PPDU Format Options: S1G_SHORT,(S1G_LONG),S1G_1M
+	  		TODO: Add S1G CW Options: 1MHz, 2MHz -->
 
 	<param>
 		<name>Debug</name>

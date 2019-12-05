@@ -33,7 +33,7 @@ enum Encoding {
 	S1G_1M_BPSK_1_2 = 8,
 	S1G_1M_QPSK_1_2 = 9,
 	S1G_1M_QPSK_3_4 = 10,
-	S1G_1M_DUP_BPSK_1_2 = 11,
+	S1G_1M_REP_BPSK_1_2 = 11,
 	S1G_2M_BPSK_1_2 = 12,
 	S1G_2M_QPSK_1_2 = 13,
 	S1G_2M_QPSK_3_4 = 14,
