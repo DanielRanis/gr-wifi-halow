@@ -127,16 +127,14 @@ void generate_mac_data_frame(const char *msdu, int msdu_size, int *psdu_size) {
 
 	// mac header
 	mac_header header;
-	header.frame_control = 0x0008;
-	header.duration = 0x0000;
 
 	//TODO: Implement PV1 MAC Frame Format
 	pv1_mac_header pv1_header;
-	pv1_header.frame_control = 0x800D;
 	uint8_t payld_len;
 
 	if(d_pv_frame){ //PV1 Frame
-		payld_len = 20;
+		payld_len = 16;
+		pv1_header.frame_control = 0x800D;
 		for(int i = 0; i < 6; i++) {
 			pv1_header.addr1[i] = d_dst_mac[i];
 			pv1_header.addr2[i] = d_src_mac[i];
@@ -151,6 +149,8 @@ void generate_mac_data_frame(const char *msdu, int msdu_size, int *psdu_size) {
 		d_pv1_seq_nr++;
 	}else{ //PV0 Frame
 		payld_len = 24;
+		header.frame_control = 0x0008;
+		header.duration = 0x0000;
 		for(int i = 0; i < 6; i++) {
 			header.addr1[i] = d_dst_mac[i];
 			header.addr2[i] = d_src_mac[i];
