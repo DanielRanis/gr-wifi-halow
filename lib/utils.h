@@ -27,6 +27,7 @@
 #define MAX_PSDU_SIZE (MAX_PAYLOAD_SIZE + 28) // MAC, CRC
 #define MAX_SYM (((16 + 8 * MAX_PSDU_SIZE + 6) / 24) + 1)
 #define MAX_ENCODED_BITS ((16 + 8 * MAX_PSDU_SIZE + 6) * 2 + 288)
+//TODO: ADD MAX Macros for PV1 Frame
 
 #define dout d_debug && std::cout
 
@@ -90,6 +91,8 @@ public:
 	int n_encoded_bits;
 	// number of data bits, including service and padding (17-12)
 	int n_data_bits;
+	// number of SERVICE field bits in DATA field
+	int n_service_bits;
 
 	void print();
 };
