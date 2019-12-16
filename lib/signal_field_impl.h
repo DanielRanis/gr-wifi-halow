@@ -37,11 +37,12 @@ public:
 			std::vector<tag_t> &tags);
 private:
 	int get_bit(int b, int i);
-	void generate_signal_field(char *out, frame_param &frame, ofdm_param &ofdm);
+	void generate_signal_field(char *out, frame_param &frame,
+														 ofdm_param &ofdm, S1g_ppdu_format s1g_format,
+														 bool s1g_enabled);
 };
 
 } // namespace ieee802_11
 } // namespace gr
 
 #endif /* INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H */
-

@@ -53,40 +53,59 @@ chunks_to_symbols_impl::work(int noutput_items,
 	const unsigned char *in = (unsigned char*)input_items[0];
 	gr_complex *out = (gr_complex*)output_items[0];
 
+	Encoding encoding;
+	S1g_encoding s1g_encoding;
+
 	std::vector<tag_t> tags;
-	get_tags_in_range(tags, 0, nitems_read(0),
-			nitems_read(0) + ninput_items[0],
-			pmt::mp("encoding"));
-	if(tags.size() != 1) {
-		throw std::runtime_error("no encoding in input stream");
+	get_tags_in_range(tags, 0, nitems_read(0),nitems_read(0) + ninput_items[0], pmt::mp("encoding"));
+
+	if(tags.size() == 1) { // Encoding tag found
+		encoding = (Encoding)pmt::to_long(tags[0].value);
+		switch (encoding) {
+			case BPSK_1_2:
+			case BPSK_3_4:
+				d_mapping = d_bpsk;
+				break;
+
+			case QPSK_1_2:
+			case QPSK_3_4:
+				d_mapping = d_qpsk;
+				break;
+
+			case QAM16_1_2:
+			case QAM16_3_4:
+				d_mapping = d_16qam;
+				break;
+
+			case QAM64_2_3:
+			case QAM64_3_4:
+				d_mapping = d_64qam;
+				break;
+
+			default:
+				throw std::invalid_argument("wrong encoding");
+				break;
+		}
+
+	// 	throw std::runtime_error("no encoding in input stream");
 	}
+	get_tags_in_range(tags, 0, nitems_read(0),nitems_read(0) + ninput_items[0], pmt::mp("s1g_encoding"));
+	if(tags.size() == 1) { // S1G Encoding tag found
+		s1g_encoding = (S1g_encoding)pmt::to_long(tags[0].value);
+		switch (s1g_encoding) {
+			case S1G_BPSK_1_2:
+				d_mapping = d_bpsk;
+				break;
 
-	Encoding encoding = (Encoding)pmt::to_long(tags[0].value);
+			case S1G_QPSK_1_2:
+			case S1G_QPSK_3_4:
+				d_mapping = d_qpsk;
+				break;
 
-	switch (encoding) {
-	case BPSK_1_2:
-	case BPSK_3_4:
-		d_mapping = d_bpsk;
-		break;
-
-	case QPSK_1_2:
-	case QPSK_3_4:
-		d_mapping = d_qpsk;
-		break;
-
-	case QAM16_1_2:
-	case QAM16_3_4:
-		d_mapping = d_16qam;
-		break;
-
-	case QAM64_2_3:
-	case QAM64_3_4:
-		d_mapping = d_64qam;
-		break;
-
-	default:
-		throw std::invalid_argument("wrong encoding");
-		break;
+			default:
+				throw std::invalid_argument("wrong s1g_encoding");
+				break;
+		}
 	}
 
 	for(int i = 0; i < ninput_items[0]; i++) {

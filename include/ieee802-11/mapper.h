@@ -29,14 +29,23 @@ enum Encoding {
 	QAM16_3_4 = 5,
 	QAM64_2_3 = 6,
 	QAM64_3_4 = 7,
-	// MCS 802.11ah non-AP MCS
-	S1G_1M_BPSK_1_2 = 8,
-	S1G_1M_QPSK_1_2 = 9,
-	S1G_1M_QPSK_3_4 = 10,
-	S1G_1M_REP_BPSK_1_2 = 11,
-	S1G_2M_BPSK_1_2 = 12,
-	S1G_2M_QPSK_1_2 = 13,
-	S1G_2M_QPSK_3_4 = 14,
+};
+
+enum S1g_encoding {
+	S1G_BPSK_1_2 = 0,
+	S1G_QPSK_1_2 = 1,
+	S1G_QPSK_3_4 = 2,
+	S1G_BPSK_REP_1_2 = 10,
+};
+
+enum S1g_ppdu_format {
+	S1G_SHORT = 0,
+	S1G_1M = 1,
+};
+
+enum S1g_cw {
+	S1G_CW_1M = 1,
+	S1G_CW_2M = 2,
 };
 
 namespace gr {
@@ -47,8 +56,13 @@ class IEEE802_11_API mapper : virtual public block
 public:
 
 	typedef boost::shared_ptr<mapper> sptr;
-	static sptr make(Encoding mcs, bool debug = false);
+	static sptr make(Encoding e, bool debug = false, S1g_ppdu_format s1g_format = S1G_SHORT,
+		               S1g_encoding s1g_enc = S1G_BPSK_1_2, S1g_cw s1g_cw = S1G_CW_1M, bool s1g_cap = false);
 	virtual void set_encoding(Encoding mcs) = 0;
+	virtual void enable_s1g(bool s1g_cap) = 0;
+	virtual void set_s1g_encoding(S1g_encoding mcs) = 0;
+	virtual void set_frame_format(S1g_ppdu_format s1g_format) = 0;
+	virtual void set_s1g_cw(S1g_cw cw) = 0;
 };
 
 }  // namespace ieee802_11

@@ -86,57 +86,70 @@ ofdm_param::ofdm_param(Encoding e) {
 			rate_field = 0x03; // 0b00000011
 			break;
 
-		// TODO: Add MCS for 802.11ah (See Page 513)
-		/* 1 MHz S1G MCS (SS=1) */
-		case S1G_1M_BPSK_1_2: // MCS 0
-		    n_bpsc = 1;
-		    n_cbps = 24;
-		    n_dbps = 12;
-			break;
-
-		case S1G_1M_QPSK_1_2: // MCS 1
-		    n_bpsc = 2;
-		    n_cbps = 48;
-		    n_dbps = 24;
-			break;
-
-		case S1G_1M_QPSK_3_4: // MCS 2
-		    n_bpsc = 2;
-		    n_cbps = 48;
-		    n_dbps = 36;
-			break;
-
-		case S1G_1M_REP_BPSK_1_2: // MCS 10
-		    n_bpsc = 1;
-		    n_cbps = 24;
-		    n_dbps = 6;
-			break;
-
-		/* 2 MHz S1G MCS (SS=1) */
-		case S1G_2M_BPSK_1_2: // MCS 0
-		    n_bpsc = 1;
-		    n_cbps = 52;
-		    n_dbps = 26;
-			break;
-
-		case S1G_2M_QPSK_1_2: // MCS 1
-		    n_bpsc = 2;
-		    n_cbps = 104;
-		    n_dbps = 52;
-			break;
-
-		case S1G_2M_QPSK_3_4: // MCS 2
-		    n_bpsc = 2;
-		    n_cbps = 104;
-		    n_dbps = 78;
-			break;
-
 		defaut:
 			assert(false);
 			break;
 	}
 }
 
+// S1G OFDM constructor
+ofdm_param::ofdm_param(S1g_encoding s1g_enc, S1g_cw cw){
+	s1g_encoding = s1g_enc;
+
+	switch (s1g_enc) {
+		case S1G_BPSK_1_2: // MCS 0
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "BPSK 1/2 1MHZ" << std::endl;
+				n_bpsc = 1;
+				n_cbps = 24;
+				n_dbps = 12;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "BPSK 1/2 2MHZ" << std::endl;
+				n_bpsc = 1;
+		    n_cbps = 52;
+		    n_dbps = 26;
+			}
+			break;
+
+		case S1G_QPSK_1_2: // MCS 1
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "QPSK 1/2 1MHZ" << std::endl;
+				n_bpsc = 2;
+				n_cbps = 48;
+				n_dbps = 24;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "QPSK 1/2 2MHZ" << std::endl;
+				n_bpsc = 2;
+		    n_cbps = 104;
+		    n_dbps = 52;
+			}
+			break;
+
+		case S1G_QPSK_3_4: // MCS 2
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "QPSK 3/4 1MHZ" << std::endl;
+				n_bpsc = 2;
+				n_cbps = 48;
+				n_dbps = 36;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "QPSK 3/4 2MHZ" << std::endl;
+				n_bpsc = 2;
+		    n_cbps = 104;
+		    n_dbps = 78;
+			}
+			break;
+
+		case S1G_BPSK_REP_1_2: // MCS 10
+				std::cout << "REP BPSK 1/2 1MHZ" << std::endl;
+				n_bpsc = 1;
+				n_cbps = 24;
+				n_dbps = 6;
+			break;
+		defaut:
+			assert(false);
+			break;
+	}
+}
 
 void
 ofdm_param::print() {
@@ -149,20 +162,29 @@ ofdm_param::print() {
 }
 
 
-frame_param::frame_param(ofdm_param &ofdm, int psdu_length) {
+void frame_param::set_frame_params(ofdm_param &ofdm, int psdu_length) {
 
 	psdu_size = psdu_length;
 
 	// number of symbols (17-11)
-	n_sym = (int) ceil((16 + 8 * psdu_size + 6) / (double) ofdm.n_dbps);
+	n_sym = (int) ceil((n_service_bits + 8 * psdu_size + 6) / (double) ofdm.n_dbps);
 
 	n_data_bits = n_sym * ofdm.n_dbps;
 
 	// number of padding bits (17-13)
-	n_pad = n_data_bits - (16 + 8 * psdu_size + 6);
+	n_pad = n_data_bits - (n_service_bits + 8 * psdu_size + 6);
 
 	n_encoded_bits = n_sym * ofdm.n_cbps;
 }
+
+void frame_param::set_service_field_length(bool s1g_cap) {
+	if(s1g_cap){ // S1G enabled
+		n_service_bits = 8;
+	}else{
+		n_service_bits = 16;
+	}
+}
+
 void
 frame_param::print() {
 	std::cout << "FRAME Parameters:" << std::endl;
@@ -171,6 +193,7 @@ frame_param::print() {
 	std::cout << "n_pad: " << n_pad << std::endl;
 	std::cout << "n_encoded_bits: " << n_encoded_bits << std::endl;
 	std::cout << "n_data_bits: " << n_data_bits << std::endl;
+	std::cout << "n_service_bits: " << n_service_bits << std::endl;
 }
 
 
@@ -178,12 +201,10 @@ void scramble(const char *in, char *out, frame_param &frame, char initial_state)
 
     int state = initial_state;
     int feedback;
-
     for (int i = 0; i < frame.n_data_bits; i++) {
-
-	feedback = (!!(state & 64)) ^ (!!(state & 8));
-	out[i] = feedback ^ in[i];
-	state = ((state << 1) & 0x7e) | feedback;
+			feedback = (!!(state & 64)) ^ (!!(state & 8));
+			out[i] = feedback ^ in[i];
+			state = ((state << 1) & 0x7e) | feedback;
     }
 }
 
@@ -207,7 +228,6 @@ int ones(int n) {
 void convolutional_encoding(const char *in, char *out, frame_param &frame) {
 
 	int state = 0;
-
 	for(int i = 0; i < frame.n_data_bits; i++) {
 		assert(in[i] == 0 || in[i] == 1);
 		state = ((state << 1) & 0x7e) | in[i];
@@ -217,39 +237,61 @@ void convolutional_encoding(const char *in, char *out, frame_param &frame) {
 }
 
 
-void puncturing(const char *in, char *out, frame_param &frame, ofdm_param &ofdm) {
-
+void puncturing(const char *in, char *out, frame_param &frame,
+	              ofdm_param &ofdm, bool s1g_cap) {
 	int mod;
-
-	for (int i = 0; i < frame.n_data_bits * 2; i++) {
-		switch(ofdm.encoding) {
-			case BPSK_1_2:
-			case QPSK_1_2:
-			case QAM16_1_2:
-				*out = in[i];
-				out++;
-				break;
-
-			case QAM64_2_3:
-				if (i % 4 != 3) {
+	if(!s1g_cap){ // S1G disabled
+		for (int i = 0; i < frame.n_data_bits * 2; i++) {
+			switch(ofdm.encoding) {
+				case BPSK_1_2:
+				case QPSK_1_2:
+				case QAM16_1_2:
 					*out = in[i];
 					out++;
-				}
-				break;
+					break;
 
-			case BPSK_3_4:
-			case QPSK_3_4:
-			case QAM16_3_4:
-			case QAM64_3_4:
-				mod = i % 6;
-				if (!(mod == 3 || mod == 4)) {
-					*out = in[i];
-					out++;
-				}
-				break;
-			defaut:
-				assert(false);
-				break;
+				case QAM64_2_3:
+					if (i % 4 != 3) {
+						*out = in[i];
+						out++;
+					}
+					break;
+
+				case BPSK_3_4:
+				case QPSK_3_4:
+				case QAM16_3_4:
+				case QAM64_3_4:
+					mod = i % 6;
+					if (!(mod == 3 || mod == 4)) {
+						*out = in[i];
+						out++;
+					}
+					break;
+				default:
+					assert(false);
+					break;
+			}
+		}
+	}else{ // S1G enabled
+		for (int j = 0; j < frame.n_data_bits * 2; j++) {
+			switch(ofdm.s1g_encoding) {
+					case S1G_BPSK_1_2:
+					case S1G_QPSK_1_2:
+						*out = in[j];
+						out++;
+						break;
+
+					case S1G_QPSK_3_4:
+						mod = j % 6;
+						if (!(mod == 3 || mod == 4)) {
+							*out = in[j];
+							out++;
+						}
+						break;
+					default:
+						assert(false);
+						break;
+			}
 		}
 	}
 }
@@ -299,9 +341,9 @@ void split_symbols(const char *in, char *out, frame_param &frame, ofdm_param &of
 
 void generate_bits(const char *psdu, char *data_bits, frame_param &frame) {
 
-	// first 16 bits are zero (SERVICE/DATA field)
-	memset(data_bits, 0, 16);
-	data_bits += 16;
+	// first 16/8 bits are zero (SERVICE/DATA field)
+	memset(data_bits, 0, frame.n_service_bits);
+	data_bits += frame.n_service_bits;
 
 	for(int i = 0; i < frame.psdu_size; i++) {
 		for(int b = 0; b < 8; b++) {

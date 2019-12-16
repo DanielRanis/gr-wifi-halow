@@ -61,9 +61,10 @@ struct pv1_mac_header {
 class ofdm_param {
 public:
 	ofdm_param(Encoding e);
-
+	ofdm_param(S1g_encoding s1g_enc, S1g_cw cw);
 	// data rate
 	Encoding encoding;
+	S1g_encoding s1g_encoding;
 	// rate field of the SIGNAL header
 	char     rate_field;
 	// number of coded bits per sub carrier
@@ -81,7 +82,11 @@ public:
  */
 class frame_param {
 public:
-	frame_param(ofdm_param &ofdm, int psdu_length);
+	frame_param(){}
+	// set frame parameters
+	void set_frame_params(ofdm_param &ofdm, int psdu_length);
+	// SERVICE field bits
+	void set_service_field_length(bool s1g_cap);
 	// PSDU size in bytes
 	int psdu_size;
 	// number of OFDM symbols (17-11)
@@ -117,7 +122,8 @@ void reset_tail_bits(char *scrambled_data, frame_param &frame);
 
 void convolutional_encoding(const char *input, char *out, frame_param &frame);
 
-void puncturing(const char *input, char *out, frame_param &frame, ofdm_param &ofdm);
+void puncturing(const char *in, char *out, frame_param &frame,
+	              ofdm_param &ofdm, bool s1g_cap);
 
 void interleave(const char *input, char *out, frame_param &frame, ofdm_param &ofdm, bool reverse = false);
 
