@@ -39,10 +39,10 @@ decode_mac_impl(bool log, bool debug) :
 	d_nom_freq(0.0),
 	d_freq_offset(0.0),
 	d_ofdm(BPSK_1_2),
-	d_frame(d_ofdm, 0),
 	d_frame_complete(true) {
 
 	message_port_register_out(pmt::mp("out"));
+	d_frame.set_frame_params(d_ofdm, 0);
 }
 
 int general_work (int noutput_items, gr_vector_int& ninput_items,
@@ -78,7 +78,8 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 			d_freq_offset = pmt::to_double(pmt::dict_ref(dict, pmt::mp("freq_offset"), pmt::from_double(0)));
 
 			ofdm_param ofdm = ofdm_param((Encoding)encoding);
-			frame_param frame = frame_param(ofdm, len_data);
+			frame_param frame;
+			frame.set_frame_params(ofdm, len_data);
 
 			// check for maximum frame size
 			if(frame.n_sym <= MAX_SYM && frame.psdu_size <= MAX_PSDU_SIZE) {
