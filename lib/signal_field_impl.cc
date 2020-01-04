@@ -27,10 +27,10 @@ signal_field::make() {
 	return signal_field::sptr(new signal_field_impl());
 }
 
-signal_field::signal_field() : packet_header_default(48, "packet_len") {};
+signal_field::signal_field() : packet_header_default(2 * 48, "packet_len") {};
 
 
-signal_field_impl::signal_field_impl() : packet_header_default(48, "packet_len") {}
+signal_field_impl::signal_field_impl() : packet_header_default(2 * 48, "packet_len") {}
 
 
 signal_field_impl::~signal_field_impl() {}
@@ -44,22 +44,28 @@ int signal_field_impl::get_bit(int b, int i) {
 void signal_field_impl::generate_signal_field(char *out, frame_param &frame,
 																						  ofdm_param &ofdm, S1g_ppdu_format s1g_format,
 																							bool s1g_enabled) {
-
 	if(s1g_enabled){ // S1G Format
 		switch (s1g_format) {
 			case S1G_SHORT:
 			{
+				std::cout << "generate_signal_field: S1G_SHORT " << std::endl;
 				//data bits of the signal header
-				char *signal_header = (char *) malloc(sizeof(char) * 2 * 24);
+				char *signal_header = (char *) malloc(sizeof(char) * 24);
 				//signal header after...
 				//convolutional encoding
-				char *encoded_signal_header = (char *) malloc(sizeof(char) * 2 * 48);
+				char *encoded_signal_header = (char *) malloc(sizeof(char) * 48);
 				//interleaving
-				char *interleaved_signal_header = (char *) malloc(sizeof(char) * 2 * 48);
+				//char *interleaved_signal_header = (char *) malloc(sizeof(char) * 2 * 48);
 
 				int length = frame.psdu_size;
 				int partial_aid = 0;
 				int color = 0;
+
+				//ofdm_param signal_ofdm(S1G_BPSK_1_2,ofdm.s1g_cw);
+				ofdm_param signal_ofdm(BPSK_1_2);
+				frame_param signal_param;
+				signal_param.set_service_field_length(s1g_enabled);
+				signal_param.set_frame_params(signal_ofdm, 0);
 
 				/* SIG1 Field (24 bits) */
 				// Reserved
@@ -97,60 +103,183 @@ void signal_field_impl::generate_signal_field(char *out, frame_param &frame,
 				signal_header[22] = get_bit(ofdm.s1g_encoding, 3);
 				// Smoothing
 				signal_header[23] = 0;
-				/* SIG2 Field (24 bits) */
-				// Aggregation
-				signal_header[24] = 0;
-				// Length
-				signal_header[25] = get_bit(length, 0);
-				signal_header[26] = get_bit(length, 1);
-				signal_header[27] = get_bit(length, 2);
-				signal_header[28] = get_bit(length, 3);
-				signal_header[29] = get_bit(length, 4);
-				signal_header[30] = get_bit(length, 5);
-				signal_header[31] = get_bit(length, 6);
-				signal_header[32] = get_bit(length, 7);
-				signal_header[33] = get_bit(length, 8);
-				// Response Indication
-				signal_header[34] = 0;
-				signal_header[35] = 0;
-				// Traveling Pilots
-				signal_header[36] = 0;
-				// NDP Indication
-				signal_header[37] = 0;
-				// CRC (4 Bits)
-				boost::crc_32_type result;
-				result.process_bytes(signal_header, 38);
-				uint32_t crc_sum = result.checksum();
-				signal_header[38] = get_bit(crc_sum, 3);
-				signal_header[39] = get_bit(crc_sum, 2);
-				signal_header[40] = get_bit(crc_sum, 1);
-				signal_header[41] = get_bit(crc_sum, 0);
-				// Tail (6 Bits = 0)
-				for (int i = 0; i < 6; i++) {
-					signal_header[42 + i] = 0;
-				}
-
-				ofdm_param signal_ofdm(BPSK_1_2);
-				frame_param signal_param;
-				signal_param.set_service_field_length(s1g_enabled);
-				signal_param.set_frame_params(signal_ofdm, 0);
 
 				// convolutional encoding (scrambling is not needed)
 				convolutional_encoding(signal_header, encoded_signal_header, signal_param);
 				// interleaving
 				interleave(encoded_signal_header, out, signal_param, signal_ofdm);
 
+				/* SIG2 Field (24 bits) */
+				// Aggregation
+				signal_header[0] = 0;
+				// Length
+				signal_header[ 1] = get_bit(length, 0);
+				signal_header[ 2] = get_bit(length, 1);
+				signal_header[ 3] = get_bit(length, 2);
+				signal_header[ 4] = get_bit(length, 3);
+				signal_header[ 5] = get_bit(length, 4);
+				signal_header[ 6] = get_bit(length, 5);
+				signal_header[ 7] = get_bit(length, 6);
+				signal_header[ 8] = get_bit(length, 7);
+				signal_header[ 9] = get_bit(length, 8);
+				// Response Indication
+				signal_header[10] = 0;
+				signal_header[11] = 0;
+				// Traveling Pilots
+				signal_header[12] = 0;
+				// NDP Indication
+				signal_header[13] = 0;
+				// CRC (4 Bits)
+				boost::crc_32_type result;
+				result.process_bytes(signal_header, 14);
+				uint32_t crc_sum = result.checksum();
+				signal_header[14] = get_bit(crc_sum, 3);
+				signal_header[15] = get_bit(crc_sum, 2);
+				signal_header[16] = get_bit(crc_sum, 1);
+				signal_header[17] = get_bit(crc_sum, 0);
+				// Tail (6 Bits = 0)
+				for (int i = 0; i < 6; i++) {
+					signal_header[18 + i] = 0;
+				}
+
+				// convolutional encoding (scrambling is not needed)
+				convolutional_encoding(signal_header, encoded_signal_header, signal_param);
+				// interleaving
+				interleave(encoded_signal_header, out + 48, signal_param, signal_ofdm);
+
 				free(signal_header);
 				free(encoded_signal_header);
-				free(interleaved_signal_header);
+				//free(interleaved_signal_header);
 				break;
 			}
 			case S1G_1M:
 			{
-
-				break;
+				// std::cout << "generate_signal_field: S1G_1M " << std::endl;
+				// //data bits of the signal header
+				// char *signal_header = (char *) malloc(sizeof(char) * 6 * 6);
+				// //signal header after...
+				// //convolutional encoding
+				// char *encoded_signal_header = (char *) malloc(sizeof(char) * 2 * 36);
+				// //interleaving
+				// //char *interleaved_signal_header = (char *) malloc(sizeof(char) * 2 * 36);
+				//
+				// int length = frame.psdu_size;
+				//
+				// /* SIG1 Field */
+				// // Nsts
+				// signal_header[ 0] = 0;
+				// signal_header[ 1] = 0;
+				// // Short GI
+				// signal_header[ 2] = 0;
+				// // Coding
+				// signal_header[ 3] = 0;
+				// // LDPC Extra
+				// signal_header[ 4] = 1;
+				// // STBC
+				// signal_header[ 5] = 0;
+				//
+				// /* SIG2 Field */
+				// // Reserved
+				// signal_header[ 6] = 1;
+				// // MCS Index
+				// signal_header[ 7] = get_bit(ofdm.s1g_encoding, 0);
+				// signal_header[ 8] = get_bit(ofdm.s1g_encoding, 1);
+				// signal_header[ 9] = get_bit(ofdm.s1g_encoding, 2);
+				// signal_header[10] = get_bit(ofdm.s1g_encoding, 3);
+				// // Aggregation
+				// signal_header[11] = 0;
+				//
+				// /* SIG3 Field and SIG4 Field */
+				// // Length
+				// signal_header[12] = get_bit(length, 0);
+				// signal_header[13] = get_bit(length, 1);
+				// signal_header[14] = get_bit(length, 2);
+				// signal_header[15] = get_bit(length, 3);
+				// signal_header[16] = get_bit(length, 4);
+				// signal_header[17] = get_bit(length, 5);
+				// signal_header[18] = get_bit(length, 6);
+				// signal_header[19] = get_bit(length, 7);
+				// signal_header[20] = get_bit(length, 8);
+				// // Response Indication
+				// // Length
+				// signal_header[21] = 0;
+				// signal_header[22] = 0;
+				// // Smoothing
+				// signal_header[23] = 0;
+				//
+				// /* SIG5 Field */
+				// // Traveling Pilots
+				// signal_header[24] = 0;
+				// // NDP Indication
+				// signal_header[25] = 0;
+				// // CRC (4 Bits)
+				// boost::crc_32_type result;
+				// result.process_bytes(signal_header, 26);
+				// uint32_t crc_sum = result.checksum();
+				// signal_header[26] = get_bit(crc_sum, 3);
+				// signal_header[27] = get_bit(crc_sum, 2);
+				// signal_header[28] = get_bit(crc_sum, 1);
+				// signal_header[29] = get_bit(crc_sum, 0);
+				//
+				// /* SIG6 Field */
+				// // Tail (6 Bits = 0)
+				// for (int i = 0; i < 6; i++) {
+				// 	signal_header[30 + i] = 0;
+				// }
+				//
+				// ofdm_param signal_ofdm(S1G_BPSK_1_2,ofdm.s1g_cw);
+				// frame_param signal_param;
+				// signal_param.set_service_field_length(s1g_enabled);
+				// signal_param.set_frame_params(signal_ofdm, 0);
+				//
+				// // convolutional encoding (scrambling is not needed)
+				// convolutional_encoding(signal_header, encoded_signal_header, signal_param);
+				//
+				// // MCS10 Repetition: 1 BCC encoded OFDM Symbol: ([C1...C12],[C1...C12] XOR s)
+				// if(S1G_BPSK_REP_1_2 == ofdm.s1g_encoding){
+				//
+				// 	char *temp_encoded_signal_header = (char *) malloc(sizeof(char) * 2 * 36);
+				// 	char *rep_encoded_signal_header = (char *) malloc(sizeof(char) * 2 * 2 * 36);
+				// 	char *interleaved_rep_signal_header = (char *) malloc(sizeof(char) * 2 * 2 * 36);
+				//
+				// 	// store encoded_signal_header
+				// 	for(int i = 0;  i < 2 * 36; i++){
+				// 			rep_encoded_signal_header[i] = encoded_signal_header[i];
+				// 	}
+				//
+				// 	// generate repetition of encoded_signal_header
+				// 	char s[12] = {1,0,0,0,0,1,0,1,0,1,1,1};
+				// 	int cnt = 0;
+				// 	for(int i = 0;  i < 2 * 36; i++){ // 6 OFDM (SIG) Symbols
+				// 			if(12 == cnt){ cnt = 0; }
+				// 			temp_encoded_signal_header[i] = encoded_signal_header[i] ^ s[cnt];
+				// 			cnt++;
+				// 	}
+				//
+				// 	// store temp_encoded_signal_header
+				// 	for(int i = 0;  i < 2 * 36; i++){
+				// 			rep_encoded_signal_header[i + (2 * 36)] = temp_encoded_signal_header[i];
+				// 	}
+				//
+				// 	// std::memcpy(&rep_encoded_signal_header[sizeof(temp_encoded_signal_header)],
+				// 	// 	          temp_encoded_signal_header, sizeof(temp_encoded_signal_header));
+				//
+				// 	// interleaving
+				// 	interleave(rep_encoded_signal_header, out, signal_param, signal_ofdm);
+				//
+				// 	free(temp_encoded_signal_header);
+				// 	free(rep_encoded_signal_header);
+				// 	free(interleaved_rep_signal_header);
+				// }else{
+				// 	// interleaving
+				// 	interleave(encoded_signal_header, out, signal_param, signal_ofdm);
+				// }
+				// free(signal_header);
+				// free(encoded_signal_header);
+				// //free(interleaved_signal_header);
+				// break;
 			}
-			defaut:
+			default:
 				break;
 		}
 	}else{ // No S1G Format
@@ -160,7 +289,7 @@ void signal_field_impl::generate_signal_field(char *out, frame_param &frame,
 		//convolutional encoding
 		char *encoded_signal_header = (char *) malloc(sizeof(char) * 48);
 		//interleaving
-		char *interleaved_signal_header = (char *) malloc(sizeof(char) * 48);
+		//char *interleaved_signal_header = (char *) malloc(sizeof(char) * 48);
 
 		int length = frame.psdu_size;
 
@@ -210,7 +339,7 @@ void signal_field_impl::generate_signal_field(char *out, frame_param &frame,
 
 		free(signal_header);
 		free(encoded_signal_header);
-		free(interleaved_signal_header);
+		//free(interleaved_signal_header);
 	}
 
 }
@@ -229,12 +358,13 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 	int s1g_cw = 							S1G_CW_1M;
 	int len = 								0;
 
+	std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
 	// read tags
 	for(int i = 0; i < tags.size(); i++) {
 		if(pmt::eq(tags[i].key, pmt::mp("encoding"))) {
 			encoding_found = true;
 			encoding = pmt::to_long(tags[i].value);
-		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_enoding"))){
+		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_encoding"))){
 			s1g_encoding_found = true;
 			s1g_encoding = pmt::to_long(tags[i].value);
 		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_cw"))){
