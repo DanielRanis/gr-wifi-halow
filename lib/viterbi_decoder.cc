@@ -288,10 +288,11 @@ viterbi_decoder::depuncture(uint8_t *in) {
 }
 
 uint8_t*
-viterbi_decoder::decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in) {
+viterbi_decoder::decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in, bool s1g_enabled) {
 
 	d_ofdm = ofdm;
 	d_frame = frame;
+	d_s1g_enabled = s1g_enabled;
 
 	reset();
 	uint8_t *depunctured = depuncture(in);
@@ -330,27 +331,44 @@ viterbi_decoder::reset() {
 
 	viterbi_chunks_init_sse2();
 
-	switch(d_ofdm->encoding) {
-	case BPSK_1_2:
-	case QPSK_1_2:
-	case QAM16_1_2:
-		d_ntraceback = 5;
-		d_depuncture_pattern = PUNCTURE_1_2;
-		d_k = 1;
-		break;
-	case QAM64_2_3:
-		d_ntraceback = 9;
-		d_depuncture_pattern = PUNCTURE_2_3;
-		d_k = 2;
-		break;
-	case BPSK_3_4:
-	case QPSK_3_4:
-	case QAM16_3_4:
-	case QAM64_3_4:
-		d_ntraceback = 10;
-		d_depuncture_pattern = PUNCTURE_3_4;
-		d_k = 3;
-		break;
+	if(!d_s1g_enabled){
+		switch(d_ofdm->encoding) {
+			case BPSK_1_2:
+			case QPSK_1_2:
+			case QAM16_1_2:
+			d_ntraceback = 5;
+			d_depuncture_pattern = PUNCTURE_1_2;
+			d_k = 1;
+			break;
+			case QAM64_2_3:
+			d_ntraceback = 9;
+			d_depuncture_pattern = PUNCTURE_2_3;
+			d_k = 2;
+			break;
+			case BPSK_3_4:
+			case QPSK_3_4:
+			case QAM16_3_4:
+			case QAM64_3_4:
+			d_ntraceback = 10;
+			d_depuncture_pattern = PUNCTURE_3_4;
+			d_k = 3;
+			break;
+		}
+	}else{
+		switch(d_ofdm->s1g_encoding) {
+			case S1G_BPSK_1_2:
+			case S1G_BPSK_REP_1_2:
+			case S1G_QPSK_1_2:
+				d_ntraceback = 5;
+				d_depuncture_pattern = PUNCTURE_1_2;
+				d_k = 1;
+				break;
+			case S1G_QPSK_3_4:
+				d_ntraceback = 10;
+				d_depuncture_pattern = PUNCTURE_3_4;
+				d_k = 3;
+			break;
+		}
 	}
 }
 

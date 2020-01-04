@@ -95,6 +95,7 @@ ofdm_param::ofdm_param(Encoding e) {
 // S1G OFDM constructor
 ofdm_param::ofdm_param(S1g_encoding s1g_enc, S1g_cw cw){
 	s1g_encoding = s1g_enc;
+	s1g_cw = cw;
 
 	switch (s1g_enc) {
 		case S1G_BPSK_1_2: // MCS 0
@@ -140,10 +141,12 @@ ofdm_param::ofdm_param(S1g_encoding s1g_enc, S1g_cw cw){
 			break;
 
 		case S1G_BPSK_REP_1_2: // MCS 10
+			if(S1G_CW_1M){
 				std::cout << "REP BPSK 1/2 1MHZ" << std::endl;
 				n_bpsc = 1;
 				n_cbps = 24;
 				n_dbps = 6;
+			}
 			break;
 		defaut:
 			assert(false);
@@ -241,7 +244,7 @@ void puncturing(const char *in, char *out, frame_param &frame,
 	              ofdm_param &ofdm, bool s1g_cap) {
 	int mod;
 	if(!s1g_cap){ // S1G disabled
-		for (int i = 0; i < frame.n_data_bits * 2; i++) {
+		for (int i = 0; i < frame.n_data_bits * 2 ; i++) {
 			switch(ofdm.encoding) {
 				case BPSK_1_2:
 				case QPSK_1_2:
@@ -276,6 +279,7 @@ void puncturing(const char *in, char *out, frame_param &frame,
 		for (int j = 0; j < frame.n_data_bits * 2; j++) {
 			switch(ofdm.s1g_encoding) {
 					case S1G_BPSK_1_2:
+					case S1G_BPSK_REP_1_2:
 					case S1G_QPSK_1_2:
 						*out = in[j];
 						out++;
@@ -297,41 +301,69 @@ void puncturing(const char *in, char *out, frame_param &frame,
 }
 
 
-void interleave(const char *in, char *out, frame_param &frame, ofdm_param &ofdm, bool reverse) {
+void interleave(const char *in, char *out, frame_param &frame, ofdm_param &ofdm, bool reverse, bool data_field_interleaving) {
 
 	int n_cbps = ofdm.n_cbps;
 	int first[n_cbps];
 	int second[n_cbps];
 	int s = std::max(ofdm.n_bpsc / 2, 1);
 
-	for(int j = 0; j < n_cbps; j++) {
-		first[j] = s * (j / s) + ((j + int(floor(16.0 * j / n_cbps))) % s);
-	}
+	if(!data_field_interleaving){ // interleaving SIG field
+		for(int j = 0; j < n_cbps; j++) {
+			first[j] = s * (j / s) + ((j + int(floor(16.0 * j / n_cbps))) % s);
+		}
 
-	for(int i = 0; i < n_cbps; i++) {
-		second[i] = 16 * i - (n_cbps - 1) * int(floor(16.0 * i / n_cbps));
-	}
+		for(int i = 0; i < n_cbps; i++) {
+			second[i] = 16 * i - (n_cbps - 1) * int(floor(16.0 * i / n_cbps));
+		}
 
-	for(int i = 0; i < frame.n_sym; i++) {
+		for(int i = 0; i < frame.n_sym; i++) {
+			for(int k = 0; k < n_cbps; k++) {
+				if(reverse) {
+					out[i * n_cbps + second[first[k]]] = in[i * n_cbps + k];
+				} else {
+					out[i * n_cbps + k] = in[i * n_cbps + second[first[k]]];
+				}
+			}
+		}
+	}else{ // interleaving data field
+		int n_col,n_row;
+		int n_bpsc = ofdm.n_bpsc;
+
+		if(S1G_CW_1M == ofdm.s1g_cw){
+			n_col = 8;
+			n_row = 3 * n_bpsc;
+		}else if (S1G_CW_2M == ofdm.s1g_cw) {
+			n_col = 13;
+			n_row = 4 * n_bpsc;
+		}
+
 		for(int k = 0; k < n_cbps; k++) {
-			if(reverse) {
+			first[k] = n_row * (k % n_col) + int(floor(k/n_col));
+		}
+		for(int i = 0; i < n_cbps; i++) {
+			second[i] = s * int(floor(i / s)) + ((i + n_cbps - int(floor(n_col * i / n_cbps))) % s);
+		}
+
+		for(int i = 0; i < frame.n_sym; i++) {
+			for(int k = 0; k < n_cbps; k++) {
 				out[i * n_cbps + second[first[k]]] = in[i * n_cbps + k];
-			} else {
-				out[i * n_cbps + k] = in[i * n_cbps + second[first[k]]];
 			}
 		}
 	}
+
+
 }
 
 
-void split_symbols(const char *in, char *out, frame_param &frame, ofdm_param &ofdm) {
+void split_symbols(const char *in, char *out, frame_param &frame, ofdm_param &ofdm, int symbols) {
 
-	int symbols = frame.n_sym * 48;
+	//symbols = frame.n_sym * 48;
 
 	for (int i = 0; i < symbols; i++) {
 		out[i] = 0;
 		for(int k = 0; k < ofdm.n_bpsc; k++) {
-			assert(*in == 1 || *in == 0);
+			assert(*in == 0 || *in == 1);
 			out[i] |= (*in << k);
 			in++;
 		}

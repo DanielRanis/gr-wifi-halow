@@ -127,7 +127,7 @@ void decode() {
 	}
 
 	deinterleave();
-	uint8_t *decoded = d_decoder.decode(&d_ofdm, &d_frame, d_deinterleaved_bits);
+	uint8_t *decoded = d_decoder.decode(&d_ofdm, &d_frame, d_deinterleaved_bits,false);
 	descramble(decoded);
 	print_output();
 

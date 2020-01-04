@@ -24,9 +24,12 @@ using namespace gr::ieee802_11;
 class mapper_impl : public mapper {
 public:
 
+static const int S1G_CW_1M_DATA_CARRIERS = 24;
+static const int S1G_CW_2M_DATA_CARRIERS = 52;
 static const int DATA_CARRIERS = 48;
 
-mapper_impl(Encoding e, bool debug, S1g_ppdu_format s1g_format, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) :
+mapper_impl(Encoding e, bool debug, S1g_ppdu_format s1g_format,
+	          S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) :
 	block ("mapper",
 			gr::io_signature::make(0, 0, 0),
 			gr::io_signature::make(1, 1, sizeof(char))),
@@ -37,14 +40,11 @@ mapper_impl(Encoding e, bool debug, S1g_ppdu_format s1g_format, S1g_encoding s1g
 			d_ofdm(e),
 			d_s1g_format(s1g_format),
 			d_s1g_cap(s1g_cap),
+			d_s1g_encoding(s1g_enc),
 			d_s1g_cw(s1g_cw) {
 
 	message_port_register_in(pmt::mp("in"));
-	if(s1g_cap){
-		set_s1g_encoding(s1g_enc);
-	}else{
-		set_encoding(e);
-	}
+	set_encoding(e);
 }
 
 ~mapper_impl() {
@@ -59,7 +59,6 @@ void print_message(const char *msg, size_t len) {
 	for(int i = 0; i < len; i++) {
 		dout << std::hex << (int)msg[i] << " ";
 	}
-
 	dout << std::dec << std::endl;
 }
 
@@ -69,6 +68,7 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			gr_vector_void_star& output_items ) {
 
 	unsigned char *out = (unsigned char*)output_items[0];
+
 	dout << "MAPPER called offset: " << d_symbols_offset <<
 		"   length: " << d_symbols_len << std::endl;
 
@@ -83,19 +83,44 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			dout << "MAPPER: received new message" << std::endl;
 			gr::thread::scoped_lock lock(d_mutex);
 
-			int psdu_length = pmt::blob_length(pmt::cdr(msg));
+			int	psdu_length = pmt::blob_length(pmt::cdr(msg));
 			const char *psdu = static_cast<const char*>(pmt::blob_data(pmt::cdr(msg)));
 
 			// ############ INSERT MAC STUFF
-			frame_param frame;
-			// set amount of service bits
-			frame.set_service_field_length(d_s1g_cap);
-			frame.set_frame_params(d_ofdm, psdu_length);
-			frame.print();
+			frame_param 			frame;
+
+			if(d_s1g_cap){ // S1G enabled
+				d_ofdm = ofdm_param(d_s1g_encoding, d_s1g_cw);
+				// set amount of service bits
+				frame.set_service_field_length(d_s1g_cap);
+				frame.set_frame_params(d_ofdm, psdu_length);
+				// set amount of symbols
+				if(S1G_CW_2M == d_s1g_cw){
+					d_symbols_len = frame.n_sym * S1G_CW_2M_DATA_CARRIERS;
+				}else if(S1G_CW_1M == d_s1g_cw){
+					d_symbols_len = frame.n_sym * S1G_CW_1M_DATA_CARRIERS;
+				}
+
+			}else{ // S1G disabled
+				d_ofdm = ofdm_param(d_encoding);
+				// set amount of service bits
+				frame.set_service_field_length(d_s1g_cap);
+				frame.set_frame_params(d_ofdm, psdu_length);
+				// set amount of symbols
+				d_symbols_len = frame.n_sym * DATA_CARRIERS;
+
+			}
 			if(frame.n_sym > MAX_SYM) {
 				std::cout << "packet too large, maximum number of symbols is " << MAX_SYM << std::endl;
 				return 0;
 			}
+
+			d_ofdm.print();
+			frame.print();
+			std::cout << "d_s1g_format: " << d_s1g_format << std::endl;
+			std::cout << "d_s1g_encoding: " << d_s1g_encoding << std::endl;
+			std::cout << "d_s1g_cap: " << d_s1g_cap << std::endl;
+			std::cout << "d_s1g_cw: " << d_s1g_cw << std::endl;
 
 			//alloc memory for modulation steps
 			char *data_bits        = (char*)calloc(frame.n_data_bits, sizeof(char));
@@ -104,6 +129,7 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			char *punctured_data   = (char*)calloc(frame.n_encoded_bits, sizeof(char));
 			char *interleaved_data = (char*)calloc(frame.n_encoded_bits, sizeof(char));
 			char *symbols          = (char*)calloc((frame.n_encoded_bits / d_ofdm.n_bpsc), sizeof(char));
+			std::cout << "symbols: " << frame.n_encoded_bits / d_ofdm.n_bpsc << std::endl;
 
 			//generate the WIFI data field, adding service field and pad bits
 			generate_bits(psdu, data_bits, frame);
@@ -123,14 +149,17 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			puncturing(encoded_data, punctured_data, frame, d_ofdm, d_s1g_cap);
 			//std::cout << "punctured" << std::endl;
 			// interleaving
-			interleave(punctured_data, interleaved_data, frame, d_ofdm);
+			if(d_s1g_cap){
+				interleave(punctured_data, interleaved_data, frame, d_ofdm, false, true);
+			}else{
+				interleave(punctured_data, interleaved_data, frame, d_ofdm);
+			}
 			//std::cout << "interleaved" << std::endl;
 
 			// one byte per symbol
-			split_symbols(interleaved_data, symbols, frame, d_ofdm);
+			split_symbols(interleaved_data, symbols, frame, d_ofdm, d_symbols_len);
 
-			d_symbols_len = frame.n_sym * 48;
-
+			std::cout << "d_symbols_len: " << d_symbols_len << std::endl;
 			d_symbols = (char*)calloc(d_symbols_len, 1);
 			std::memcpy(d_symbols, symbols, d_symbols_len);
 
@@ -193,18 +222,24 @@ void set_encoding(Encoding mcs){
 	gr::thread::scoped_lock lock(d_mutex);
 	d_encoding = mcs;
 	std::cout << "MAPPER: encoding: " << mcs << std::endl;
-	if(!d_s1g_cap){ // S1G disabled
-		d_ofdm = ofdm_param(mcs);
-	}
+	// if(!d_s1g_cap){ // S1G disabled
+	// 	d_ofdm = ofdm_param(mcs);
+	// 	d_frame.set_service_field_length(d_s1g_cap);
+	// 	d_frame.set_frame_params(d_ofdm, psdu_length);
+	// 	frame = d_frame;
+	// }
 }
 
 void set_s1g_encoding(S1g_encoding mcs){
 	gr::thread::scoped_lock lock(d_mutex);
 	std::cout << "MAPPER: s1g_encoding: " << mcs << std::endl;
 	d_s1g_encoding = mcs;
-	if(d_s1g_cap){ // S1G enabled
-		d_ofdm = ofdm_param(d_s1g_encoding,d_s1g_cw);
-	}
+	// if(d_s1g_cap){ // S1G enabled
+	// 	d_ofdm = ofdm_param(d_s1g_encoding,d_s1g_cw);
+	// 	s1g_frame.set_service_field_length(d_s1g_cap);
+	// 	s1g_frame.set_frame_params(d_ofdm, psdu_length);
+	// 	frame = s1g_frame;
+	// }
 }
 
 void set_frame_format(S1g_ppdu_format s1g_format) {
@@ -217,21 +252,29 @@ void set_s1g_cw(S1g_cw cw){
 	gr::thread::scoped_lock lock(d_mutex);
 	std::cout << "MAPPER: s1g_cw: " << cw << std::endl;
 	d_s1g_cw = cw;
-	if(d_s1g_cap){ // S1G enabled
-		// update encoding
-		d_ofdm = ofdm_param(d_s1g_encoding,d_s1g_cw);
-	}
+	// if(d_s1g_cap){ // S1G enabled
+	// 	d_ofdm = ofdm_param(d_s1g_encoding,d_s1g_cw);
+	// 	s1g_frame.set_service_field_length(d_s1g_cap);
+	// 	s1g_frame.set_frame_params(d_ofdm, psdu_length);
+	// 	frame = s1g_frame;
+	// }
 }
 
 void enable_s1g(bool s1g_cap){
 	gr::thread::scoped_lock lock(d_mutex);
 	std::cout << "MAPPER: enable_s1g: " << s1g_cap << std::endl;
 	d_s1g_cap = s1g_cap;
-	if(!s1g_cap){ // S1G disabled: update values
-		d_ofdm = ofdm_param(d_encoding);
-	}else{
-		d_ofdm = ofdm_param(d_s1g_encoding, d_s1g_cw);
-	}
+	// if(!s1g_cap){ // S1G disabled: update values
+	// 	d_ofdm = ofdm_param(d_encoding);
+	// 	d_frame.set_service_field_length(d_s1g_cap);
+	// 	d_frame.set_frame_params(d_ofdm, psdu_length);
+	// 	frame = d_frame;
+	// }else{
+	// 	d_ofdm = ofdm_param(d_s1g_encoding, d_s1g_cw);
+	// 	s1g_frame.set_service_field_length(d_s1g_cap);
+	// 	s1g_frame.set_frame_params(d_ofdm, psdu_length);
+	// 	frame = s1g_frame;
+	// }
 }
 
 private:
@@ -246,6 +289,7 @@ private:
 	S1g_ppdu_format 	d_s1g_format;
 	S1g_cw 			 			d_s1g_cw;
 	bool 				 			d_s1g_cap;
+	//frame_param 			frame;
 	gr::thread::mutex d_mutex;
 };
 

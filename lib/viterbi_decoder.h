@@ -38,7 +38,7 @@ public:
 	viterbi_decoder();
 	virtual ~viterbi_decoder();
 
-	uint8_t* decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in);
+	uint8_t* decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in, bool s1g_enabled);
 
 private:
 
@@ -65,6 +65,8 @@ private:
 	ofdm_param *d_ofdm;
 	frame_param *d_frame;
 	const unsigned char *d_depuncture_pattern;
+
+	bool d_s1g_enabled;
 
 	uint8_t d_depunctured[MAX_ENCODED_BITS];
 	uint8_t d_decoded[MAX_ENCODED_BITS * 3 / 4];

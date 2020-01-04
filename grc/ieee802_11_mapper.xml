@@ -68,13 +68,9 @@
 	<param>
 		<name>S1G PPDU Format</name>
 		<key>s1g_format</key>
-		<value>ieee802_11.S1G_NONE</value>
+		<value>ieee802_11.S1G_SHORT</value>
 		<type>int</type>
 		<hide>#if $s1g_cap() == True then 'none' else 'all'#</hide>
-		<option>
-			<name>No S1G Format</name>
-			<key>ieee802_11.S1G_NONE</key>
-		</option>
 		<option>
 			<name>S1G 1MHz Format</name>
 			<key>ieee802_11.S1G_1M</key>

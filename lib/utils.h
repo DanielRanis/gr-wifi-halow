@@ -65,6 +65,7 @@ public:
 	// data rate
 	Encoding encoding;
 	S1g_encoding s1g_encoding;
+	S1g_cw s1g_cw;
 	// rate field of the SIGNAL header
 	char     rate_field;
 	// number of coded bits per sub carrier
@@ -125,9 +126,9 @@ void convolutional_encoding(const char *input, char *out, frame_param &frame);
 void puncturing(const char *in, char *out, frame_param &frame,
 	              ofdm_param &ofdm, bool s1g_cap);
 
-void interleave(const char *input, char *out, frame_param &frame, ofdm_param &ofdm, bool reverse = false);
+void interleave(const char *input, char *out, frame_param &frame, ofdm_param &ofdm, bool reverse = false, bool data_field_interleaving = false);
 
-void split_symbols(const char *input, char *out, frame_param &frame, ofdm_param &ofdm);
+void split_symbols(const char *input, char *out, frame_param &frame, ofdm_param &ofdm, int symbols);
 
 void generate_bits(const char *psdu, char *data_bits, frame_param &frame);
 
