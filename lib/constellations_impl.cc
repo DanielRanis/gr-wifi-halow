@@ -42,7 +42,32 @@ constellation_bpsk_impl::decision_maker(const gr_complex *sample) {
 	return (real(*sample) > 0);
 }
 
+/**********************************************************/
 
+constellation_qbpsk::sptr
+constellation_qbpsk::make() {
+	return constellation_qbpsk::sptr(new constellation_qbpsk_impl());
+}
+
+constellation_qbpsk::constellation_qbpsk() {}
+
+constellation_qbpsk_impl::constellation_qbpsk_impl() {
+	d_constellation.resize(2);
+	// 90° phase rotated BPSK 
+	d_constellation[0] = gr_complex(0, 1);
+	d_constellation[1] = gr_complex(0,-1);
+	d_rotational_symmetry = 2;
+	d_dimensionality = 1;
+	calc_arity();
+}
+
+constellation_qbpsk_impl::~constellation_qbpsk_impl() {
+}
+
+unsigned int
+constellation_qbpsk_impl::decision_maker(const gr_complex *sample) {
+	return (real(*sample) > 0);
+}
 /**********************************************************/
 
 constellation_qpsk::sptr

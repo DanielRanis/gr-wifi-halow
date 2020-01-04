@@ -34,6 +34,16 @@ protected:
 	constellation_bpsk();
 };
 
+class IEEE802_11_API constellation_qbpsk : virtual public digital::constellation
+{
+public:
+	typedef boost::shared_ptr<gr::ieee802_11::constellation_qbpsk> sptr;
+	static sptr make();
+
+protected:
+	constellation_qbpsk();
+};
+
 class IEEE802_11_API constellation_qpsk : virtual public digital::constellation
 {
 public:
@@ -68,4 +78,3 @@ protected:
 } // namespace gr
 
 #endif /* INCLUDED_IEEE802_11_CONSTELLATIONS_H */
-

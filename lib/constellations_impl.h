@@ -31,6 +31,15 @@ public:
 	unsigned int decision_maker(const gr_complex *sample);
 };
 
+class constellation_qbpsk_impl : public constellation_qbpsk
+{
+public:
+	constellation_qbpsk_impl();
+	~constellation_qbpsk_impl();
+
+	unsigned int decision_maker(const gr_complex *sample);
+};
+
 
 class constellation_qpsk_impl : public constellation_qpsk
 {
