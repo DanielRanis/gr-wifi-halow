@@ -30,12 +30,18 @@ class frame_equalizer_impl : virtual public frame_equalizer
 {
 
 public:
-	frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log, bool debug);
+	frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log, bool debug,
+											 S1g_ppdu_format s1g_format, S1g_encoding s1g_encoding,
+											 S1g_cw s1g_cw, bool s1g_cap);
 	~frame_equalizer_impl();
 
 	void set_algorithm(Equalizer algo);
 	void set_bandwidth(double bw);
 	void set_frequency(double freq);
+	void enable_s1g(bool s1g_cap);
+	void set_s1g_encoding(S1g_encoding mcs);
+	void set_frame_format(S1g_ppdu_format s1g_format);
+	void set_s1g_cw(S1g_cw cw);
 
 	void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 	int general_work(int noutput_items,
@@ -58,6 +64,11 @@ private:
 	int  d_current_symbol;
 	viterbi_decoder d_decoder;
 
+	bool 						d_s1g_cap;
+	S1g_encoding 		d_s1g_encoding;
+	S1g_cw 					d_s1g_cw;
+	S1g_ppdu_format d_s1g_format;
+
 	// freq offset
 	double d_freq;  // Hz
 	double d_freq_offset_from_synclong;  // Hz, estimation from "sync_long" block
@@ -75,6 +86,7 @@ private:
 
 	boost::shared_ptr<gr::digital::constellation> d_frame_mod;
 	constellation_bpsk::sptr d_bpsk;
+	constellation_qbpsk::sptr d_qbpsk;
 	constellation_qpsk::sptr d_qpsk;
 	constellation_16qam::sptr d_16qam;
 	constellation_64qam::sptr d_64qam;
