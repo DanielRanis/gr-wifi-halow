@@ -144,8 +144,9 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 	// 	return false;
 	// }
 
-	if(!encoding){ // default encoding disabled
+	if(!encoding_found){ // default encoding disabled
 		std::cout << "header_formatter: No Encoding found!" << std::endl;
+		return true;
 	}
 
 	ofdm_param ofdm((Encoding)encoding);

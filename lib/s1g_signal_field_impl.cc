@@ -319,6 +319,7 @@ bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out
 
 	if(!s1g_encoding_found){ // S1G not enabled
 		std::cout << "header_formatter: No S1G Encoding found!" << std::endl;
+		return true;
 	}
 
 	ofdm_param ofdm((S1g_encoding)s1g_encoding, (S1g_cw) s1g_cw);

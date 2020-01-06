@@ -175,6 +175,7 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 					psdu_bytes, srcid);
 
 			if(!d_s1g_cap){ // S1G disabled
+				std::cout << "mapper: general_work: add_item_tag: set encoding" << std::endl;
 				pmt::pmt_t encoding = pmt::from_long(d_encoding);
 				add_item_tag(0, nitems_written(0), pmt::mp("encoding"),
 					encoding, srcid);
