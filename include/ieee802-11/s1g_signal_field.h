@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Bastian Bloessl <bloessl@ccs-labs.org>
+ * Copyright (C) 2013, 2016 Bastian Bloessl <bloessl@ccs-labs.org>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,32 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H
-#define INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H
+#ifndef INCLUDED_IEEE802_11_S1G_SIGNAL_FIELD_H
+#define INCLUDED_IEEE802_11_S1G_SIGNAL_FIELD_H
 
-#include <ieee802-11/signal_field.h>
-#include "utils.h"
+#include <ieee802-11/api.h>
+#include <gnuradio/digital/packet_header_default.h>
 
 namespace gr {
 namespace ieee802_11 {
 
-class signal_field_impl : public signal_field
+class IEEE802_11_API s1g_signal_field : virtual public digital::packet_header_default
 {
 public:
-	signal_field_impl();
-	~signal_field_impl();
+	typedef boost::shared_ptr<s1g_signal_field> sptr;
+	static sptr make();
 
-	bool header_formatter(long packet_len, unsigned char *out,
-			const std::vector<tag_t> &tags);
-
-	bool header_parser(const unsigned char *header,
-			std::vector<tag_t> &tags);
-private:
-	int get_bit(int b, int i);
-	void generate_signal_field(char *out, frame_param &frame, ofdm_param &ofdm);
+protected:
+	s1g_signal_field();
 };
 
 } // namespace ieee802_11
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H */
+#endif /* INCLUDED_IEEE802_11_S1G_SIGNAL_FIELD_H */

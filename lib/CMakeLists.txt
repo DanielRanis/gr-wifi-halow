@@ -108,6 +108,7 @@ list(APPEND gr_ieee802_11_sources
     mapper.cc
     parse_mac.cc
     signal_field_impl.cc
+    s1g_signal_field_impl.cc
     sync_long.cc
     sync_short.cc
     utils.cc

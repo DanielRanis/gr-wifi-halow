@@ -15,20 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H
-#define INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H
+#ifndef INCLUDED_IEEE802_11_S1G_SIGNAL_FIELD_IMPL_H
+#define INCLUDED_IEEE802_11_S1G_SIGNAL_FIELD_IMPL_H
 
-#include <ieee802-11/signal_field.h>
+#include <ieee802-11/s1g_signal_field.h>
 #include "utils.h"
 
 namespace gr {
 namespace ieee802_11 {
 
-class signal_field_impl : public signal_field
+class s1g_signal_field_impl : public s1g_signal_field
 {
 public:
-	signal_field_impl();
-	~signal_field_impl();
+	s1g_signal_field_impl();
+	~s1g_signal_field_impl();
 
 	bool header_formatter(long packet_len, unsigned char *out,
 			const std::vector<tag_t> &tags);
@@ -37,10 +37,11 @@ public:
 			std::vector<tag_t> &tags);
 private:
 	int get_bit(int b, int i);
-	void generate_signal_field(char *out, frame_param &frame, ofdm_param &ofdm);
+	void generate_s1g_signal_field(char *out, frame_param &frame,
+														 ofdm_param &ofdm, S1g_ppdu_format s1g_format);
 };
 
 } // namespace ieee802_11
 } // namespace gr
 
-#endif /* INCLUDED_IEEE802_11_SIGNAL_FIELD_IMPL_H */
+#endif /* INCLUDED_IEEE802_11_S1G_SIGNAL_FIELD_IMPL_H */

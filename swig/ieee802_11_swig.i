@@ -33,6 +33,7 @@
 #include "ieee802-11/moving_average_ff.h"
 #include "ieee802-11/parse_mac.h"
 #include "ieee802-11/signal_field.h"
+#include "ieee802-11/s1g_signal_field.h"
 #include "ieee802-11/sync_long.h"
 #include "ieee802-11/sync_short.h"
 %}
@@ -55,6 +56,7 @@
 %include "ieee802-11/moving_average_ff.h"
 %include "ieee802-11/parse_mac.h"
 %include "ieee802-11/signal_field.h"
+%include "ieee802-11/s1g_signal_field.h"
 %include "ieee802-11/sync_long.h"
 %include "ieee802-11/sync_short.h"
 
@@ -74,6 +76,12 @@ GR_SWIG_BLOCK_MAGIC2(ieee802_11, sync_short);
 %pythoncode %{
 signal_field_sptr.__repr__ = lambda self: "<signal_field>"
 signal_field = signal_field.make;
+%}
+
+%template(s1g_signal_field_sptr) boost::shared_ptr<gr::ieee802_11::s1g_signal_field>;
+%pythoncode %{
+s1g_signal_field_sptr.__repr__ = lambda self: "<s1g_signal_field>"
+s1g_signal_field = s1g_signal_field.make;
 %}
 
 %template(constellation_bpsk_sptr) boost::shared_ptr<gr::ieee802_11::constellation_bpsk>;

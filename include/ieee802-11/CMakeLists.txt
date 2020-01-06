@@ -78,6 +78,7 @@ list(APPEND include_sources
     mapper.h
     parse_mac.h
     signal_field.h
+    s1g_signal_field.h
     sync_long.h
     sync_short.h
 )
