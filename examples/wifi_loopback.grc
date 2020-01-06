@@ -189,6 +189,33 @@
     </param>
   </block>
   <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 204)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>def_sig</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>ieee802_11.signal_field().formatter()</value>
+    </param>
+  </block>
+  <block>
     <key>variable_qtgui_chooser</key>
     <param>
       <key>comment</key>
@@ -307,7 +334,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value>tab1@4</value>
+      <value>tab1@3</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -358,105 +385,6 @@
     </param>
     <param>
       <key>value</key>
-      <value>64</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(928, 252)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value>tab1@3</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fft_size</value>
-    </param>
-    <param>
-      <key>label0</key>
-      <value>64</value>
-    </param>
-    <param>
-      <key>label1</key>
-      <value>32 (only required for S1G 1MHz Format)</value>
-    </param>
-    <param>
-      <key>label2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>FFT Size</value>
-    </param>
-    <param>
-      <key>labels</key>
-      <value>[]</value>
-    </param>
-    <param>
-      <key>num_opts</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>option0</key>
-      <value>64</value>
-    </param>
-    <param>
-      <key>option1</key>
-      <value>32</value>
-    </param>
-    <param>
-      <key>option2</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>option3</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>option4</key>
-      <value>4</value>
-    </param>
-    <param>
-      <key>options</key>
-      <value>[0, 1, 2]</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.QHBoxLayout</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>int</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>radio_buttons</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_chooser</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
       <value>5890000000</value>
     </param>
     <param>
@@ -465,7 +393,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(192, 148)</value>
+      <value>(24, 140)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -654,7 +582,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 8)</value>
+      <value>(560, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -717,7 +645,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(400, 292)</value>
+      <value>(200, 300)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -753,7 +681,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>S1G Capability</value>
+      <value>S1G</value>
     </param>
     <param>
       <key>labels</key>
@@ -789,7 +717,7 @@
     </param>
     <param>
       <key>orient</key>
-      <value>Qt.QHBoxLayout</value>
+      <value>Qt.QVBoxLayout</value>
     </param>
     <param>
       <key>type</key>
@@ -816,11 +744,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 276)</value>
+      <value>(344, 292)</value>
     </param>
     <param>
       <key>gui_hint</key>
-      <value>tab1@2</value>
+      <value>tab1_2@2</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -852,7 +780,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>S1G Channelwidth</value>
+      <value>Channelwidth</value>
     </param>
     <param>
       <key>labels</key>
@@ -915,11 +843,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 276)</value>
+      <value>(520, 260)</value>
     </param>
     <param>
       <key>gui_hint</key>
-      <value>tab1@2</value>
+      <value>tab1_2@1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -951,7 +879,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>S1G Encoding</value>
+      <value>Encoding</value>
     </param>
     <param>
       <key>labels</key>
@@ -1014,11 +942,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 140)</value>
+      <value>(520, 132)</value>
     </param>
     <param>
       <key>gui_hint</key>
-      <value>tab1@2</value>
+      <value>tab1_2@0</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1050,7 +978,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>S1G PPDU Format</value>
+      <value>Format</value>
     </param>
     <param>
       <key>labels</key>
@@ -1098,6 +1026,33 @@
     </param>
   </block>
   <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 140)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>s1g_sig</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>ieee802_11.s1g_signal_field().formatter()</value>
+    </param>
+  </block>
+  <block>
     <key>variable_qtgui_chooser</key>
     <param>
       <key>comment</key>
@@ -1113,7 +1068,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 132)</value>
+      <value>(344, 132)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1197,6 +1152,105 @@
     </param>
   </block>
   <block>
+    <key>variable_qtgui_chooser</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>def_sig</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1048, 140)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1_2@0</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>sig_field</value>
+    </param>
+    <param>
+      <key>label0</key>
+      <value>Enable</value>
+    </param>
+    <param>
+      <key>label1</key>
+      <value>Disable</value>
+    </param>
+    <param>
+      <key>label2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>SIG Field (S1G_SHORT)</value>
+    </param>
+    <param>
+      <key>labels</key>
+      <value>[]</value>
+    </param>
+    <param>
+      <key>num_opts</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>option0</key>
+      <value>s1g_sig</value>
+    </param>
+    <param>
+      <key>option1</key>
+      <value>def_sig</value>
+    </param>
+    <param>
+      <key>option2</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>option3</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>option4</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>options</key>
+      <value>[0, 1, 2]</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.QHBoxLayout</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>raw</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>radio_buttons</value>
+    </param>
+  </block>
+  <block>
     <key>variable_qtgui_range</key>
     <param>
       <key>comment</key>
@@ -1216,7 +1270,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value>tab1@4</value>
+      <value>tab1@3</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1330,7 +1384,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(608, 908)</value>
+      <value>(608, 868)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1534,7 +1588,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(760, 876)</value>
+      <value>(768, 836)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1597,7 +1651,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(472, 876)</value>
+      <value>(472, 836)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1793,7 +1847,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 884)</value>
+      <value>(952, 844)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1852,7 +1906,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(192, 276)</value>
+      <value>(200, 140)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1899,7 +1953,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(192, 356)</value>
+      <value>(200, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1962,7 +2016,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>tab3@1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2647,7 +2701,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>tab3@0</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3037,7 +3091,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(752, 140)</value>
+      <value>(704, 132)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3105,7 +3159,7 @@
     </param>
     <param>
       <key>label3</key>
-      <value>OFDM Settings</value>
+      <value>Channel Model Settings</value>
     </param>
     <param>
       <key>label4</key>
@@ -3133,7 +3187,7 @@
     </param>
     <param>
       <key>num_tabs</key>
-      <value>5</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -3152,7 +3206,122 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1104, 140)</value>
+      <value>(888, 268)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@2</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tab1_2</value>
+    </param>
+    <param>
+      <key>label0</key>
+      <value>PPDU Format</value>
+    </param>
+    <param>
+      <key>label1</key>
+      <value>Encoding</value>
+    </param>
+    <param>
+      <key>label10</key>
+      <value>Tab 10</value>
+    </param>
+    <param>
+      <key>label11</key>
+      <value>Tab 11</value>
+    </param>
+    <param>
+      <key>label12</key>
+      <value>Tab 12</value>
+    </param>
+    <param>
+      <key>label13</key>
+      <value>Tab 13</value>
+    </param>
+    <param>
+      <key>label14</key>
+      <value>Tab 14</value>
+    </param>
+    <param>
+      <key>label15</key>
+      <value>Tab 15</value>
+    </param>
+    <param>
+      <key>label16</key>
+      <value>Tab 16</value>
+    </param>
+    <param>
+      <key>label17</key>
+      <value>Tab 17</value>
+    </param>
+    <param>
+      <key>label18</key>
+      <value>Tab 18</value>
+    </param>
+    <param>
+      <key>label19</key>
+      <value>Tab 19</value>
+    </param>
+    <param>
+      <key>label2</key>
+      <value>Channelwidth</value>
+    </param>
+    <param>
+      <key>label3</key>
+      <value>Channelwidth</value>
+    </param>
+    <param>
+      <key>label4</key>
+      <value>Tab 4</value>
+    </param>
+    <param>
+      <key>label5</key>
+      <value>Tab 5</value>
+    </param>
+    <param>
+      <key>label6</key>
+      <value>Tab 6</value>
+    </param>
+    <param>
+      <key>label7</key>
+      <value>Tab 7</value>
+    </param>
+    <param>
+      <key>label8</key>
+      <value>Tab 8</value>
+    </param>
+    <param>
+      <key>label9</key>
+      <value>Tab 9</value>
+    </param>
+    <param>
+      <key>num_tabs</key>
+      <value>3</value>
+    </param>
+  </block>
+  <block>
+    <key>qtgui_tab_widget</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(696, 260)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3252,6 +3421,121 @@
     </param>
   </block>
   <block>
+    <key>qtgui_tab_widget</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(696, 324)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tab3</value>
+    </param>
+    <param>
+      <key>label0</key>
+      <value>Time Domain Diagram</value>
+    </param>
+    <param>
+      <key>label1</key>
+      <value>Constellation Diagram</value>
+    </param>
+    <param>
+      <key>label10</key>
+      <value>Tab 10</value>
+    </param>
+    <param>
+      <key>label11</key>
+      <value>Tab 11</value>
+    </param>
+    <param>
+      <key>label12</key>
+      <value>Tab 12</value>
+    </param>
+    <param>
+      <key>label13</key>
+      <value>Tab 13</value>
+    </param>
+    <param>
+      <key>label14</key>
+      <value>Tab 14</value>
+    </param>
+    <param>
+      <key>label15</key>
+      <value>Tab 15</value>
+    </param>
+    <param>
+      <key>label16</key>
+      <value>Tab 16</value>
+    </param>
+    <param>
+      <key>label17</key>
+      <value>Tab 17</value>
+    </param>
+    <param>
+      <key>label18</key>
+      <value>Tab 18</value>
+    </param>
+    <param>
+      <key>label19</key>
+      <value>Tab 19</value>
+    </param>
+    <param>
+      <key>label2</key>
+      <value>Tab 2</value>
+    </param>
+    <param>
+      <key>label3</key>
+      <value>Tab 3</value>
+    </param>
+    <param>
+      <key>label4</key>
+      <value>Tab 4</value>
+    </param>
+    <param>
+      <key>label5</key>
+      <value>Tab 5</value>
+    </param>
+    <param>
+      <key>label6</key>
+      <value>Tab 6</value>
+    </param>
+    <param>
+      <key>label7</key>
+      <value>Tab 7</value>
+    </param>
+    <param>
+      <key>label8</key>
+      <value>Tab 8</value>
+    </param>
+    <param>
+      <key>label9</key>
+      <value>Tab 9</value>
+    </param>
+    <param>
+      <key>num_tabs</key>
+      <value>2</value>
+    </param>
+  </block>
+  <block>
     <key>wifi_phy_hier</key>
     <param>
       <key>bandwidth</key>
@@ -3283,7 +3567,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>fft_size</value>
+      <value>64</value>
     </param>
     <param>
       <key>frequency</key>
@@ -3352,6 +3636,10 @@
     <param>
       <key>sig_field_bpsk_mod</key>
       <value>[-1,1]</value>
+    </param>
+    <param>
+      <key>sig_formatter</key>
+      <value>sig_field</value>
     </param>
     <param>
       <key>sync_words</key>

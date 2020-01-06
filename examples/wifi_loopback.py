@@ -78,8 +78,11 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.def_sig = def_sig = ieee802_11.signal_field().formatter()
         self.snr = snr = 15
+        self.sig_field = sig_field = def_sig
         self.samp_rate = samp_rate = 20e6
+        self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
         self.s1g_format = s1g_format = 0
         self.s1g_encoding = s1g_encoding = 0
         self.s1g_cw = s1g_cw = 2
@@ -88,7 +91,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.out_buf_size = out_buf_size = 96000
         self.interval = interval = 300
         self.freq = freq = 5890000000
-        self.fft_size = fft_size = 64
         self.epsilon = epsilon = 0
         self.encoding = encoding = 0
         self.chan_est = chan_est = 0
@@ -116,13 +118,37 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab1_layout_3 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_widget_3)
         self.tab1_grid_layout_3 = Qt.QGridLayout()
         self.tab1_layout_3.addLayout(self.tab1_grid_layout_3)
-        self.tab1.addTab(self.tab1_widget_3, 'OFDM Settings')
-        self.tab1_widget_4 = Qt.QWidget()
-        self.tab1_layout_4 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_widget_4)
-        self.tab1_grid_layout_4 = Qt.QGridLayout()
-        self.tab1_layout_4.addLayout(self.tab1_grid_layout_4)
-        self.tab1.addTab(self.tab1_widget_4, 'Channel Model Settings')
+        self.tab1.addTab(self.tab1_widget_3, 'Channel Model Settings')
         self.top_grid_layout.addWidget(self.tab1)
+        self.tab1_2 = Qt.QTabWidget()
+        self.tab1_2_widget_0 = Qt.QWidget()
+        self.tab1_2_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_2_widget_0)
+        self.tab1_2_grid_layout_0 = Qt.QGridLayout()
+        self.tab1_2_layout_0.addLayout(self.tab1_2_grid_layout_0)
+        self.tab1_2.addTab(self.tab1_2_widget_0, 'PPDU Format')
+        self.tab1_2_widget_1 = Qt.QWidget()
+        self.tab1_2_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_2_widget_1)
+        self.tab1_2_grid_layout_1 = Qt.QGridLayout()
+        self.tab1_2_layout_1.addLayout(self.tab1_2_grid_layout_1)
+        self.tab1_2.addTab(self.tab1_2_widget_1, 'Encoding')
+        self.tab1_2_widget_2 = Qt.QWidget()
+        self.tab1_2_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_2_widget_2)
+        self.tab1_2_grid_layout_2 = Qt.QGridLayout()
+        self.tab1_2_layout_2.addLayout(self.tab1_2_grid_layout_2)
+        self.tab1_2.addTab(self.tab1_2_widget_2, 'Channelwidth')
+        self.tab1_grid_layout_2.addWidget(self.tab1_2)
+        self.tab3 = Qt.QTabWidget()
+        self.tab3_widget_0 = Qt.QWidget()
+        self.tab3_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab3_widget_0)
+        self.tab3_grid_layout_0 = Qt.QGridLayout()
+        self.tab3_layout_0.addLayout(self.tab3_grid_layout_0)
+        self.tab3.addTab(self.tab3_widget_0, 'Time Domain Diagram')
+        self.tab3_widget_1 = Qt.QWidget()
+        self.tab3_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab3_widget_1)
+        self.tab3_grid_layout_1 = Qt.QGridLayout()
+        self.tab3_layout_1.addLayout(self.tab3_grid_layout_1)
+        self.tab3.addTab(self.tab3_widget_1, 'Constellation Diagram')
+        self.top_grid_layout.addWidget(self.tab3)
         self.tab2 = Qt.QTabWidget()
         self.tab2_widget_0 = Qt.QWidget()
         self.tab2_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab2_widget_0)
@@ -132,7 +158,28 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self.tab2)
         self._snr_range = Range(-15, 100, 0.1, 15, 200)
         self._snr_win = RangeWidget(self._snr_range, self.set_snr, 'Signal to Noise Ratio (SNR)', "counter_slider", float)
-        self.tab1_grid_layout_4.addWidget(self._snr_win)
+        self.tab1_grid_layout_3.addWidget(self._snr_win)
+        self._sig_field_options = (s1g_sig, def_sig, )
+        self._sig_field_labels = ('Enable', 'Disable', )
+        self._sig_field_group_box = Qt.QGroupBox('SIG Field (S1G_SHORT)')
+        self._sig_field_box = Qt.QHBoxLayout()
+        class variable_chooser_button_group(Qt.QButtonGroup):
+            def __init__(self, parent=None):
+                Qt.QButtonGroup.__init__(self, parent)
+            @pyqtSlot(int)
+            def updateButtonChecked(self, button_id):
+                self.button(button_id).setChecked(True)
+        self._sig_field_button_group = variable_chooser_button_group()
+        self._sig_field_group_box.setLayout(self._sig_field_box)
+        for i, label in enumerate(self._sig_field_labels):
+        	radio_button = Qt.QRadioButton(label)
+        	self._sig_field_box.addWidget(radio_button)
+        	self._sig_field_button_group.addButton(radio_button, i)
+        self._sig_field_callback = lambda i: Qt.QMetaObject.invokeMethod(self._sig_field_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._sig_field_options.index(i)))
+        self._sig_field_callback(self.sig_field)
+        self._sig_field_button_group.buttonClicked[int].connect(
+        	lambda i: self.set_sig_field(self._sig_field_options[i]))
+        self.tab1_2_grid_layout_0.addWidget(self._sig_field_group_box)
         self._samp_rate_options = (20e6, 2e6, )
         self._samp_rate_labels = ('Default Sample Rate (20 MSPS)', 'S1G Sample Rate (2 MSPS)', )
         self._samp_rate_group_box = Qt.QGroupBox('Sample Rate')
@@ -156,7 +203,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab1_grid_layout_0.addWidget(self._samp_rate_group_box)
         self._s1g_format_options = [0, 1]
         self._s1g_format_labels = [ "S1G Short Format", "S1G 1MHz Format"]
-        self._s1g_format_group_box = Qt.QGroupBox('S1G PPDU Format')
+        self._s1g_format_group_box = Qt.QGroupBox('Format')
         self._s1g_format_box = Qt.QHBoxLayout()
         class variable_chooser_button_group(Qt.QButtonGroup):
             def __init__(self, parent=None):
@@ -174,10 +221,10 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_format_callback(self.s1g_format)
         self._s1g_format_button_group.buttonClicked[int].connect(
         	lambda i: self.set_s1g_format(self._s1g_format_options[i]))
-        self.tab1_grid_layout_2.addWidget(self._s1g_format_group_box)
+        self.tab1_2_grid_layout_0.addWidget(self._s1g_format_group_box)
         self._s1g_encoding_options = [0, 1, 2, 10]
         self._s1g_encoding_labels = ["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "BPSK 1/2 with 2x Repetition (MCS 10)"]
-        self._s1g_encoding_group_box = Qt.QGroupBox('S1G Encoding')
+        self._s1g_encoding_group_box = Qt.QGroupBox('Encoding')
         self._s1g_encoding_box = Qt.QHBoxLayout()
         class variable_chooser_button_group(Qt.QButtonGroup):
             def __init__(self, parent=None):
@@ -195,10 +242,10 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_encoding_callback(self.s1g_encoding)
         self._s1g_encoding_button_group.buttonClicked[int].connect(
         	lambda i: self.set_s1g_encoding(self._s1g_encoding_options[i]))
-        self.tab1_grid_layout_2.addWidget(self._s1g_encoding_group_box)
+        self.tab1_2_grid_layout_1.addWidget(self._s1g_encoding_group_box)
         self._s1g_cw_options = [1,2]
         self._s1g_cw_labels = ["1MHz ", "2MHz"]
-        self._s1g_cw_group_box = Qt.QGroupBox('S1G Channelwidth')
+        self._s1g_cw_group_box = Qt.QGroupBox('Channelwidth')
         self._s1g_cw_box = Qt.QHBoxLayout()
         class variable_chooser_button_group(Qt.QButtonGroup):
             def __init__(self, parent=None):
@@ -216,11 +263,11 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_cw_callback(self.s1g_cw)
         self._s1g_cw_button_group.buttonClicked[int].connect(
         	lambda i: self.set_s1g_cw(self._s1g_cw_options[i]))
-        self.tab1_grid_layout_2.addWidget(self._s1g_cw_group_box)
+        self.tab1_2_grid_layout_2.addWidget(self._s1g_cw_group_box)
         self._s1g_cap_options = (True, False, )
         self._s1g_cap_labels = ('Enable', 'Disable', )
-        self._s1g_cap_group_box = Qt.QGroupBox('S1G Capability')
-        self._s1g_cap_box = Qt.QHBoxLayout()
+        self._s1g_cap_group_box = Qt.QGroupBox('S1G')
+        self._s1g_cap_box = Qt.QVBoxLayout()
         class variable_chooser_button_group(Qt.QButtonGroup):
             def __init__(self, parent=None):
                 Qt.QButtonGroup.__init__(self, parent)
@@ -244,30 +291,9 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._interval_range = Range(10, 10000, 1, 300, 200)
         self._interval_win = RangeWidget(self._interval_range, self.set_interval, 'Message Interval', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._interval_win)
-        self._fft_size_options = (64, 32, )
-        self._fft_size_labels = ('64', '32 (only required for S1G 1MHz Format)', )
-        self._fft_size_group_box = Qt.QGroupBox('FFT Size')
-        self._fft_size_box = Qt.QHBoxLayout()
-        class variable_chooser_button_group(Qt.QButtonGroup):
-            def __init__(self, parent=None):
-                Qt.QButtonGroup.__init__(self, parent)
-            @pyqtSlot(int)
-            def updateButtonChecked(self, button_id):
-                self.button(button_id).setChecked(True)
-        self._fft_size_button_group = variable_chooser_button_group()
-        self._fft_size_group_box.setLayout(self._fft_size_box)
-        for i, label in enumerate(self._fft_size_labels):
-        	radio_button = Qt.QRadioButton(label)
-        	self._fft_size_box.addWidget(radio_button)
-        	self._fft_size_button_group.addButton(radio_button, i)
-        self._fft_size_callback = lambda i: Qt.QMetaObject.invokeMethod(self._fft_size_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._fft_size_options.index(i)))
-        self._fft_size_callback(self.fft_size)
-        self._fft_size_button_group.buttonClicked[int].connect(
-        	lambda i: self.set_fft_size(self._fft_size_options[i]))
-        self.tab1_grid_layout_3.addWidget(self._fft_size_group_box)
         self._epsilon_range = Range(-20e-6, 20e-6, 1e-6, 0, 200)
         self._epsilon_win = RangeWidget(self._epsilon_range, self.set_epsilon, 'Epsilon', "counter_slider", float)
-        self.tab1_grid_layout_4.addWidget(self._epsilon_win)
+        self.tab1_grid_layout_3.addWidget(self._epsilon_win)
         self._encoding_options = [0, 1, 2, 3, 4, 5, 6, 7]
         self._encoding_labels = ["BPSK 1/2", "BPSK 3/4", "QPSK 1/2", "QPSK 3/4", "16QAM 1/2", "16QAM 3/4", "64QAM 2/3", "64QAM 3/4"]
         self._encoding_group_box = Qt.QGroupBox('Encoding')
@@ -314,7 +340,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
             bandwidth=samp_rate,
             chan_est=chan_est,
             encoding=encoding,
-            fft_size=fft_size,
+            fft_size=64,
             frequency=5.89e9,
             occupied_carriers=occupied_carriers,
             pilot_carrier=pilot_carriers,
@@ -327,6 +353,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
             s1g_sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 1, -1j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, (-0-1j), -1, 0j, 0, 0j), (0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0)),
             sensitivity=0.56,
             sig_field_bpsk_mod=[-1,1],
+            sig_formatter=sig_field,
             sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 0, 0j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 0j, 0, 0j, 0, 0j), (0, 0, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 0, 0, 0, 0)),
         )
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
@@ -379,7 +406,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.tab3_grid_layout_0.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_sink_x_0 = qtgui.sink_c(
         	1024, #fftsize
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -470,7 +497,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self.tab3_grid_layout_1.addWidget(self._qtgui_const_sink_x_0_win)
         self.pfb_arb_resampler_xxx_0 = pfb.arb_resampler_ccf(
         	  1+epsilon,
                   taps=None,
@@ -560,12 +587,27 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
     def set_s1g_2M_occupied_carriers(self, s1g_2M_occupied_carriers):
         self.s1g_2M_occupied_carriers = s1g_2M_occupied_carriers
 
+    def get_def_sig(self):
+        return self.def_sig
+
+    def set_def_sig(self, def_sig):
+        self.def_sig = def_sig
+        self.set_sig_field(self.def_sig)
+
     def get_snr(self):
         return self.snr
 
     def set_snr(self, snr):
         self.snr = snr
         self.blocks_multiply_const_vxx_0.set_k(((10**(self.snr/10.0))**.5, ))
+
+    def get_sig_field(self):
+        return self.sig_field
+
+    def set_sig_field(self, sig_field):
+        self.sig_field = sig_field
+        self._sig_field_callback(self.sig_field)
+        self.wifi_phy_hier_0.set_sig_formatter(self.sig_field)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -576,6 +618,12 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.wifi_phy_hier_0.set_bandwidth(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
+
+    def get_s1g_sig(self):
+        return self.s1g_sig
+
+    def set_s1g_sig(self, s1g_sig):
+        self.s1g_sig = s1g_sig
 
     def get_s1g_format(self):
         return self.s1g_format
@@ -635,14 +683,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
     def set_freq(self, freq):
         self.freq = freq
         self._freq_callback(self.freq)
-
-    def get_fft_size(self):
-        return self.fft_size
-
-    def set_fft_size(self, fft_size):
-        self.fft_size = fft_size
-        self._fft_size_callback(self.fft_size)
-        self.wifi_phy_hier_0.set_fft_size(self.fft_size)
 
     def get_epsilon(self):
         return self.epsilon
