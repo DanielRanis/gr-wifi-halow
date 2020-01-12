@@ -606,6 +606,116 @@
     </param>
   </block>
   <block>
+    <key>blocks_tag_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>display</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(320, 388)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tag_debug_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>filter</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>name</key>
+      <value>WiFi Insert NLTF</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fft_size</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_tag_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>display</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(200, 476)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tag_debug_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>filter</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>name</key>
+      <value>OFDM Carrier Allocator</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fft_size</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_tagged_stream_mux</key>
     <param>
       <key>alias</key>
@@ -625,7 +735,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(832, 320)</value>
+      <value>(768, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -735,7 +845,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(616, 284)</value>
+      <value>(576, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -794,7 +904,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 292)</value>
+      <value>(992, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -912,7 +1022,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 284)</value>
+      <value>(352, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1057,7 +1167,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(856, 428)</value>
+      <value>(776, 428)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1222,7 +1332,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(616, 352)</value>
+      <value>(576, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1361,6 +1471,57 @@
     <param>
       <key>s1g_format</key>
       <value>s1g_format</value>
+    </param>
+  </block>
+  <block>
+    <key>ieee802_11_insert_nltf</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>fft_size</key>
+      <value>fft_size</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(992, 444)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ieee802_11_insert_nltf_0</value>
+    </param>
+    <param>
+      <key>len_tag_key</key>
+      <value>"packet_len"</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>max_symbols * 48 * 8</value>
+    </param>
+    <param>
+      <key>s1g_cap</key>
+      <value>s1g_cap</value>
     </param>
   </block>
   <block>
@@ -2520,7 +2681,13 @@
   </connection>
   <connection>
     <source_block_id>digital_ofdm_carrier_allocator_cvc_0_0_0</source_block_id>
-    <sink_block_id>fft_vxx_0_0</sink_block_id>
+    <sink_block_id>blocks_tag_debug_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_ofdm_carrier_allocator_cvc_0_0_0</source_block_id>
+    <sink_block_id>ieee802_11_insert_nltf_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2571,6 +2738,18 @@
     <sink_block_id>pad_sink_1</sink_block_id>
     <source_key>symbols</source_key>
     <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ieee802_11_insert_nltf_0</source_block_id>
+    <sink_block_id>blocks_tag_debug_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ieee802_11_insert_nltf_0</source_block_id>
+    <sink_block_id>fft_vxx_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>ieee802_11_mapper_0</source_block_id>
