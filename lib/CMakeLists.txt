@@ -109,6 +109,7 @@ list(APPEND gr_ieee802_11_sources
     parse_mac.cc
     signal_field_impl.cc
     s1g_signal_field_impl.cc
+    insert_nltf_impl.cc
     sync_long.cc
     sync_short.cc
     utils.cc

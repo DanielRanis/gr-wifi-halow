@@ -34,6 +34,7 @@
 #include "ieee802-11/parse_mac.h"
 #include "ieee802-11/signal_field.h"
 #include "ieee802-11/s1g_signal_field.h"
+#include "ieee802-11/insert_nltf.h"
 #include "ieee802-11/sync_long.h"
 #include "ieee802-11/sync_short.h"
 %}
@@ -57,6 +58,7 @@
 %include "ieee802-11/parse_mac.h"
 %include "ieee802-11/signal_field.h"
 %include "ieee802-11/s1g_signal_field.h"
+%include "ieee802-11/insert_nltf.h"
 %include "ieee802-11/sync_long.h"
 %include "ieee802-11/sync_short.h"
 
@@ -71,6 +73,7 @@ GR_SWIG_BLOCK_MAGIC2(ieee802_11, moving_average_ff);
 GR_SWIG_BLOCK_MAGIC2(ieee802_11, parse_mac);
 GR_SWIG_BLOCK_MAGIC2(ieee802_11, sync_long);
 GR_SWIG_BLOCK_MAGIC2(ieee802_11, sync_short);
+GR_SWIG_BLOCK_MAGIC2(ieee802_11, insert_nltf);
 
 %template(signal_field_sptr) boost::shared_ptr<gr::ieee802_11::signal_field>;
 %pythoncode %{

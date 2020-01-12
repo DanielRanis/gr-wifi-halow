@@ -79,12 +79,12 @@ list(APPEND include_sources
     parse_mac.h
     signal_field.h
     s1g_signal_field.h
+    insert_nltf.h
     sync_long.h
     sync_short.h
 )
 
 install(
-	FILES ${include_sources}
-	DESTINATION ${GR_INCLUDE_DIR}/gnuradio/ieee802_11
+	FILES ${include_sources} DESTINATION ${GR_INCLUDE_DIR}/gnuradio/ieee802_11
 	COMPONENT "ieee802_11_devel"
 )
