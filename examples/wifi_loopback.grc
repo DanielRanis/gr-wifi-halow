@@ -937,7 +937,7 @@
     </param>
     <param>
       <key>labels</key>
-      <value>["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "BPSK 1/2 with 2x Repetition (MCS 10)"]</value>
+      <value>["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "16-QAM 1/2 (MCS 3)", "16-QAM 3/4 (MCS 4)", "64-QAM 2/3 (MCS 5)", "64-QAM 3/4 (MCS 6)", " 64-QAM 5/6 (MCS 7)",  "256-QAM 3/4 (MCS 8)",  "256-QAM 5/6 (MCS 9)"]</value>
     </param>
     <param>
       <key>num_opts</key>
@@ -965,7 +965,7 @@
     </param>
     <param>
       <key>options</key>
-      <value>[0, 1, 2, 10]</value>
+      <value>[0, 1, 2,  3, 4, 5, 6, 7, 8, 9]</value>
     </param>
     <param>
       <key>orient</key>
@@ -977,7 +977,7 @@
     </param>
     <param>
       <key>widget</key>
-      <value>radio_buttons</value>
+      <value>combo_box</value>
     </param>
   </block>
   <block>
@@ -1203,6 +1203,69 @@
     <param>
       <key>widget</key>
       <value>radio_buttons</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.56</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 284)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@3</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>sens</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Sensitivity</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>0.0</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>1.0</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
     </param>
   </block>
   <block>
@@ -3579,7 +3642,7 @@
     </param>
     <param>
       <key>sensitivity</key>
-      <value>0.56</value>
+      <value>sens</value>
     </param>
     <param>
       <key>ltf_sync_word</key>

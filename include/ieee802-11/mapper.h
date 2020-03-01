@@ -35,6 +35,13 @@ enum S1g_encoding {
 	S1G_BPSK_1_2 = 0,
 	S1G_QPSK_1_2 = 1,
 	S1G_QPSK_3_4 = 2,
+	S1G_16QAM_1_2 = 3,
+	S1G_16QAM_3_4 = 4,
+	S1G_64QAM_2_3 = 5,
+	S1G_64QAM_3_4 = 6,
+	S1G_64QAM_5_6 = 7,
+	S1G_256QAM_3_4 = 8,
+	S1G_256QAM_5_6 = 9,
 	S1G_BPSK_REP_1_2 = 10,
 };
 

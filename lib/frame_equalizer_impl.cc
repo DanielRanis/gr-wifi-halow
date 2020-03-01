@@ -237,7 +237,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 		}
 
 		// update estimate of residual frequency offset
-		if(d_current_symbol >= offs) {
+		if(d_current_symbol >= 2) {
 
 			double alpha = 0.1;
 			d_er = (1-alpha) * d_er + alpha * er;
@@ -301,11 +301,6 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 bool
 frame_equalizer_impl::decode_signal_field(uint8_t *rx_bits) {
-
-	// std::cout << "decode_signal_field: d_s1g_cap: " << d_s1g_cap << std::endl;
-	// std::cout << "decode_signal_field: d_s1g_format: " << d_s1g_format << std::endl;
-	// std::cout << "decode_signal_field: d_s1g_encoding: " << d_s1g_encoding << std::endl;
-	// std::cout << "decode_signal_field: d_s1g_cw: " << d_s1g_cw << std::endl;
 
 	static ofdm_param ofdm = ofdm_param(BPSK_1_2);
 

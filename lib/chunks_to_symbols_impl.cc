@@ -103,6 +103,17 @@ chunks_to_symbols_impl::work(int noutput_items,
 				d_mapping = d_qpsk;
 				break;
 
+			case S1G_16QAM_1_2:
+			case S1G_16QAM_3_4:
+				d_mapping = d_16qam;
+				break;
+
+			case S1G_64QAM_2_3:
+			case S1G_64QAM_3_4:
+			case S1G_64QAM_5_6:
+				d_mapping = d_64qam;
+				break;
+
 			default:
 				throw std::invalid_argument("wrong s1g_encoding");
 				break;

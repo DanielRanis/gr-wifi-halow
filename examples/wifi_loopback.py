@@ -79,6 +79,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.def_sig = def_sig = ieee802_11.signal_field().formatter()
         self.snr = snr = 15
         self.sig_field = sig_field = def_sig
+        self.sens = sens = 0.56
         self.samp_rate = samp_rate = 20e6
         self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
         self.s1g_format = s1g_format = 0
@@ -180,6 +181,9 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._sig_field_button_group.buttonClicked[int].connect(
         	lambda i: self.set_sig_field(self._sig_field_options[i]))
         self.tab1_2_grid_layout_0.addWidget(self._sig_field_group_box)
+        self._sens_range = Range(0.0, 1.0, 0.01, 0.56, 200)
+        self._sens_win = RangeWidget(self._sens_range, self.set_sens, 'Sensitivity', "counter_slider", float)
+        self.tab1_grid_layout_3.addWidget(self._sens_win)
         self._samp_rate_options = (20e6, 2e6, )
         self._samp_rate_labels = ('Default Sample Rate (20 MSPS)', 'S1G Sample Rate (2 MSPS)', )
         self._samp_rate_group_box = Qt.QGroupBox('Sample Rate')
@@ -222,27 +226,18 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_format_button_group.buttonClicked[int].connect(
         	lambda i: self.set_s1g_format(self._s1g_format_options[i]))
         self.tab1_2_grid_layout_0.addWidget(self._s1g_format_group_box)
-        self._s1g_encoding_options = [0, 1, 2, 10]
-        self._s1g_encoding_labels = ["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "BPSK 1/2 with 2x Repetition (MCS 10)"]
-        self._s1g_encoding_group_box = Qt.QGroupBox('Encoding')
-        self._s1g_encoding_box = Qt.QHBoxLayout()
-        class variable_chooser_button_group(Qt.QButtonGroup):
-            def __init__(self, parent=None):
-                Qt.QButtonGroup.__init__(self, parent)
-            @pyqtSlot(int)
-            def updateButtonChecked(self, button_id):
-                self.button(button_id).setChecked(True)
-        self._s1g_encoding_button_group = variable_chooser_button_group()
-        self._s1g_encoding_group_box.setLayout(self._s1g_encoding_box)
-        for i, label in enumerate(self._s1g_encoding_labels):
-        	radio_button = Qt.QRadioButton(label)
-        	self._s1g_encoding_box.addWidget(radio_button)
-        	self._s1g_encoding_button_group.addButton(radio_button, i)
-        self._s1g_encoding_callback = lambda i: Qt.QMetaObject.invokeMethod(self._s1g_encoding_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._s1g_encoding_options.index(i)))
+        self._s1g_encoding_options = [0, 1, 2,  3, 4, 5, 6, 7, 8, 9]
+        self._s1g_encoding_labels = ["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "16-QAM 1/2 (MCS 3)", "16-QAM 3/4 (MCS 4)", "64-QAM 2/3 (MCS 5)", "64-QAM 3/4 (MCS 6)", " 64-QAM 5/6 (MCS 7)",  "256-QAM 3/4 (MCS 8)",  "256-QAM 5/6 (MCS 9)"]
+        self._s1g_encoding_tool_bar = Qt.QToolBar(self)
+        self._s1g_encoding_tool_bar.addWidget(Qt.QLabel('Encoding'+": "))
+        self._s1g_encoding_combo_box = Qt.QComboBox()
+        self._s1g_encoding_tool_bar.addWidget(self._s1g_encoding_combo_box)
+        for label in self._s1g_encoding_labels: self._s1g_encoding_combo_box.addItem(label)
+        self._s1g_encoding_callback = lambda i: Qt.QMetaObject.invokeMethod(self._s1g_encoding_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._s1g_encoding_options.index(i)))
         self._s1g_encoding_callback(self.s1g_encoding)
-        self._s1g_encoding_button_group.buttonClicked[int].connect(
+        self._s1g_encoding_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_encoding(self._s1g_encoding_options[i]))
-        self.tab1_2_grid_layout_1.addWidget(self._s1g_encoding_group_box)
+        self.tab1_2_grid_layout_1.addWidget(self._s1g_encoding_tool_bar)
         self._s1g_cw_options = [1,2]
         self._s1g_cw_labels = ["1MHz ", "2MHz"]
         self._s1g_cw_group_box = Qt.QGroupBox('Channelwidth')
@@ -342,6 +337,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
             encoding=encoding,
             fft_size=64,
             frequency=5.89e9,
+            ltf_sync_word=(0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0),
             occupied_carriers=def_carriers,
             pilot_carrier=pilot_carriers,
             pilot_symbols=pilot_symbols,
@@ -351,7 +347,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
             s1g_format=s1g_format,
             s1g_sig_field_qbpsk_mod=[1j,-1j],
             s1g_sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 1, -1j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, (-0-1j), -1, 0j, 0, 0j), (0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0)),
-            sensitivity=0.56,
+            sensitivity=sens,
             sig_field_bpsk_mod=[-1,1],
             sig_formatter=sig_field,
             sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 0, 0j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 0j, 0, 0j, 0, 0j), (0, 0, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 0, 0, 0, 0)),
@@ -595,6 +591,13 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.sig_field = sig_field
         self._sig_field_callback(self.sig_field)
         self.wifi_phy_hier_0.set_sig_formatter(self.sig_field)
+
+    def get_sens(self):
+        return self.sens
+
+    def set_sens(self, sens):
+        self.sens = sens
+        self.wifi_phy_hier_0.set_sensitivity(self.sens)
 
     def get_samp_rate(self):
         return self.samp_rate

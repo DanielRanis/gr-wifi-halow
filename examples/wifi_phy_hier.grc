@@ -237,7 +237,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(872, 616)</value>
+      <value>(872, 632)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -280,7 +280,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 552)</value>
+      <value>(360, 584)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -323,7 +323,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(344, 632)</value>
+      <value>(344, 648)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -366,7 +366,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 772)</value>
+      <value>(560, 788)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -421,7 +421,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 628)</value>
+      <value>(176, 644)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -472,7 +472,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1120, 648)</value>
+      <value>(1120, 664)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -523,7 +523,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 600)</value>
+      <value>(536, 616)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -574,7 +574,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(904, 756)</value>
+      <value>(904, 772)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -629,7 +629,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 388)</value>
+      <value>(968, 500)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -684,7 +684,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 476)</value>
+      <value>(1080, 196)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -713,6 +713,116 @@
     <param>
       <key>vlen</key>
       <value>fft_size</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_tag_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>display</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(96, 780)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tag_debug_0_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>filter</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>name</key>
+      <value>Frame Equalizer</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>48</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_tag_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>display</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1056, 716)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tag_debug_0_0_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>filter</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>name</key>
+      <value>WiFi Sync Long</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -971,7 +1081,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(520, 436)</value>
+      <value>(504, 412)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1167,7 +1277,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(776, 428)</value>
+      <value>(728, 404)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1230,7 +1340,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 860)</value>
+      <value>(880, 876)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1434,7 +1544,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 852)</value>
+      <value>(544, 868)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1497,7 +1607,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(992, 444)</value>
+      <value>(992, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1607,7 +1717,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 548)</value>
+      <value>(720, 580)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1654,7 +1764,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 612)</value>
+      <value>(664, 628)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1679,6 +1789,53 @@
     <param>
       <key>type</key>
       <value>complex</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(168, 244)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ltf_sync_word</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>part</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>((0, 0j, 0, 0j, 1, -1j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, (-0-1j), -1, 0j, 0, 0j), (0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0))</value>
     </param>
   </block>
   <block>
@@ -1725,7 +1882,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>(range(-28, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 28+1),)</value>
+      <value>(range(-26, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 26+1),)</value>
     </param>
   </block>
   <block>
@@ -1740,7 +1897,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 460)</value>
+      <value>(16, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1869,7 +2026,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 548)</value>
+      <value>(16, 580)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2147,7 +2304,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1072, 108)</value>
+      <value>(1144, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2429,7 +2586,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 212)</value>
+      <value>(1080, 108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2484,7 +2641,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(736, 740)</value>
+      <value>(736, 756)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2535,7 +2692,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 712)</value>
+      <value>(384, 728)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2729,6 +2886,12 @@
   </connection>
   <connection>
     <source_block_id>ieee802_11_frame_equalizer_0</source_block_id>
+    <sink_block_id>blocks_tag_debug_0_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ieee802_11_frame_equalizer_0</source_block_id>
     <sink_block_id>ieee802_11_decode_mac_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -2808,6 +2971,12 @@
   <connection>
     <source_block_id>sync_long</source_block_id>
     <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>sync_long</source_block_id>
+    <sink_block_id>blocks_tag_debug_0_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

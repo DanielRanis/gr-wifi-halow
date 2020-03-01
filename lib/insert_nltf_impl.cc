@@ -109,6 +109,7 @@ insert_nltf_impl::work (int noutput_items,
         // copy ltf symbols
         if(sym_idx == 2){
             memcpy((void*)nltf_sync, (void*)in, sizeof(gr_complex) * d_fft_len * 2);
+            //memset((void*)nltf_sync, 0, sizeof(gr_complex) * d_fft_len * 2);
         }
 
         in += d_fft_len;

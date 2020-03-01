@@ -140,12 +140,110 @@ ofdm_param::ofdm_param(S1g_encoding s1g_enc, S1g_cw cw){
 			}
 			break;
 
+		case S1G_16QAM_1_2: // MCS 3
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "16-QAM 3/4 1MHZ" << std::endl;
+				n_bpsc = 4;
+				n_cbps = 96;
+				n_dbps = 48;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "16-QAM 3/4 2MHZ" << std::endl;
+				n_bpsc = 4;
+		    n_cbps = 208;
+		    n_dbps = 104;
+			}
+			break;
+
+		case S1G_16QAM_3_4: // MCS 4
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "16-QAM 3/4 1MHZ" << std::endl;
+				n_bpsc = 4;
+				n_cbps = 96;
+				n_dbps = 72;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "16-QAM 3/4 2MHZ" << std::endl;
+				n_bpsc = 4;
+		    n_cbps = 208;
+		    n_dbps = 156;
+			}
+			break;
+
+		case S1G_64QAM_2_3: // MCS 5
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "64-QAM 2/3 1MHZ" << std::endl;
+				n_bpsc = 6;
+				n_cbps = 144;
+				n_dbps = 96;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "64-QAM 2/3 2MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 312;
+		    n_dbps = 208;
+			}
+			break;
+
+		case S1G_64QAM_3_4: // MCS 6
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "64-QAM 3/4 1MHZ" << std::endl;
+				n_bpsc = 6;
+				n_cbps = 144;
+				n_dbps = 108;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "64-QAM 3/4 2MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 312;
+		    n_dbps = 234;
+			}
+			break;
+
+		case S1G_64QAM_5_6: // MCS 7
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "64-QAM 5/6 1MHZ" << std::endl;
+				n_bpsc = 6;
+				n_cbps = 144;
+				n_dbps = 120;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "64-QAM 5/6 2MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 312;
+		    n_dbps = 260;
+			}
+			break;
+
+		case S1G_256QAM_3_4: // MCS 8
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "256-QAM 3/4 1MHZ" << std::endl;
+				n_bpsc = 8;
+				n_cbps = 192;
+				n_dbps = 144;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "256-QAM 3/4 2MHZ" << std::endl;
+				n_bpsc = 8;
+		    n_cbps = 416;
+		    n_dbps = 312;
+			}
+			break;
+
+
+		case S1G_256QAM_5_6: // MCS 9
+			if(S1G_CW_1M == cw){ // 1MHz
+				std::cout << "256-QAM 5/6 1MHZ" << std::endl;
+				n_bpsc = 8;
+				n_cbps = 192;
+				n_dbps = 160;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "256-QAM 5/6 2MHZ : not valid!" << std::endl;
+			}
+			break;
+
 		case S1G_BPSK_REP_1_2: // MCS 10
 			if(S1G_CW_1M){
 				std::cout << "REP BPSK 1/2 1MHZ" << std::endl;
 				n_bpsc = 1;
 				n_cbps = 24;
 				n_dbps = 6;
+			}else if(S1G_CW_2M == cw){ // 2MHz
+				std::cout << "REP BPSK 1/2 2MHZ : not valid!" << std::endl;
 			}
 			break;
 		defaut:
@@ -281,17 +379,31 @@ void puncturing(const char *in, char *out, frame_param &frame,
 					case S1G_BPSK_1_2:
 					case S1G_BPSK_REP_1_2:
 					case S1G_QPSK_1_2:
+					case S1G_16QAM_1_2:
 						*out = in[j];
 						out++;
 						break;
 
+				case S1G_64QAM_2_3:
+					if (j % 4 != 3) {
+						*out = in[j];
+						out++;
+					}
+					break;
+
 					case S1G_QPSK_3_4:
+					case S1G_16QAM_3_4:
+					case S1G_64QAM_3_4:
+					case S1G_256QAM_3_4:
 						mod = j % 6;
 						if (!(mod == 3 || mod == 4)) {
 							*out = in[j];
 							out++;
 						}
 						break;
+
+					//TODO: S1G_64QAM_5_6
+
 					default:
 						assert(false);
 						break;
