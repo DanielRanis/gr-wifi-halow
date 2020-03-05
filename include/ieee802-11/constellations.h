@@ -34,14 +34,14 @@ protected:
 	constellation_bpsk();
 };
 
-class IEEE802_11_API constellation_qbpsk : virtual public digital::constellation
+class IEEE802_11_API constellation_256qam : virtual public digital::constellation
 {
 public:
-	typedef boost::shared_ptr<gr::ieee802_11::constellation_qbpsk> sptr;
+	typedef boost::shared_ptr<gr::ieee802_11::constellation_256qam> sptr;
 	static sptr make();
 
 protected:
-	constellation_qbpsk();
+	constellation_256qam();
 };
 
 class IEEE802_11_API constellation_qpsk : virtual public digital::constellation

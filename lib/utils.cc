@@ -402,7 +402,7 @@ void puncturing(const char *in, char *out, frame_param &frame,
 						}
 						break;
 
-					//TODO: S1G_64QAM_5_6
+					//TODO: S1G_64QAM_5_6, S1G_256QAM_5_6
 
 					default:
 						assert(false);

@@ -86,10 +86,10 @@ private:
 
 	boost::shared_ptr<gr::digital::constellation> d_frame_mod;
 	constellation_bpsk::sptr d_bpsk;
-	constellation_qbpsk::sptr d_qbpsk;
 	constellation_qpsk::sptr d_qpsk;
 	constellation_16qam::sptr d_16qam;
 	constellation_64qam::sptr d_64qam;
+	constellation_256qam::sptr d_256qam;
 
 	static const int interleaver_pattern[48];
 };

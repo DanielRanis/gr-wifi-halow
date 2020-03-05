@@ -50,10 +50,10 @@ frame_equalizer_impl::frame_equalizer_impl(Equalizer algo, double freq, double b
 	message_port_register_out(pmt::mp("symbols"));
 
 	d_bpsk = constellation_bpsk::make();
-	d_qbpsk = constellation_qbpsk::make();
 	d_qpsk = constellation_qpsk::make();
 	d_16qam = constellation_16qam::make();
 	d_64qam = constellation_64qam::make();
+	d_256qam = constellation_256qam::make();
 
 	d_frame_mod = d_bpsk;
 
@@ -356,16 +356,52 @@ frame_equalizer_impl::parse_signal(uint8_t *decoded_bits) {
 			 dout << "S1G BPSK 1/2 Encoding   ";
 			 break;
 		  case 1:
-			 d_frame_encoding = 2;
+			 d_frame_encoding = 1;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 52);
 			 d_frame_mod = d_qpsk;
 			 dout << "S1G QPSK 1/2 Encoding   ";
 			 break;
 		  case 2:
-			 d_frame_encoding = 3;
+			 d_frame_encoding = 2;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 78);
 			 d_frame_mod = d_qpsk;
 			 dout << "S1G QPSK 3/4 Encoding   ";
+			 break;
+			case 3:
+			 d_frame_encoding = 3;
+			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 104);
+			 d_frame_mod = d_16qam;
+			 dout << "S1G 16-QAM 1/2 Encoding   ";
+			 break;
+			case 4:
+			 d_frame_encoding = 4;
+			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 156);
+			 d_frame_mod = d_16qam;
+			 dout << "S1G 16-QAM 3/4 Encoding   ";
+			 break;
+			case 5:
+			 d_frame_encoding = 5;
+			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 208);
+			 d_frame_mod = d_64qam;
+			 dout << "S1G 64-QAM 2/3 Encoding   ";
+			 break;
+			case 6:
+			 d_frame_encoding = 6;
+			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 234);
+			 d_frame_mod = d_64qam;
+			 dout << "S1G 64-QAM 3/4 Encoding   ";
+			 break;
+			case 7:
+			 d_frame_encoding = 7;
+			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 260);
+			 d_frame_mod = d_64qam;
+			 dout << "S1G 64-QAM 5/6 Encoding   ";
+			 break;
+			case 8:
+			 d_frame_encoding = 8;
+			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 312);
+			 d_frame_mod = d_256qam;
+			 dout << "S1G 256-QAM 3/4 Encoding   ";
 			 break;
 		  default:
 			 dout << "unknown encoding" << std::endl;

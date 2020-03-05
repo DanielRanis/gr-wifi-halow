@@ -37,6 +37,7 @@ chunks_to_symbols_impl::chunks_to_symbols_impl() :
 	d_qpsk = constellation_qpsk::make();
 	d_16qam = constellation_16qam::make();
 	d_64qam = constellation_64qam::make();
+	d_256qam = constellation_256qam::make();
 
 	d_mapping = d_bpsk;
 }
@@ -112,6 +113,11 @@ chunks_to_symbols_impl::work(int noutput_items,
 			case S1G_64QAM_3_4:
 			case S1G_64QAM_5_6:
 				d_mapping = d_64qam;
+				break;
+
+			case S1G_256QAM_3_4:
+			case S1G_256QAM_5_6:
+				d_mapping = d_256qam;
 				break;
 
 			default:

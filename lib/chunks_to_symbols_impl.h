@@ -40,6 +40,7 @@ private:
 	constellation_qpsk::sptr d_qpsk;
 	constellation_16qam::sptr d_16qam;
 	constellation_64qam::sptr d_64qam;
+	constellation_256qam::sptr d_256qam;
 };
 
 } /* namespace ieee802_11 */

@@ -31,11 +31,11 @@ public:
 	unsigned int decision_maker(const gr_complex *sample);
 };
 
-class constellation_qbpsk_impl : public constellation_qbpsk
+class constellation_256qam_impl : public constellation_256qam
 {
 public:
-	constellation_qbpsk_impl();
-	~constellation_qbpsk_impl();
+	constellation_256qam_impl();
+	~constellation_256qam_impl();
 
 	unsigned int decision_maker(const gr_complex *sample);
 };

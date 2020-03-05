@@ -127,16 +127,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab1_2_grid_layout_0 = Qt.QGridLayout()
         self.tab1_2_layout_0.addLayout(self.tab1_2_grid_layout_0)
         self.tab1_2.addTab(self.tab1_2_widget_0, 'PPDU Format')
-        self.tab1_2_widget_1 = Qt.QWidget()
-        self.tab1_2_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_2_widget_1)
-        self.tab1_2_grid_layout_1 = Qt.QGridLayout()
-        self.tab1_2_layout_1.addLayout(self.tab1_2_grid_layout_1)
-        self.tab1_2.addTab(self.tab1_2_widget_1, 'Encoding')
-        self.tab1_2_widget_2 = Qt.QWidget()
-        self.tab1_2_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab1_2_widget_2)
-        self.tab1_2_grid_layout_2 = Qt.QGridLayout()
-        self.tab1_2_layout_2.addLayout(self.tab1_2_grid_layout_2)
-        self.tab1_2.addTab(self.tab1_2_widget_2, 'Channelwidth')
         self.tab1_grid_layout_2.addWidget(self.tab1_2)
         self.tab3 = Qt.QTabWidget()
         self.tab3_widget_0 = Qt.QWidget()
@@ -237,32 +227,23 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_encoding_callback(self.s1g_encoding)
         self._s1g_encoding_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_encoding(self._s1g_encoding_options[i]))
-        self.tab1_2_grid_layout_1.addWidget(self._s1g_encoding_tool_bar)
-        self._s1g_cw_options = [1,2]
-        self._s1g_cw_labels = ["1MHz ", "2MHz"]
-        self._s1g_cw_group_box = Qt.QGroupBox('Channelwidth')
-        self._s1g_cw_box = Qt.QHBoxLayout()
-        class variable_chooser_button_group(Qt.QButtonGroup):
-            def __init__(self, parent=None):
-                Qt.QButtonGroup.__init__(self, parent)
-            @pyqtSlot(int)
-            def updateButtonChecked(self, button_id):
-                self.button(button_id).setChecked(True)
-        self._s1g_cw_button_group = variable_chooser_button_group()
-        self._s1g_cw_group_box.setLayout(self._s1g_cw_box)
-        for i, label in enumerate(self._s1g_cw_labels):
-        	radio_button = Qt.QRadioButton(label)
-        	self._s1g_cw_box.addWidget(radio_button)
-        	self._s1g_cw_button_group.addButton(radio_button, i)
-        self._s1g_cw_callback = lambda i: Qt.QMetaObject.invokeMethod(self._s1g_cw_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._s1g_cw_options.index(i)))
+        self.tab1_grid_layout_2.addWidget(self._s1g_encoding_tool_bar)
+        self._s1g_cw_options = [2,4,8,16]
+        self._s1g_cw_labels = ["2 MHz","4 MHz","8 MHz","16 MHz"]
+        self._s1g_cw_tool_bar = Qt.QToolBar(self)
+        self._s1g_cw_tool_bar.addWidget(Qt.QLabel('Channelwidth'+": "))
+        self._s1g_cw_combo_box = Qt.QComboBox()
+        self._s1g_cw_tool_bar.addWidget(self._s1g_cw_combo_box)
+        for label in self._s1g_cw_labels: self._s1g_cw_combo_box.addItem(label)
+        self._s1g_cw_callback = lambda i: Qt.QMetaObject.invokeMethod(self._s1g_cw_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._s1g_cw_options.index(i)))
         self._s1g_cw_callback(self.s1g_cw)
-        self._s1g_cw_button_group.buttonClicked[int].connect(
+        self._s1g_cw_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_cw(self._s1g_cw_options[i]))
-        self.tab1_2_grid_layout_2.addWidget(self._s1g_cw_group_box)
+        self.tab1_grid_layout_2.addWidget(self._s1g_cw_tool_bar)
         self._s1g_cap_options = (True, False, )
         self._s1g_cap_labels = ('Enable', 'Disable', )
         self._s1g_cap_group_box = Qt.QGroupBox('S1G')
-        self._s1g_cap_box = Qt.QVBoxLayout()
+        self._s1g_cap_box = Qt.QHBoxLayout()
         class variable_chooser_button_group(Qt.QButtonGroup):
             def __init__(self, parent=None):
                 Qt.QButtonGroup.__init__(self, parent)
