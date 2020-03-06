@@ -28,8 +28,7 @@ static const int S1G_CW_1M_DATA_CARRIERS = 24;
 static const int S1G_CW_2M_DATA_CARRIERS = 52;
 static const int DATA_CARRIERS = 48;
 
-mapper_impl(Encoding e, bool debug, S1g_ppdu_format s1g_format,
-	          S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) :
+mapper_impl(Encoding e, bool debug, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) :
 	block ("mapper",
 			gr::io_signature::make(0, 0, 0),
 			gr::io_signature::make(1, 1, sizeof(char))),
@@ -38,7 +37,6 @@ mapper_impl(Encoding e, bool debug, S1g_ppdu_format s1g_format,
 			d_debug(debug),
 			d_scrambler(1),
 			d_ofdm(e),
-			d_s1g_format(s1g_format),
 			d_s1g_cap(s1g_cap),
 			d_s1g_encoding(s1g_enc),
 			d_s1g_cw(s1g_cw) {
@@ -117,7 +115,7 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 
 			d_ofdm.print();
 			frame.print();
-			std::cout << "d_s1g_format: " << d_s1g_format << std::endl;
+			//std::cout << "d_s1g_format: " << d_s1g_format << std::endl;
 			std::cout << "d_s1g_encoding: " << d_s1g_encoding << std::endl;
 			std::cout << "d_s1g_cap: " << d_s1g_cap << std::endl;
 			std::cout << "d_s1g_cw: " << d_s1g_cw << std::endl;
@@ -188,10 +186,10 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 				pmt::pmt_t s1g_cw = pmt::from_long(d_s1g_cw);
 				add_item_tag(0, nitems_written(0), pmt::mp("s1g_cw"),
 						s1g_cw, srcid);
-				// add S1G format tag
-				pmt::pmt_t s1g_format = pmt::from_long(d_s1g_format);
-				add_item_tag(0, nitems_written(0), pmt::mp("s1g_format"),
-						s1g_format, srcid);
+				// // add S1G format tag
+				// pmt::pmt_t s1g_format = pmt::from_long(d_s1g_format);
+				// add_item_tag(0, nitems_written(0), pmt::mp("s1g_format"),
+				// 		s1g_format, srcid);
 			}
 
 			free(data_bits);
@@ -243,11 +241,11 @@ void set_s1g_encoding(S1g_encoding mcs){
 	// }
 }
 
-void set_frame_format(S1g_ppdu_format s1g_format) {
-	gr::thread::scoped_lock lock(d_mutex);
-	std::cout << "MAPPER: frame_format: " << s1g_format << std::endl;
-	d_s1g_format = s1g_format;
-}
+// void set_frame_format(S1g_ppdu_format s1g_format) {
+// 	gr::thread::scoped_lock lock(d_mutex);
+// 	std::cout << "MAPPER: frame_format: " << s1g_format << std::endl;
+// 	d_s1g_format = s1g_format;
+// }
 
 void set_s1g_cw(S1g_cw cw){
 	gr::thread::scoped_lock lock(d_mutex);
@@ -287,7 +285,7 @@ private:
 	ofdm_param   			d_ofdm;
 	Encoding     			d_encoding;
 	S1g_encoding 			d_s1g_encoding;
-	S1g_ppdu_format 	d_s1g_format;
+	//S1g_ppdu_format 	d_s1g_format;
 	S1g_cw 			 			d_s1g_cw;
 	bool 				 			d_s1g_cap;
 	//frame_param 			frame;
@@ -295,7 +293,6 @@ private:
 };
 
 mapper::sptr
-mapper::make(Encoding e, bool debug, S1g_ppdu_format s1g_format,
-	           S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) {
-	return gnuradio::get_initial_sptr(new mapper_impl(e, debug, s1g_format, s1g_enc, s1g_cw, s1g_cap));
+mapper::make(Encoding e, bool debug, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) {
+	return gnuradio::get_initial_sptr(new mapper_impl(e, debug, s1g_enc, s1g_cw, s1g_cap));
 }

@@ -109,13 +109,11 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 
 	bool encoding_found = 		false;
 	bool s1g_encoding_found = false;
-	bool s1g_format_found = 	false;
 	bool s1g_cw_found = 			false;
 	bool len_found = 					false;
 	int encoding = 						BPSK_1_2;
 	int s1g_encoding = 				S1G_BPSK_1_2;
-	int s1g_format = 					S1G_SHORT;
-	int s1g_cw = 							S1G_CW_1M;
+	int s1g_cw = 							S1G_CW_2M;
 	int len = 								0;
 
 	std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
@@ -130,9 +128,6 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_cw"))){
 			s1g_cw_found = true;
 			s1g_cw = pmt::to_long(tags[i].value);
-		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_format"))){
-			s1g_format_found = true;
-			s1g_format = pmt::to_long(tags[i].value);
 		}else if(pmt::eq(tags[i].key, pmt::mp("psdu_len"))) {
 			len_found = true;
 			len = pmt::to_long(tags[i].value);

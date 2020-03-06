@@ -30,8 +30,8 @@ class frame_equalizer_impl : virtual public frame_equalizer
 {
 
 public:
-	frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log, bool debug,
-											 S1g_ppdu_format s1g_format, S1g_encoding s1g_encoding,
+	frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log,
+		                   bool debug, S1g_encoding s1g_encoding,
 											 S1g_cw s1g_cw, bool s1g_cap);
 	~frame_equalizer_impl();
 
@@ -40,7 +40,6 @@ public:
 	void set_frequency(double freq);
 	void enable_s1g(bool s1g_cap);
 	void set_s1g_encoding(S1g_encoding mcs);
-	void set_frame_format(S1g_ppdu_format s1g_format);
 	void set_s1g_cw(S1g_cw cw);
 
 	void forecast (int noutput_items, gr_vector_int &ninput_items_required);
@@ -67,7 +66,6 @@ private:
 	bool 						d_s1g_cap;
 	S1g_encoding 		d_s1g_encoding;
 	S1g_cw 					d_s1g_cw;
-	S1g_ppdu_format d_s1g_format;
 
 	// freq offset
 	double d_freq;  // Hz

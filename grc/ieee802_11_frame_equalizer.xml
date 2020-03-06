@@ -5,14 +5,13 @@
 	<key>ieee802_11_frame_equalizer</key>
 	<category>[IEEE802.11]</category>
 	<import>import ieee802_11</import>
-	<make>ieee802_11.frame_equalizer($algo, $freq, $bw, $log, $debug, $s1g_format, $s1g_encoding, $s1g_cw, $s1g_cap)</make>
+	<make>ieee802_11.frame_equalizer($algo, $freq, $bw, $log, $debug, $s1g_encoding, $s1g_cw, $s1g_cap)</make>
 	<callback>set_algorithm($algo)</callback>
 	<callback>set_frequency($freq)</callback>
 	<callback>set_bandwidth($bw)</callback>
 	<callback>enable_s1g($s1g_cap)</callback>
 	<callback>set_s1g_cw($s1g_cw)</callback>
 	<callback>set_s1g_encoding($s1g_encoding)</callback>
-	<callback>set_frame_format($s1g_format)</callback>
 
 	<param>
 		<name>Algorithm</name>
@@ -79,21 +78,6 @@
 		<option>
 			<name>Enable</name>
 			<key>True</key>
-		</option>
-	</param>
-	<param>
-		<name>S1G PPDU Format</name>
-		<key>s1g_format</key>
-		<value>ieee802_11.S1G_SHORT</value>
-		<type>int</type>
-		<hide>#if $s1g_cap() == True then 'none' else 'all'#</hide>
-		<option>
-			<name>S1G 1MHz Format</name>
-			<key>ieee802_11.S1G_1M</key>
-		</option>
-		<option>
-			<name>S1G Short Format</name>
-			<key>ieee802_11.S1G_SHORT</key>
 		</option>
 	</param>
 	<param>

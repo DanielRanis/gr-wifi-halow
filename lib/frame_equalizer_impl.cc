@@ -27,25 +27,23 @@ namespace gr {
 namespace ieee802_11 {
 
 frame_equalizer::sptr
-frame_equalizer::make(Equalizer algo, double freq, double bw, bool log, bool debug,
-											S1g_ppdu_format s1g_format, S1g_encoding s1g_encoding,
+frame_equalizer::make(Equalizer algo, double freq, double bw, bool log,
+	 	                  bool debug, S1g_encoding s1g_encoding,
 											S1g_cw s1g_cw, bool s1g_cap) {
 	return gnuradio::get_initial_sptr
-		(new frame_equalizer_impl(algo, freq, bw, log, debug, s1g_format,
-															s1g_encoding, s1g_cw, s1g_cap));
+		(new frame_equalizer_impl(algo, freq, bw, log, debug, s1g_encoding, s1g_cw, s1g_cap));
 }
 
 
 frame_equalizer_impl::frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log, bool debug,
-																				S1g_ppdu_format s1g_format, S1g_encoding s1g_encoding,
-																				S1g_cw s1g_cw, bool s1g_cap) :
+																				S1g_encoding s1g_encoding, S1g_cw s1g_cw, bool s1g_cap) :
 	gr::block("frame_equalizer",
 			gr::io_signature::make(1, 1, 64 * sizeof(gr_complex)),
 			gr::io_signature::make(1, 1, 48)),
 	d_current_symbol(0), d_log(log), d_debug(debug), d_equalizer(NULL),
 	d_freq(freq), d_bw(bw), d_frame_bytes(0), d_frame_symbols(0),
-	d_freq_offset_from_synclong(0.0), d_s1g_format(s1g_format),
-	d_s1g_encoding(s1g_encoding), d_s1g_cw(s1g_cw), d_s1g_cap(s1g_cap) {
+	d_freq_offset_from_synclong(0.0), d_s1g_encoding(s1g_encoding),
+	d_s1g_cw(s1g_cw), d_s1g_cap(s1g_cap) {
 
 	message_port_register_out(pmt::mp("symbols"));
 
@@ -120,12 +118,6 @@ frame_equalizer_impl::set_s1g_encoding(S1g_encoding mcs){
 	d_s1g_encoding = mcs;
 }
 
-void
-frame_equalizer_impl::set_frame_format(S1g_ppdu_format s1g_format){
-	gr::thread::scoped_lock lock(d_mutex);
-	std::cout << "frame_equalizer: set_frame_format: " << s1g_format << std::endl;
-	d_s1g_format = s1g_format;
-}
 
 void
 frame_equalizer_impl::set_s1g_cw(S1g_cw cw){
