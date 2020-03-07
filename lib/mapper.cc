@@ -24,8 +24,10 @@ using namespace gr::ieee802_11;
 class mapper_impl : public mapper {
 public:
 
-static const int S1G_CW_1M_DATA_CARRIERS = 24;
 static const int S1G_CW_2M_DATA_CARRIERS = 52;
+static const int S1G_CW_4M_DATA_CARRIERS = 108;
+static const int S1G_CW_8M_DATA_CARRIERS = 234;
+static const int S1G_CW_16M_DATA_CARRIERS = 468;
 static const int DATA_CARRIERS = 48;
 
 mapper_impl(Encoding e, bool debug, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) :
@@ -93,10 +95,22 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 				frame.set_service_field_length(d_s1g_cap);
 				frame.set_frame_params(d_ofdm, psdu_length);
 				// set amount of symbols
-				if(S1G_CW_2M == d_s1g_cw){
-					d_symbols_len = frame.n_sym * S1G_CW_2M_DATA_CARRIERS;
-				}else if(S1G_CW_1M == d_s1g_cw){
-					d_symbols_len = frame.n_sym * S1G_CW_1M_DATA_CARRIERS;
+				switch (d_s1g_cw) {
+					case S1G_CW_2M:
+						d_symbols_len = frame.n_sym * S1G_CW_2M_DATA_CARRIERS;
+						break;
+					case S1G_CW_4M:
+						d_symbols_len = frame.n_sym * S1G_CW_4M_DATA_CARRIERS;
+						break;
+					case S1G_CW_8M:
+						d_symbols_len = frame.n_sym * S1G_CW_8M_DATA_CARRIERS;
+						break;
+					case S1G_CW_16M:
+						d_symbols_len = frame.n_sym * S1G_CW_16M_DATA_CARRIERS;
+						break;
+					default:
+						assert(false);
+						break;
 				}
 
 			}else{ // S1G disabled
@@ -115,7 +129,6 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 
 			d_ofdm.print();
 			frame.print();
-			//std::cout << "d_s1g_format: " << d_s1g_format << std::endl;
 			std::cout << "d_s1g_encoding: " << d_s1g_encoding << std::endl;
 			std::cout << "d_s1g_cap: " << d_s1g_cap << std::endl;
 			std::cout << "d_s1g_cw: " << d_s1g_cw << std::endl;

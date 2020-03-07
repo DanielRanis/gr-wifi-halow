@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>64</value>
+      <value>fft_size</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1077,7 +1077,7 @@
     </param>
     <param>
       <key>input_size</key>
-      <value>64</value>
+      <value>fft_size</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1238,7 +1238,7 @@
     </param>
     <param>
       <key>hide</key>
-      <value>part</value>
+      <value>none</value>
     </param>
     <param>
       <key>type</key>
@@ -1269,7 +1269,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>64</value>
+      <value>fft_size</value>
     </param>
     <param>
       <key>forward</key>
@@ -1309,7 +1309,7 @@
     </param>
     <param>
       <key>window</key>
-      <value>tuple([1/52**.5] * 64)</value>
+      <value>tuple([1/52**.5] * fft_size)</value>
     </param>
   </block>
   <block>
@@ -1332,7 +1332,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>64</value>
+      <value>fft_size</value>
     </param>
     <param>
       <key>forward</key>
@@ -1360,7 +1360,7 @@
     </param>
     <param>
       <key>minoutbuf</key>
-      <value>0</value>
+      <value>max_symbols * 48 * 8</value>
     </param>
     <param>
       <key>nthreads</key>
@@ -1372,7 +1372,7 @@
     </param>
     <param>
       <key>window</key>
-      <value>window.rectangular(64)</value>
+      <value>window.rectangular(fft_size)</value>
     </param>
   </block>
   <block>
@@ -1539,6 +1539,10 @@
       <value>True</value>
     </param>
     <param>
+      <key>fft_size</key>
+      <value>fft_size</value>
+    </param>
+    <param>
       <key>freq</key>
       <value>frequency</value>
     </param>
@@ -1564,7 +1568,7 @@
     </param>
     <param>
       <key>minoutbuf</key>
-      <value>0</value>
+      <value>max_symbols * 48 * 8</value>
     </param>
     <param>
       <key>s1g_cap</key>
@@ -2457,7 +2461,7 @@
     </param>
     <param>
       <key>hide</key>
-      <value>none</value>
+      <value>part</value>
     </param>
     <param>
       <key>type</key>

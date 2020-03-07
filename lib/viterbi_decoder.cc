@@ -357,17 +357,34 @@ viterbi_decoder::reset() {
 	}else{
 		switch(d_ofdm->s1g_encoding) {
 			case S1G_BPSK_1_2:
-			case S1G_BPSK_REP_1_2:
 			case S1G_QPSK_1_2:
+			case S1G_16QAM_1_2:
 				d_ntraceback = 5;
 				d_depuncture_pattern = PUNCTURE_1_2;
 				d_k = 1;
 				break;
+
+			case S1G_64QAM_2_3:
+				d_ntraceback = 9;
+				d_depuncture_pattern = PUNCTURE_2_3;
+				d_k = 2;
+				break;
+
 			case S1G_QPSK_3_4:
+			case S1G_16QAM_3_4:
+			case S1G_64QAM_3_4:
+			case S1G_256QAM_3_4:
 				d_ntraceback = 10;
 				d_depuncture_pattern = PUNCTURE_3_4;
 				d_k = 3;
-			break;
+				break;
+
+			case S1G_64QAM_5_6:
+			case S1G_256QAM_5_6:
+				d_k = 5;
+				d_depuncture_pattern = PUNCTURE_5_6;
+				d_ntraceback = 5*(d_k-1);
+				break;
 		}
 	}
 }
@@ -435,3 +452,4 @@ const unsigned char viterbi_decoder::PARTAB[256] = {
 const unsigned char viterbi_decoder::PUNCTURE_1_2[2] = {1, 1};
 const unsigned char viterbi_decoder::PUNCTURE_2_3[4] = {1, 1, 1, 0};
 const unsigned char viterbi_decoder::PUNCTURE_3_4[6] = {1, 1, 1, 0, 0, 1};
+const unsigned char viterbi_decoder::PUNCTURE_5_6[10] = {1, 1, 1, 0, 0, 1, 1, 0, 0, 1};

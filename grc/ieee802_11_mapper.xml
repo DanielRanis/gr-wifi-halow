@@ -106,10 +106,6 @@
 			<name>S1G 256-QAM 3/4</name>
 			<key>ieee802_11.S1G_256QAM_3_4</key>
 		</option>
-		<option>
-			<name>S1G BPSK 1/2 with 2x repetition</name>
-			<key>ieee802_11.S1G_BPSK_REP_1_2</key>
-		</option>
 	</param>
 	<param>
 		<name>S1G Channelwidth</name>
@@ -118,17 +114,22 @@
 		<type>int</type>
 		<hide>#if $s1g_cap() == True then 'none' else 'all'#</hide>
 		<option>
-			<name>1MHz</name>
-			<key>ieee802_11.S1G_CW_1M</key>
-		</option>
-		<option>
 			<name>2MHz</name>
 			<key>ieee802_11.S1G_CW_2M</key>
 		</option>
+		<option>
+			<name>4MHz</name>
+			<key>ieee802_11.S1G_CW_4M</key>
+		</option>
+		<option>
+			<name>8MHz</name>
+			<key>ieee802_11.S1G_CW_8M</key>
+		</option>
+		<option>
+			<name>16MHz</name>
+			<key>ieee802_11.S1G_CW_16M</key>
+		</option>
 	</param>
-	<!-- 	TODO: Add S1G PPDU Format Options: S1G_SHORT,(S1G_LONG),S1G_1M
-	  		TODO: Add S1G CW Options: 1MHz, 2MHz -->
-
 	<param>
 		<name>Debug</name>
 		<key>debug</key>

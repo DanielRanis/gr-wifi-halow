@@ -42,17 +42,13 @@ enum S1g_encoding {
 	S1G_64QAM_5_6 = 7,
 	S1G_256QAM_3_4 = 8,
 	S1G_256QAM_5_6 = 9,
-	S1G_BPSK_REP_1_2 = 10,
-};
-
-enum S1g_ppdu_format {
-	S1G_SHORT = 0,
-	S1G_1M = 1,
 };
 
 enum S1g_cw {
-	S1G_CW_1M = 1,
 	S1G_CW_2M = 2,
+	S1G_CW_4M = 4,
+	S1G_CW_8M = 8,
+	S1G_CW_16M = 16,
 };
 
 namespace gr {
@@ -64,7 +60,7 @@ public:
 
 	typedef boost::shared_ptr<mapper> sptr;
 	static sptr make(Encoding e, bool debug = false, S1g_encoding s1g_enc = S1G_BPSK_1_2,
-		S1g_cw s1g_cw = S1G_CW_1M, bool s1g_cap = false);
+		S1g_cw s1g_cw = S1G_CW_2M, bool s1g_cap = false);
 	virtual void set_encoding(Encoding mcs) = 0;
 	virtual void enable_s1g(bool s1g_cap) = 0;
 	virtual void set_s1g_encoding(S1g_encoding mcs) = 0;

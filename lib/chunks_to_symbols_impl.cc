@@ -95,7 +95,6 @@ chunks_to_symbols_impl::work(int noutput_items,
 		s1g_encoding = (S1g_encoding)pmt::to_long(tags[0].value);
 		switch (s1g_encoding) {
 			case S1G_BPSK_1_2:
-			case S1G_BPSK_REP_1_2:
 				d_mapping = d_bpsk;
 				break;
 

@@ -37,8 +37,7 @@ public:
 			std::vector<tag_t> &tags);
 private:
 	int get_bit(int b, int i);
-	void generate_s1g_signal_field(char *out, frame_param &frame,
-														 ofdm_param &ofdm, S1g_ppdu_format s1g_format);
+	void generate_s1g_signal_field(char *out, frame_param &frame, ofdm_param &ofdm);
 };
 
 } // namespace ieee802_11

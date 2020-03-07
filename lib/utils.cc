@@ -98,152 +98,241 @@ ofdm_param::ofdm_param(S1g_encoding s1g_enc, S1g_cw cw){
 	s1g_cw = cw;
 
 	switch (s1g_enc) {
-		case S1G_BPSK_1_2: // MCS 0
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "BPSK 1/2 1MHZ" << std::endl;
-				n_bpsc = 1;
-				n_cbps = 24;
-				n_dbps = 12;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_BPSK_1_2: 															// MCS 0
+			if(S1G_CW_2M == cw){ 													// 2  MHz
 				std::cout << "BPSK 1/2 2MHZ" << std::endl;
 				n_bpsc = 1;
 		    n_cbps = 52;
 		    n_dbps = 26;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "BPSK 1/2 4MHZ" << std::endl;
+				n_bpsc = 1;
+		    n_cbps = 108;
+		    n_dbps = 54	;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "BPSK 1/2 8MHZ" << std::endl;
+				n_bpsc = 1;
+		    n_cbps = 234;
+		    n_dbps = 117;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "BPSK 1/2 16MHZ" << std::endl;
+				n_bpsc = 1;
+				n_cbps = 468;
+				n_dbps = 234;
 			}
 			break;
 
-		case S1G_QPSK_1_2: // MCS 1
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "QPSK 1/2 1MHZ" << std::endl;
-				n_bpsc = 2;
-				n_cbps = 48;
-				n_dbps = 24;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_QPSK_1_2: 															// MCS 1
+			if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "QPSK 1/2 2MHZ" << std::endl;
 				n_bpsc = 2;
 		    n_cbps = 104;
 		    n_dbps = 52;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "QPSK 1/2 4MHZ" << std::endl;
+				n_bpsc = 2;
+		    n_cbps = 216;
+		    n_dbps = 108;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "QPSK 1/2 8MHZ" << std::endl;
+				n_bpsc = 2;
+		    n_cbps = 468;
+		    n_dbps = 234;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "QPSK 1/2 16MHZ" << std::endl;
+				n_bpsc = 2;
+				n_cbps = 936;
+				n_dbps = 468;
 			}
 			break;
 
-		case S1G_QPSK_3_4: // MCS 2
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "QPSK 3/4 1MHZ" << std::endl;
-				n_bpsc = 2;
-				n_cbps = 48;
-				n_dbps = 36;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_QPSK_3_4: 															// MCS 2
+			if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "QPSK 3/4 2MHZ" << std::endl;
 				n_bpsc = 2;
 		    n_cbps = 104;
 		    n_dbps = 78;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "QPSK 3/4 4MHZ" << std::endl;
+				n_bpsc = 2;
+		    n_cbps = 216;
+		    n_dbps = 162;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "QPSK 3/4 8MHZ" << std::endl;
+				n_bpsc = 2;
+		    n_cbps = 468;
+		    n_dbps = 351;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "QPSK 3/4 16MHZ" << std::endl;
+				n_bpsc = 2;
+				n_cbps = 936;
+				n_dbps = 702;
 			}
 			break;
 
-		case S1G_16QAM_1_2: // MCS 3
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "16-QAM 3/4 1MHZ" << std::endl;
-				n_bpsc = 4;
-				n_cbps = 96;
-				n_dbps = 48;
-			}else if(S1G_CW_2M == cw){ // 2MHz
-				std::cout << "16-QAM 3/4 2MHZ" << std::endl;
+		case S1G_16QAM_1_2: 														// MCS 3
+			if(S1G_CW_2M == cw){ 													// 2	MHz
+				std::cout << "16-QAM 1/2 2MHZ" << std::endl;
 				n_bpsc = 4;
 		    n_cbps = 208;
 		    n_dbps = 104;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "16-QAM 1/2 4MHZ" << std::endl;
+				n_bpsc = 4;
+		    n_cbps = 432;
+		    n_dbps = 216;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "16-QAM 1/2 8MHZ" << std::endl;
+				n_bpsc = 4;
+		    n_cbps = 936;
+		    n_dbps = 468;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "16-QAM 1/2 16MHZ" << std::endl;
+				n_bpsc = 4;
+				n_cbps = 1872;
+				n_dbps = 936;
 			}
 			break;
 
-		case S1G_16QAM_3_4: // MCS 4
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "16-QAM 3/4 1MHZ" << std::endl;
-				n_bpsc = 4;
-				n_cbps = 96;
-				n_dbps = 72;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_16QAM_3_4: 														// MCS 4
+			if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "16-QAM 3/4 2MHZ" << std::endl;
 				n_bpsc = 4;
 		    n_cbps = 208;
 		    n_dbps = 156;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "16-QAM 3/4 4MHZ" << std::endl;
+				n_bpsc = 4;
+		    n_cbps = 432;
+		    n_dbps = 324;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "16-QAM 3/4 8MHZ" << std::endl;
+				n_bpsc = 4;
+		    n_cbps = 936;
+		    n_dbps = 702;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "16-QAM 3/4 16MHZ" << std::endl;
+				n_bpsc = 4;
+				n_cbps = 1872;
+				n_dbps = 1404;
 			}
 			break;
 
-		case S1G_64QAM_2_3: // MCS 5
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "64-QAM 2/3 1MHZ" << std::endl;
-				n_bpsc = 6;
-				n_cbps = 144;
-				n_dbps = 96;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_64QAM_2_3: 														// MCS 5
+			if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "64-QAM 2/3 2MHZ" << std::endl;
 				n_bpsc = 6;
 		    n_cbps = 312;
 		    n_dbps = 208;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "64-QAM 2/3 4MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 648;
+		    n_dbps = 432;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "64-QAM 2/3 8MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 1404;
+		    n_dbps = 936;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "64-QAM 2/3 16MHZ" << std::endl;
+				n_bpsc = 6;
+				n_cbps = 2808;
+				n_dbps = 1872;
 			}
 			break;
 
-		case S1G_64QAM_3_4: // MCS 6
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "64-QAM 3/4 1MHZ" << std::endl;
-				n_bpsc = 6;
-				n_cbps = 144;
-				n_dbps = 108;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_64QAM_3_4: 														// MCS 6
+			if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "64-QAM 3/4 2MHZ" << std::endl;
 				n_bpsc = 6;
 		    n_cbps = 312;
 		    n_dbps = 234;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "64-QAM 3/4 4MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 648;
+		    n_dbps = 486;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "64-QAM 3/4 8MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 1404;
+		    n_dbps = 1053;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "64-QAM 3/4 16MHZ" << std::endl;
+				n_bpsc = 6;
+				n_cbps = 2808;
+				n_dbps = 2106;
 			}
 			break;
 
-		case S1G_64QAM_5_6: // MCS 7
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "64-QAM 5/6 1MHZ" << std::endl;
-				n_bpsc = 6;
-				n_cbps = 144;
-				n_dbps = 120;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_64QAM_5_6: 														// MCS 7
+		  if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "64-QAM 5/6 2MHZ" << std::endl;
 				n_bpsc = 6;
 		    n_cbps = 312;
 		    n_dbps = 260;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "64-QAM 5/6 4MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 648;
+		    n_dbps = 540;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "64-QAM 5/6 8MHZ" << std::endl;
+				n_bpsc = 6;
+		    n_cbps = 1404;
+		    n_dbps = 1170;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "64-QAM 5/6 16MHZ" << std::endl;
+				n_bpsc = 6;
+				n_cbps = 2808;
+				n_dbps = 2340;
 			}
 			break;
 
-		case S1G_256QAM_3_4: // MCS 8
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "256-QAM 3/4 1MHZ" << std::endl;
-				n_bpsc = 8;
-				n_cbps = 192;
-				n_dbps = 144;
-			}else if(S1G_CW_2M == cw){ // 2MHz
+		case S1G_256QAM_3_4: 														// MCS 8
+			if(S1G_CW_2M == cw){ 													// 2	MHz
 				std::cout << "256-QAM 3/4 2MHZ" << std::endl;
 				n_bpsc = 8;
 		    n_cbps = 416;
 		    n_dbps = 312;
-			}
-			break;
-
-
-		case S1G_256QAM_5_6: // MCS 9
-			if(S1G_CW_1M == cw){ // 1MHz
-				std::cout << "256-QAM 5/6 1MHZ" << std::endl;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "256-QAM 3/4 4MHZ" << std::endl;
 				n_bpsc = 8;
-				n_cbps = 192;
-				n_dbps = 160;
-			}else if(S1G_CW_2M == cw){ // 2MHz
-				std::cout << "256-QAM 5/6 2MHZ : not valid!" << std::endl;
+		    n_cbps = 864;
+		    n_dbps = 648;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "256-QAM 3/4 8MHZ" << std::endl;
+				n_bpsc = 8;
+		    n_cbps = 1872;
+		    n_dbps = 1404;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "256-QAM 3/4 16MHZ" << std::endl;
+				n_bpsc = 8;
+				n_cbps = 3744;
+				n_dbps = 2808;
 			}
 			break;
 
-		case S1G_BPSK_REP_1_2: // MCS 10
-			if(S1G_CW_1M){
-				std::cout << "REP BPSK 1/2 1MHZ" << std::endl;
-				n_bpsc = 1;
-				n_cbps = 24;
-				n_dbps = 6;
-			}else if(S1G_CW_2M == cw){ // 2MHz
-				std::cout << "REP BPSK 1/2 2MHZ : not valid!" << std::endl;
+
+		case S1G_256QAM_5_6: 														// MCS 9
+		  if(S1G_CW_2M == cw){ 													// 2	MHz
+				std::cout << "256-QAM 5/6 2MHZ : not valid!" << std::endl;
+			}else if(S1G_CW_4M == cw){										// 4  MHz
+				std::cout << "256-QAM 5/6 4MHZ" << std::endl;
+				n_bpsc = 8;
+		    n_cbps = 864;
+		    n_dbps = 720;
+			}else if(S1G_CW_8M == cw){										// 8  MHz
+				std::cout << "256-QAM 5/6 8MHZ" << std::endl;
+				n_bpsc = 8;
+		    n_cbps = 1872;
+		    n_dbps = 1560;
+			}else if(S1G_CW_16M == cw){										// 16 MHz
+				std::cout << "256-QAM 5/6 16MHZ" << std::endl;
+				n_bpsc = 8;
+				n_cbps = 3744;
+				n_dbps = 3120;
 			}
 			break;
 		defaut:
@@ -377,7 +466,6 @@ void puncturing(const char *in, char *out, frame_param &frame,
 		for (int j = 0; j < frame.n_data_bits * 2; j++) {
 			switch(ofdm.s1g_encoding) {
 					case S1G_BPSK_1_2:
-					case S1G_BPSK_REP_1_2:
 					case S1G_QPSK_1_2:
 					case S1G_16QAM_1_2:
 						*out = in[j];
@@ -449,12 +537,26 @@ void interleave(const char *in, char *out, frame_param &frame, ofdm_param &ofdm,
 		int n_col,n_row;
 		int n_bpsc = ofdm.n_bpsc;
 
-		if(S1G_CW_1M == ofdm.s1g_cw){
-			n_col = 8;
-			n_row = 3 * n_bpsc;
-		}else if (S1G_CW_2M == ofdm.s1g_cw) {
-			n_col = 13;
-			n_row = 4 * n_bpsc;
+		switch (ofdm.s1g_cw) {
+			case S1G_CW_2M:
+				n_col = 13;
+				n_row = 4 * n_bpsc;
+				break;
+			case S1G_CW_4M:
+				n_col = 18;
+				n_row = 6 * n_bpsc;
+				break;
+			case S1G_CW_8M:
+				n_col = 26;
+				n_row = 9 * n_bpsc;
+				break;
+			case S1G_CW_16M:
+				n_col = 13;
+				n_row = 4 * n_bpsc;
+				break;
+			default:
+				assert(false);
+				break;
 		}
 
 		for(int k = 0; k < n_cbps; k++) {
