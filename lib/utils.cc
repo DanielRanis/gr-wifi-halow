@@ -516,6 +516,7 @@ void interleave(const char *in, char *out, frame_param &frame, ofdm_param &ofdm,
 	int s = std::max(ofdm.n_bpsc / 2, 1);
 
 	if(!data_field_interleaving){ // interleaving SIG field
+		std::cout << "SIG Field intrealving " << std::endl;
 		for(int j = 0; j < n_cbps; j++) {
 			first[j] = s * (j / s) + ((j + int(floor(16.0 * j / n_cbps))) % s);
 		}

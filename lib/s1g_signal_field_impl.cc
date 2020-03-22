@@ -53,11 +53,11 @@ void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &fr
 		//char *interleaved_signal_header = (char *) malloc(sizeof(char) * 2 * 48);
 		int length = frame.psdu_size;
 		int partial_aid = 0;
-		int color = 0;
+		int color = 7;
 		//ofdm_param signal_ofdm(S1G_BPSK_1_2,ofdm.s1g_cw);
 		ofdm_param signal_ofdm(BPSK_1_2);
 		frame_param signal_param;
-		signal_param.set_service_field_length(true);
+		signal_param.set_service_field_length(false);
 		signal_param.set_frame_params(signal_ofdm, 0);
 		/* SIG1 Field (24 bits) */
 		// Reserved

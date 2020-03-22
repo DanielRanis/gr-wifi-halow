@@ -5,13 +5,12 @@
 	<key>ieee802_11_frame_equalizer</key>
 	<category>[IEEE802.11]</category>
 	<import>import ieee802_11</import>
-	<make>ieee802_11.frame_equalizer($algo, $freq, $bw, $log, $debug, $s1g_encoding, $s1g_cw, $s1g_cap)</make>
+	<make>ieee802_11.frame_equalizer($algo, $freq, $bw, $log, $debug, $s1g_cw, $s1g_cap)</make>
 	<callback>set_algorithm($algo)</callback>
 	<callback>set_frequency($freq)</callback>
 	<callback>set_bandwidth($bw)</callback>
 	<callback>enable_s1g($s1g_cap)</callback>
 	<callback>set_s1g_cw($s1g_cw)</callback>
-	<callback>set_s1g_encoding($s1g_encoding)</callback>
 
 	<param>
 		<name>Algorithm</name>
@@ -85,49 +84,6 @@
 		<option>
 			<name>Enable</name>
 			<key>True</key>
-		</option>
-	</param>
-	<param>
-		<name>S1G Encoding</name>
-		<key>s1g_encoding</key>
-		<value>ieee802_11.S1G_BPSK_1_2</value>
-		<type>int</type>
-		<hide>#if $s1g_cap() == True then 'none' else 'all'#</hide>
-		<option>
-			<name>S1G BPSK 1/2</name>
-			<key>ieee802_11.S1G_BPSK_1_2</key>
-		</option>
-		<option>
-			<name>S1G QPSK 1/2</name>
-			<key>ieee802_11.S1G_QPSK_1_2</key>
-		</option>
-		<option>
-			<name>S1G QPSK 3/4</name>
-			<key>ieee802_11.S1G_QPSK_3_4</key>
-		</option>
-		<option>
-			<name>S1G 16-QAM 1/2</name>
-			<key>ieee802_11.S1G_16QAM_1_2</key>
-		</option>
-		<option>
-			<name>S1G 16-QAM 3/4</name>
-			<key>ieee802_11.S1G_16QAM_3_4</key>
-		</option>
-		<option>
-			<name>S1G 64-QAM 2/3</name>
-			<key>ieee802_11.S1G_64QAM_2_3</key>
-		</option>
-		<option>
-			<name>S1G 64-QAM 3/4</name>
-			<key>ieee802_11.S1G_64QAM_3_4</key>
-		</option>
-		<option>
-			<name>S1G 64-QAM 5/6</name>
-			<key>ieee802_11.S1G_64QAM_5_6</key>
-		</option>
-		<option>
-			<name>S1G 256-QAM 3/4</name>
-			<key>ieee802_11.S1G_256QAM_3_4</key>
 		</option>
 	</param>
 	<param>

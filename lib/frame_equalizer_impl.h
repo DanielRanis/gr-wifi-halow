@@ -31,8 +31,7 @@ class frame_equalizer_impl : virtual public frame_equalizer
 
 public:
 	frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log,
-		                   bool debug, S1g_encoding s1g_encoding,
-											 S1g_cw s1g_cw, bool s1g_cap);
+		                   bool debug, S1g_cw s1g_cw, bool s1g_cap);
 	~frame_equalizer_impl();
 
 	void set_algorithm(Equalizer algo);
@@ -61,7 +60,8 @@ private:
 	bool d_debug;
 	bool d_log;
 	int  d_current_symbol;
-	viterbi_decoder d_decoder;
+	viterbi_decoder d_decoder2;
+	viterbi_decoder d_decoder3;
 
 	bool 						d_s1g_cap;
 	S1g_encoding 		d_s1g_encoding;
@@ -78,6 +78,9 @@ private:
 	int  d_frame_bytes;
 	int  d_frame_symbols;
 	int  d_frame_encoding;
+	int  d_mcs;
+	int  d_len;
+	int  d_r;
 
 	uint8_t d_deinterleaved[48];
 	gr_complex symbols[48];

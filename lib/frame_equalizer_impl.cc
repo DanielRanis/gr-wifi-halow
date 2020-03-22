@@ -28,22 +28,20 @@ namespace ieee802_11 {
 
 frame_equalizer::sptr
 frame_equalizer::make(Equalizer algo, double freq, double bw, bool log,
-	 	                  bool debug, S1g_encoding s1g_encoding,
-											S1g_cw s1g_cw, bool s1g_cap) {
+	 	                  bool debug, S1g_cw s1g_cw, bool s1g_cap) {
 	return gnuradio::get_initial_sptr
-		(new frame_equalizer_impl(algo, freq, bw, log, debug, s1g_encoding, s1g_cw, s1g_cap));
+		(new frame_equalizer_impl(algo, freq, bw, log, debug, s1g_cw, s1g_cap));
 }
 
 
 frame_equalizer_impl::frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log, bool debug,
-																				S1g_encoding s1g_encoding, S1g_cw s1g_cw, bool s1g_cap) :
+																				S1g_cw s1g_cw, bool s1g_cap) :
 	gr::block("frame_equalizer",
 			gr::io_signature::make(1, 1, 64 * sizeof(gr_complex)),
 			gr::io_signature::make(1, 1, 48)),
 	d_current_symbol(0), d_log(log), d_debug(debug), d_equalizer(NULL),
 	d_freq(freq), d_bw(bw), d_frame_bytes(0), d_frame_symbols(0),
-	d_freq_offset_from_synclong(0.0), d_s1g_encoding(s1g_encoding),
-	d_s1g_cw(s1g_cw), d_s1g_cap(s1g_cap) {
+	d_freq_offset_from_synclong(0.0), d_s1g_cw(s1g_cw), d_s1g_cap(s1g_cap) {
 
 	message_port_register_out(pmt::mp("symbols"));
 
@@ -111,12 +109,6 @@ frame_equalizer_impl::enable_s1g(bool s1g_cap){
 
 }
 
-void
-frame_equalizer_impl::set_s1g_encoding(S1g_encoding mcs){
-	gr::thread::scoped_lock lock(d_mutex);
-	std::cout << "frame_equalizer: set_s1g_encoding: " << mcs << std::endl;
-	d_s1g_encoding = mcs;
-}
 
 
 void
@@ -142,21 +134,23 @@ frame_equalizer_impl::general_work (int noutput_items,
 	const gr_complex *in = (const gr_complex *) input_items[0];
 	uint8_t *out = (uint8_t *) output_items[0];
 
-	int i = 0;
-	int o = 0;
-	int offs = 0;
+	int i,o,offs,nltf;
 	gr_complex symbols[48];
+	uint8_t out3[48]={0};
 	gr_complex current_symbol[64];
 
-	dout << "FRAME EQUALIZER: input " << ninput_items[0] << "  output " << noutput_items << std::endl;
+	i = o = offs = nltf = 0;
+
+	//std::cout << "FRAME EQUALIZER: input " << ninput_items[0] << "  output " << noutput_items << std::endl;
 
 	while((i < ninput_items[0]) && (o < noutput_items)) {
 
 		get_tags_in_window(tags, 0, i, i + 1, pmt::string_to_symbol("wifi_start"));
 
+
 		// new frame
 		if(tags.size()) {
-			std::cout << "frame_equalizer_impl: new frame" << std::endl;
+			//std::cout << "frame_equalizer_impl: new frame" << std::endl;
 			d_current_symbol = 0;
 			d_frame_symbols = 0;
 			d_frame_mod = d_bpsk;
@@ -170,6 +164,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 		if(d_s1g_cap){
 			offs = 3;
+			nltf = 2;
 		}else{
 			offs = 2;
 		}
@@ -187,7 +182,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 			current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 + d_er)*(i-32)/64));
 		}
 
-		gr_complex p = equalizer::base::POLARITY[(d_current_symbol - 2) % 127];
+		gr_complex p = equalizer::base::POLARITY[(d_current_symbol - offs) % 127];
 		gr_complex sum =
 			(current_symbol[11] *  p) +
 			(current_symbol[25] *  p) +
@@ -229,7 +224,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 		}
 
 		// update estimate of residual frequency offset
-		if(d_current_symbol >= 2) {
+		if(d_current_symbol >= offs) {
 
 			double alpha = 0.1;
 			d_er = (1-alpha) * d_er + alpha * er;
@@ -239,29 +234,30 @@ frame_equalizer_impl::general_work (int noutput_items,
 		d_equalizer->equalize(current_symbol, d_current_symbol,
 				symbols, out + o * 48, d_frame_mod);
 
+
 		// signal field
 		if(d_current_symbol == 2) {
 			if(decode_signal_field(out + o * 48)) {
 
-				if(!d_s1g_cap){
-					pmt::pmt_t dict = pmt::make_dict();
-					dict = pmt::dict_add(dict, pmt::mp("frame_bytes"), pmt::from_uint64(d_frame_bytes));
-					dict = pmt::dict_add(dict, pmt::mp("encoding"), pmt::from_uint64(d_frame_encoding));
-					dict = pmt::dict_add(dict, pmt::mp("snr"), pmt::from_double(d_equalizer->get_snr()));
-					dict = pmt::dict_add(dict, pmt::mp("freq"), pmt::from_double(d_freq));
-					dict = pmt::dict_add(dict, pmt::mp("freq_offset"), pmt::from_double(d_freq_offset_from_synclong));
-					add_item_tag(0, nitems_written(0) + o,
-							pmt::string_to_symbol("wifi_start"),
-							dict,
-							pmt::string_to_symbol(alias()));
-				}
+				// if(!d_s1g_cap){
+				// 	pmt::pmt_t dict = pmt::make_dict();
+				// 	dict = pmt::dict_add(dict, pmt::mp("frame_bytes"), pmt::from_uint64(d_frame_bytes));
+				// 	dict = pmt::dict_add(dict, pmt::mp("encoding"), pmt::from_uint64(d_frame_encoding));
+				// 	dict = pmt::dict_add(dict, pmt::mp("snr"), pmt::from_double(d_equalizer->get_snr()));
+				// 	dict = pmt::dict_add(dict, pmt::mp("freq"), pmt::from_double(d_freq));
+				// 	dict = pmt::dict_add(dict, pmt::mp("freq_offset"), pmt::from_double(d_freq_offset_from_synclong));
+				// 	add_item_tag(0, nitems_written(0) + o,
+				// 			pmt::string_to_symbol("wifi_start"),
+				// 			dict,
+				// 			pmt::string_to_symbol(alias()));
+				// }
 			}
 		}
 
 		// S1G enabled; second symbol of signal field
 		if (d_s1g_cap){
 			if(d_current_symbol == 3){
-				if(decode_signal_field(out + o * 48)){
+				 if(decode_signal_field(out + o * 48)){
 
 					pmt::pmt_t dict = pmt::make_dict();
 					dict = pmt::dict_add(dict, pmt::mp("frame_bytes"), pmt::from_uint64(d_frame_bytes));
@@ -277,7 +273,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 			}
 		}
 
-		if(d_current_symbol > offs) {
+		if(d_current_symbol > offs + nltf) {
 			o++;
 			pmt::pmt_t pdu = pmt::make_dict();
 			message_port_pub(pmt::mp("symbols"), pmt::cons(pmt::make_dict(), pmt::init_c32vector(48, symbols)));
@@ -294,16 +290,74 @@ frame_equalizer_impl::general_work (int noutput_items,
 bool
 frame_equalizer_impl::decode_signal_field(uint8_t *rx_bits) {
 
-	static ofdm_param ofdm = ofdm_param(BPSK_1_2);
+	if(d_current_symbol == 2){
+		int mcs = 0;
+		static ofdm_param ofdm2 = ofdm_param(BPSK_1_2);
+		static frame_param frame2;
+		frame2.set_service_field_length(false);
+		frame2.set_frame_params(ofdm2, 0);
 
-	static frame_param frame;
-  frame.set_service_field_length(d_s1g_cap);
-	frame.set_frame_params(ofdm, 0);
+		deinterleave(rx_bits);
+		uint8_t *decoded_bits2 = d_decoder2.decode(&ofdm2, &frame2, d_deinterleaved);
 
-	deinterleave(rx_bits);
-	uint8_t *decoded_bits = d_decoder.decode(&ofdm, &frame, d_deinterleaved, d_s1g_cap);
+		if(d_s1g_cap){
+			for (int i = 0; i < 24; i++) {
+				// decoding mcs
+				if((i > 18) && (i < 23) && decoded_bits2[i]) {
+					mcs = mcs | (1 << (i - 19));
+				}
+			}
+			d_mcs = mcs;
+			//std::cout << "******frame_equalizer: mcs: " << d_mcs << std::endl;
+			return true;
 
-	return parse_signal(decoded_bits);
+		}else{
+
+			bool parity = false;
+			d_r = 0;
+			d_frame_bytes = 0;
+
+			for(int i = 0; i < 17; i++) {
+				parity ^= decoded_bits2[i];
+
+				if((i < 4) && decoded_bits2[i]) {
+					d_r = d_r | (1 << i);
+				}
+
+				if(decoded_bits2[i] && (i > 4) && (i < 17)) {
+					d_frame_bytes = d_frame_bytes | (1 << (i-5));
+				}
+			}
+
+			if(parity != decoded_bits2[17]) {
+				dout << "SIGNAL: wrong parity" << std::endl;
+				return false;
+			}
+
+		}
+		return parse_signal(decoded_bits2);
+
+	}else if(d_current_symbol == 3){
+		int len = 0;
+		static ofdm_param ofdm3 = ofdm_param(BPSK_1_2);
+		static frame_param frame3;
+		frame3.set_service_field_length(false);
+		frame3.set_frame_params(ofdm3, 0);
+
+		deinterleave(rx_bits);
+		uint8_t *decoded_bits3 = d_decoder3.decode(&ofdm3, &frame3, d_deinterleaved);
+
+		for (int i = 0; i < 24; i++) {
+			// decoding length
+			if((i > 0) && (i < 10) && decoded_bits3[i]) {
+				len = len | (1 << (i - 1));
+			}
+		}
+		d_len = len;
+		//std::cout << "******frame_equalizer: len: " << d_len << std::endl;
+
+		return parse_signal(decoded_bits3);
+	}
 }
 
 void
@@ -316,107 +370,71 @@ frame_equalizer_impl::deinterleave(uint8_t *rx_bits) {
 bool
 frame_equalizer_impl::parse_signal(uint8_t *decoded_bits) {
 
-	int r,mcs,len;
-	d_frame_bytes = 0;
-	bool parity = false;
-
-	r = mcs = len = 0;
-
-	if(d_s1g_cap && (d_current_symbol == 2)){ // decoding first sig symbol
-		for (int i = 0; i < 24; i++) {
-			// decoding mcs
-			if((i > 18) && (i < 23) && decoded_bits[i]) {
-				mcs = mcs | (1 << (i - 19));
-			}
-
-		}
-	}else if(d_s1g_cap && (d_current_symbol == 3)){ // decoding second sig symbol
-		for (int i = 0; i < 24; i++) {
-			// decoding length
-			if((i > 0) && (i < 10) && decoded_bits[i]) {
-				len = len | (1 << (i - 1));
-			}
-
-		}
+	if(d_s1g_cap){
 	  // set parameters
-	  d_frame_bytes = len;
-	  switch(mcs) {
+		d_frame_bytes = d_len;
+	  switch(d_mcs) {
 		  case 0:
 			 d_frame_encoding = 0;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 26);
 			 d_frame_mod = d_bpsk;
-			 dout << "S1G BPSK 1/2 Encoding   ";
+			 std::cout << "S1G BPSK 1/2 Encoding   " << std::endl;
 			 break;
 		  case 1:
 			 d_frame_encoding = 1;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 52);
 			 d_frame_mod = d_qpsk;
-			 dout << "S1G QPSK 1/2 Encoding   ";
+			 std::cout << "S1G QPSK 1/2 Encoding   " << std::endl;
 			 break;
 		  case 2:
 			 d_frame_encoding = 2;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 78);
 			 d_frame_mod = d_qpsk;
-			 dout << "S1G QPSK 3/4 Encoding   ";
+			 std::cout << "S1G QPSK 3/4 Encoding   " << std::endl;
 			 break;
 			case 3:
 			 d_frame_encoding = 3;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 104);
 			 d_frame_mod = d_16qam;
-			 dout << "S1G 16-QAM 1/2 Encoding   ";
+			 std::cout << "S1G 16-QAM 1/2 Encoding   " << std::endl;
 			 break;
 			case 4:
 			 d_frame_encoding = 4;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 156);
 			 d_frame_mod = d_16qam;
-			 dout << "S1G 16-QAM 3/4 Encoding   ";
+			 std::cout << "S1G 16-QAM 3/4 Encoding   " << std::endl;
 			 break;
 			case 5:
 			 d_frame_encoding = 5;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 208);
 			 d_frame_mod = d_64qam;
-			 dout << "S1G 64-QAM 2/3 Encoding   ";
+			 std::cout << "S1G 64-QAM 2/3 Encoding   " << std::endl;
 			 break;
 			case 6:
 			 d_frame_encoding = 6;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 234);
 			 d_frame_mod = d_64qam;
-			 dout << "S1G 64-QAM 3/4 Encoding   ";
+			 std::cout << "S1G 64-QAM 3/4 Encoding   " << std::endl;
 			 break;
 			case 7:
 			 d_frame_encoding = 7;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 260);
 			 d_frame_mod = d_64qam;
-			 dout << "S1G 64-QAM 5/6 Encoding   ";
+			 std::cout << "S1G 64-QAM 5/6 Encoding   " << std::endl;
 			 break;
 			case 8:
 			 d_frame_encoding = 8;
 			 d_frame_symbols = (int) ceil((8 + 8 * d_frame_bytes + 6) / (double) 312);
 			 d_frame_mod = d_256qam;
-			 dout << "S1G 256-QAM 3/4 Encoding   ";
+			 std::cout << "S1G 256-QAM 3/4 Encoding   " << std::endl;
 			 break;
 		  default:
-			 dout << "unknown encoding" << std::endl;
+			 std::cout << "unknown encoding" << std::endl;
 			 return false;
-	  }
+	 }
 	}else{
-		for(int i = 0; i < 17; i++) {
-			parity ^= decoded_bits[i];
 
-			if((i < 4) && decoded_bits[i]) {
-				r = r | (1 << i);
-			}
-
-			if(decoded_bits[i] && (i > 4) && (i < 17)) {
-				d_frame_bytes = d_frame_bytes | (1 << (i-5));
-			}
-		}
-
-		if(parity != decoded_bits[17]) {
-			dout << "SIGNAL: wrong parity" << std::endl;
-			return false;
-		}
-		switch(r) {
+		switch(d_r) {
 		case 11:
 			d_frame_encoding = 0;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 24);

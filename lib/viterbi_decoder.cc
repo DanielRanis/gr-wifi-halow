@@ -288,11 +288,10 @@ viterbi_decoder::depuncture(uint8_t *in) {
 }
 
 uint8_t*
-viterbi_decoder::decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in, bool s1g_enabled) {
+viterbi_decoder::decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in) {
 
 	d_ofdm = ofdm;
 	d_frame = frame;
-	d_s1g_enabled = s1g_enabled;
 
 	reset();
 	uint8_t *depunctured = depuncture(in);
@@ -331,12 +330,11 @@ viterbi_decoder::reset() {
 
 	viterbi_chunks_init_sse2();
 
-	if(!d_s1g_enabled){
 		switch(d_ofdm->encoding) {
 			case BPSK_1_2:
 			case QPSK_1_2:
 			case QAM16_1_2:
-			d_ntraceback = 5;
+			d_ntraceback = 1;
 			d_depuncture_pattern = PUNCTURE_1_2;
 			d_k = 1;
 			break;
@@ -354,39 +352,6 @@ viterbi_decoder::reset() {
 			d_k = 3;
 			break;
 		}
-	}else{
-		switch(d_ofdm->s1g_encoding) {
-			case S1G_BPSK_1_2:
-			case S1G_QPSK_1_2:
-			case S1G_16QAM_1_2:
-				d_ntraceback = 5;
-				d_depuncture_pattern = PUNCTURE_1_2;
-				d_k = 1;
-				break;
-
-			case S1G_64QAM_2_3:
-				d_ntraceback = 9;
-				d_depuncture_pattern = PUNCTURE_2_3;
-				d_k = 2;
-				break;
-
-			case S1G_QPSK_3_4:
-			case S1G_16QAM_3_4:
-			case S1G_64QAM_3_4:
-			case S1G_256QAM_3_4:
-				d_ntraceback = 10;
-				d_depuncture_pattern = PUNCTURE_3_4;
-				d_k = 3;
-				break;
-
-			case S1G_64QAM_5_6:
-			case S1G_256QAM_5_6:
-				d_k = 5;
-				d_depuncture_pattern = PUNCTURE_5_6;
-				d_ntraceback = 5*(d_k-1);
-				break;
-		}
-	}
 }
 
 void // Initialize starting metrics to prefer 0 state

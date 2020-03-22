@@ -412,110 +412,11 @@
     </param>
     <param>
       <key>value</key>
-      <value>64</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(528, 260)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fft_size</value>
-    </param>
-    <param>
-      <key>label0</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>FFT Size</value>
-    </param>
-    <param>
-      <key>labels</key>
-      <value>["64 (2 MHz)", "128 (4 MHz)", "256 (8 MHz)", "512 (16 MHz)"]</value>
-    </param>
-    <param>
-      <key>num_opts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>option0</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>option1</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>option2</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>option3</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>option4</key>
-      <value>4</value>
-    </param>
-    <param>
-      <key>options</key>
-      <value>[64, 128, 256,  512]</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.QHBoxLayout</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>int</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>combo_box</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_chooser</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
       <value>5890000000</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -600,6 +501,69 @@
     <param>
       <key>widget</key>
       <value>combo_box</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>900e6</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 308)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@3</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>freq</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Frequency</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>100e6</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>1e6</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>900e6</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
     </param>
   </block>
   <block>
@@ -700,7 +664,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>100</value>
+      <value>483</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -763,7 +727,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1114,7 +1078,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>20e6</value>
+      <value>2e6</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1276,7 +1240,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>def_sig</value>
+      <value>s1g_sig</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1375,7 +1339,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>15</value>
+      <value>50</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1428,6 +1392,37 @@
     <param>
       <key>widget</key>
       <value>counter_slider</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_message_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(968, 552)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_debug_0</value>
     </param>
   </block>
   <block>
@@ -2354,7 +2349,7 @@
     </param>
     <param>
       <key>size</key>
-      <value>48*10</value>
+      <value>52*10</value>
     </param>
     <param>
       <key>tr_chan</key>
@@ -3479,7 +3474,7 @@
     </param>
     <param>
       <key>frequency</key>
-      <value>5.89e9</value>
+      <value>freq</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3526,16 +3521,8 @@
       <value>0.56</value>
     </param>
     <param>
-      <key>ltf_sync_word</key>
-      <value>(0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0)</value>
-    </param>
-    <param>
       <key>occupied_carriers</key>
       <value>def_carriers</value>
-    </param>
-    <param>
-      <key>s1g_sig_field_qbpsk_mod</key>
-      <value>[1j,-1j]</value>
     </param>
     <param>
       <key>s1g_sync_words</key>
@@ -3619,6 +3606,12 @@
     <sink_block_id>wifi_phy_hier_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>wifi_phy_hier_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>carrier</source_key>
+    <sink_key>print</sink_key>
   </connection>
   <connection>
     <source_block_id>wifi_phy_hier_0</source_block_id>
