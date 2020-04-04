@@ -215,13 +215,6 @@ void set_s1g_encoding(S1g_encoding mcs){
 }
 
 
-
-void enable_s1g(bool s1g_cap){
-	gr::thread::scoped_lock lock(d_mutex);
-	std::cout << "MAPPER: enable_s1g: " << s1g_cap << std::endl;
-	d_s1g_cap = s1g_cap;
-}
-
 private:
 	uint8_t      			d_scrambler;
 	bool         			d_debug;
@@ -231,9 +224,7 @@ private:
 	ofdm_param   			d_ofdm;
 	Encoding     			d_encoding;
 	S1g_encoding 			d_s1g_encoding;
-	//S1g_ppdu_format 	d_s1g_format;
 	bool 				 			d_s1g_cap;
-	//frame_param 			frame;
 	gr::thread::mutex d_mutex;
 };
 

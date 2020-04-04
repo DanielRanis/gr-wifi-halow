@@ -6,7 +6,6 @@
 	<category>[IEEE802.11]</category>
 	<import>import ieee802_11</import>
 	<make>ieee802_11.mapper($encoding, $debug,$s1g_encoding, $s1g_cap)</make>
-	<callback>enable_s1g($s1g_cap)</callback>
 	<callback>set_s1g_encoding($s1g_encoding)</callback>
 	<callback>set_encoding($encoding)</callback>
 

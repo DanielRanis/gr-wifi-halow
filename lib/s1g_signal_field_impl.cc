@@ -145,22 +145,15 @@ void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &fr
 bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out, const std::vector<tag_t> &tags)
 {
 
-	bool encoding_found = 		false;
 	bool s1g_encoding_found = false;
-	bool s1g_format_found = 	false;
-	bool s1g_cw_found = 			false;
-	bool len_found = 					false;
-	int encoding = 						BPSK_1_2;
-	int s1g_encoding = 				S1G_BPSK_1_2;
-	int len = 								0;
+	bool len_found = false;
+	int  s1g_encoding = S1G_BPSK_1_2;
+	int  len = 0;
 
 	std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
 	// read tags
 	for(int i = 0; i < tags.size(); i++) {
-		if(pmt::eq(tags[i].key, pmt::mp("encoding"))) {
-			encoding_found = true;
-			encoding = pmt::to_long(tags[i].value);
-		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_encoding"))){
+		if(pmt::eq(tags[i].key, pmt::mp("s1g_encoding"))){
 			s1g_encoding_found = true;
 			s1g_encoding = pmt::to_long(tags[i].value);
 		}else if(pmt::eq(tags[i].key, pmt::mp("psdu_len"))) {

@@ -122,6 +122,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 	int o;
 	int offs;
 	int data_subcr;
+	bool is_freed = false;
 	gr_complex current_symbol[64];
 	gr_complex *symbols = NULL;
 	i = o = offs = 0;
@@ -164,6 +165,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 		// allocate memory for symbols
 		symbols = (gr_complex*)calloc(data_subcr, sizeof(gr_complex));
+		is_freed = false;
 
 		// compensate sampling offset
 		for(int i = 0; i < 64; i++) {
@@ -272,10 +274,13 @@ frame_equalizer_impl::general_work (int noutput_items,
 		// clear symbol
 		free(symbols);
 		symbols = NULL;
+		is_freed = true;
 	}
 	// cleanup
-	free(symbols);
-	symbols = NULL;
+	if(!is_freed){
+		free(symbols);
+		symbols = NULL;
+	}
 	consume(0, i);
 	return o;
 }
