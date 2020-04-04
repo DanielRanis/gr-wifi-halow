@@ -26,7 +26,7 @@ namespace equalizer {
 
 class comb: public base {
 public:
-	virtual void equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boost::shared_ptr<gr::digital::constellation> mod);
+	virtual void equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boost::shared_ptr<gr::digital::constellation> mod, bool s1g_cap);
 	double get_snr();
 
 private:
@@ -41,4 +41,3 @@ private:
 } /* namespace gr */
 
 #endif /* INCLUDED_IEEE802_11_EQUALIZER_COMB_H */
-

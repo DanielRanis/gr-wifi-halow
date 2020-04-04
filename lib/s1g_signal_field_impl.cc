@@ -27,10 +27,10 @@ s1g_signal_field::make() {
 	return s1g_signal_field::sptr(new s1g_signal_field_impl());
 }
 
-s1g_signal_field::s1g_signal_field() : packet_header_default(2 * 48, "packet_len") {};
+s1g_signal_field::s1g_signal_field() : packet_header_default(2 * 52, "packet_len") {};
 
 
-s1g_signal_field_impl::s1g_signal_field_impl() : packet_header_default(2 * 48, "packet_len") {}
+s1g_signal_field_impl::s1g_signal_field_impl() : packet_header_default(2 * 52, "packet_len") {}
 
 
 s1g_signal_field_impl::~s1g_signal_field_impl() {}
@@ -45,16 +45,17 @@ void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &fr
 
 		std::cout << "generate_s1g_signal_field: S1G_SHORT " << std::endl;
 		//data bits of the signal header
-		char *signal_header = (char *) malloc(sizeof(char) * 24);
+		char *signal_header = (char *) malloc(sizeof(char) * 26);
 		//signal header after...
 		//convolutional encoding
-		char *encoded_signal_header = (char *) malloc(sizeof(char) * 48);
+		char *encoded_signal_header = (char *) malloc(sizeof(char) * 2 * 26);
+		memset(signal_header,(char)0,2*26*sizeof(char));
 		//interleaving
 		//char *interleaved_signal_header = (char *) malloc(sizeof(char) * 2 * 48);
 		int length = frame.psdu_size;
 		int partial_aid = 0;
 		int color = 7;
-		//ofdm_param signal_ofdm(S1G_BPSK_1_2,ofdm.s1g_cw);
+		//ofdm_param signal_ofdm(S1G_BPSK_1_2,S1G_CW_2M);
 		ofdm_param signal_ofdm(BPSK_1_2);
 		frame_param signal_param;
 		signal_param.set_service_field_length(false);
@@ -100,6 +101,7 @@ void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &fr
 		// interleaving
 		interleave(encoded_signal_header, out, signal_param, signal_ofdm);
 		/* SIG2 Field (24 bits) */
+		memset(signal_header,(char)0,2*26*sizeof(char));
 		// Aggregation
 		signal_header[0] = 0;
 		// Length
@@ -134,7 +136,7 @@ void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &fr
 		// convolutional encoding (scrambling is not needed)
 		convolutional_encoding(signal_header, encoded_signal_header, signal_param);
 		// interleaving
-		interleave(encoded_signal_header, out + 48, signal_param, signal_ofdm);
+		interleave(encoded_signal_header, out + 52, signal_param, signal_ofdm);
 		free(signal_header);
 		free(encoded_signal_header);
 		//free(interleaved_signal_header);
@@ -150,7 +152,6 @@ bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out
 	bool len_found = 					false;
 	int encoding = 						BPSK_1_2;
 	int s1g_encoding = 				S1G_BPSK_1_2;
-	int s1g_cw = 							S1G_CW_2M;
 	int len = 								0;
 
 	std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
@@ -162,9 +163,6 @@ bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out
 		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_encoding"))){
 			s1g_encoding_found = true;
 			s1g_encoding = pmt::to_long(tags[i].value);
-		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_cw"))){
-			s1g_cw_found = true;
-			s1g_cw = pmt::to_long(tags[i].value);
 		}else if(pmt::eq(tags[i].key, pmt::mp("psdu_len"))) {
 			len_found = true;
 			len = pmt::to_long(tags[i].value);
@@ -182,7 +180,7 @@ bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out
 		return true;
 	}
 
-	ofdm_param ofdm((S1g_encoding)s1g_encoding, (S1g_cw) s1g_cw);
+	ofdm_param ofdm((S1g_encoding)s1g_encoding, (S1g_cw) S1G_CW_2M);
 
 	frame_param frame;
 	// set amount of service bits

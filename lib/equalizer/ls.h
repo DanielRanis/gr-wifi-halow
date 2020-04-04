@@ -27,7 +27,7 @@ namespace equalizer {
 
 class ls: public base {
 public:
-	virtual void equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boost::shared_ptr<gr::digital::constellation> mod);
+	virtual void equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boost::shared_ptr<gr::digital::constellation> mod, bool s1g_cap);
 	virtual double get_snr();
 private:
 	gr_complex d_H[64];
@@ -39,4 +39,3 @@ private:
 } /* namespace gr */
 
 #endif /* INCLUDED_IEEE802_11_EQUALIZER_LS_H */
-

@@ -30,14 +30,17 @@ class frame_equalizer_impl : virtual public frame_equalizer
 {
 
 public:
+
+	static const int S1G_CW_2M_DATA_CARRIERS = 52;
+	static const int DATA_CARRIERS = 48;
+
 	frame_equalizer_impl(Equalizer algo, double freq, double bw, bool log,
-		                   bool debug, S1g_cw s1g_cw, bool s1g_cap);
+		                   bool debug, bool s1g_cap);
 	~frame_equalizer_impl();
 
 	void set_algorithm(Equalizer algo);
 	void set_bandwidth(double bw);
 	void set_frequency(double freq);
-	void enable_s1g(bool s1g_cap);
 	void set_s1g_encoding(S1g_encoding mcs);
 	void set_s1g_cw(S1g_cw cw);
 
@@ -65,7 +68,6 @@ private:
 
 	bool 						d_s1g_cap;
 	S1g_encoding 		d_s1g_encoding;
-	S1g_cw 					d_s1g_cw;
 
 	// freq offset
 	double d_freq;  // Hz
@@ -83,7 +85,6 @@ private:
 	int  d_r;
 
 	uint8_t d_deinterleaved[48];
-	gr_complex symbols[48];
 
 	boost::shared_ptr<gr::digital::constellation> d_frame_mod;
 	constellation_bpsk::sptr d_bpsk;

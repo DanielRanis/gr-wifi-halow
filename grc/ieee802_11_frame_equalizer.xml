@@ -5,12 +5,10 @@
 	<key>ieee802_11_frame_equalizer</key>
 	<category>[IEEE802.11]</category>
 	<import>import ieee802_11</import>
-	<make>ieee802_11.frame_equalizer($algo, $freq, $bw, $log, $debug, $s1g_cw, $s1g_cap)</make>
+	<make>ieee802_11.frame_equalizer($algo, $freq, $bw, $log, $debug, $s1g_cap)</make>
 	<callback>set_algorithm($algo)</callback>
 	<callback>set_frequency($freq)</callback>
 	<callback>set_bandwidth($bw)</callback>
-	<callback>enable_s1g($s1g_cap)</callback>
-	<callback>set_s1g_cw($s1g_cw)</callback>
 
 	<param>
 		<name>Algorithm</name>
@@ -87,29 +85,6 @@
 		</option>
 	</param>
 	<param>
-		<name>S1G Channelwidth</name>
-		<key>s1g_cw</key>
-		<value>ieee802_11.S1G_CW_2M</value>
-		<type>int</type>
-		<hide>#if $s1g_cap() == True then 'none' else 'all'#</hide>
-		<option>
-			<name>2MHz</name>
-			<key>ieee802_11.S1G_CW_2M</key>
-		</option>
-		<option>
-			<name>4MHz</name>
-			<key>ieee802_11.S1G_CW_4M</key>
-		</option>
-		<option>
-			<name>8MHz</name>
-			<key>ieee802_11.S1G_CW_8M</key>
-		</option>
-		<option>
-			<name>16MHz</name>
-			<key>ieee802_11.S1G_CW_16M</key>
-		</option>
-	</param>
-	<param>
 		<name>Debug</name>
 		<key>debug</key>
 		<value>False</value>
@@ -135,7 +110,7 @@
 	<source>
 		<name>out</name>
 		<type>byte</type>
-		<vlen>48</vlen>
+		<vlen>#if $s1g_cap() == True then '52' else '48'#</vlen>
 		<nports>1</nports>
 	</source>
 

@@ -59,12 +59,10 @@ class IEEE802_11_API mapper : virtual public block
 public:
 
 	typedef boost::shared_ptr<mapper> sptr;
-	static sptr make(Encoding e, bool debug = false, S1g_encoding s1g_enc = S1G_BPSK_1_2,
-		S1g_cw s1g_cw = S1G_CW_2M, bool s1g_cap = false);
+	static sptr make(Encoding e, bool debug = false, S1g_encoding s1g_enc = S1G_BPSK_1_2, bool s1g_cap = false);
 	virtual void set_encoding(Encoding mcs) = 0;
 	virtual void enable_s1g(bool s1g_cap) = 0;
 	virtual void set_s1g_encoding(S1g_encoding mcs) = 0;
-	virtual void set_s1g_cw(S1g_cw cw) = 0;
 };
 
 }  // namespace ieee802_11

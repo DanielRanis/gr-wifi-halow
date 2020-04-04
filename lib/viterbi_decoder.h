@@ -38,7 +38,7 @@ public:
 	viterbi_decoder();
 	virtual ~viterbi_decoder();
 
-	uint8_t* decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in);
+	uint8_t* decode(ofdm_param *ofdm, frame_param *frame, uint8_t *in, bool s1g_enabled);
 
 private:
 

@@ -28,7 +28,7 @@ class IEEE802_11_API decode_mac : virtual public block
 public:
 
 	typedef boost::shared_ptr<decode_mac> sptr;
-	static sptr make(bool log = false, bool debug = false);
+	static sptr make(bool log = false, bool debug = false, bool s1g_cap=false);
 
 };
 
@@ -36,5 +36,3 @@ public:
 }  // namespace gr
 
 #endif /* INCLUDED_IEEE802_11_DECODE_MAC_H */
-
-

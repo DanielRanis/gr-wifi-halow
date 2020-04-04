@@ -65,7 +65,6 @@ public:
 	// data rate
 	Encoding encoding;
 	S1g_encoding s1g_encoding;
-	S1g_cw s1g_cw;
 	// rate field of the SIGNAL header
 	char     rate_field;
 	// number of coded bits per sub carrier

@@ -66,7 +66,7 @@ insert_nltf_impl::calculate_output_stream_length(const gr_vector_int &ninput_ite
 {
   int noutput_items = 0;
   if(d_s1g_cap){
-    noutput_items = ninput_items[0] + 2;
+    noutput_items = ninput_items[0] + 1;
   } else{
     noutput_items = ninput_items[0];
     std::cout << "calculate_output_stream_length: " << ninput_items[0] << std::endl;
@@ -84,7 +84,7 @@ insert_nltf_impl::work (int noutput_items,
   const gr_complex *in= (const gr_complex *) input_items[0];
   gr_complex *out = (gr_complex *) output_items[0];
 
-  gr_complex *nltf_sync = (gr_complex *)malloc(sizeof(gr_complex) * d_fft_len * 2);
+  gr_complex *nltf_sync = (gr_complex *)malloc(sizeof(gr_complex) * d_fft_len * 1);
 
   int symbols_to_read = 0;
   symbols_to_read = ninput_items[0];
@@ -108,7 +108,7 @@ insert_nltf_impl::work (int noutput_items,
 
         // copy ltf symbols
         if(sym_idx == 2){
-            memcpy((void*)nltf_sync, (void*)in, sizeof(gr_complex) * d_fft_len * 2);
+            memcpy((void*)nltf_sync, (void*)in, sizeof(gr_complex) * d_fft_len * 1);
             //memset((void*)nltf_sync, 0, sizeof(gr_complex) * d_fft_len * 2);
         }
 
@@ -116,8 +116,8 @@ insert_nltf_impl::work (int noutput_items,
         out += d_fft_len;
     }
     // copy nltf_sync word
-    memcpy((void*)out, (void*)nltf_sync, sizeof(gr_complex) * d_fft_len * 2);
-    out += 2 * d_fft_len;
+    memcpy((void*)out, (void*)nltf_sync, sizeof(gr_complex) * d_fft_len * 1);
+    out += 1 * d_fft_len;
 
     // bypass symbols
     for (int sym_idx = 6; sym_idx < symbols_to_read; sym_idx++) {
@@ -142,7 +142,7 @@ insert_nltf_impl::work (int noutput_items,
   if(!d_s1g_cap){
     return symbols_to_read;
   }else{
-    return symbols_to_read + 2;
+    return symbols_to_read + 1;
   }
 }
 

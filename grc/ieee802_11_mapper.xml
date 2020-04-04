@@ -5,9 +5,8 @@
 	<key>ieee802_11_mapper</key>
 	<category>[IEEE802.11]</category>
 	<import>import ieee802_11</import>
-	<make>ieee802_11.mapper($encoding, $debug,$s1g_encoding, $s1g_cw, $s1g_cap)</make>
+	<make>ieee802_11.mapper($encoding, $debug,$s1g_encoding, $s1g_cap)</make>
 	<callback>enable_s1g($s1g_cap)</callback>
-	<callback>set_s1g_cw($s1g_cw)</callback>
 	<callback>set_s1g_encoding($s1g_encoding)</callback>
 	<callback>set_encoding($encoding)</callback>
 
@@ -105,29 +104,6 @@
 		<option>
 			<name>S1G 256-QAM 3/4</name>
 			<key>ieee802_11.S1G_256QAM_3_4</key>
-		</option>
-	</param>
-	<param>
-		<name>S1G Channelwidth</name>
-		<key>s1g_cw</key>
-		<value>ieee802_11.S1G_CW_2M</value>
-		<type>int</type>
-		<hide>#if $s1g_cap() == True then 'none' else 'all'#</hide>
-		<option>
-			<name>2MHz</name>
-			<key>ieee802_11.S1G_CW_2M</key>
-		</option>
-		<option>
-			<name>4MHz</name>
-			<key>ieee802_11.S1G_CW_4M</key>
-		</option>
-		<option>
-			<name>8MHz</name>
-			<key>ieee802_11.S1G_CW_8M</key>
-		</option>
-		<option>
-			<name>16MHz</name>
-			<key>ieee802_11.S1G_CW_16M</key>
 		</option>
 	</param>
 	<param>

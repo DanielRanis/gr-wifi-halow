@@ -42,7 +42,7 @@ from gnuradio import qtgui
 
 class wifi_loopback(gr.top_block, Qt.QWidget):
 
-    def __init__(self, pilot_carriers=((-21, -7, 7, 21), ), pilot_symbols=((1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1))):
+    def __init__(self, def_sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 0, 0j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 0j, 0, 0j, 0, 0j), (0, 0, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 0, 0, 0, 0)), pilot_carriers=((-21, -7, 7, 21), ), pilot_symbols=((1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1), (-1, -1, -1, 1)), s1g_cap=True, s1g_pilot_symbols=((1, 1, 1, -1), (1, 1, 1, -1), (1, 1, 1, -1), (-1, -1, -1, 1)), s1g_sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (-0.7071067811865475-0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, (0.7071067811865475+0.7071067811865475j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 1, -1j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, (-0-1j), -1, 0j, 0, 0j), (0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0))):
         gr.top_block.__init__(self, "Wifi Loopback")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Wifi Loopback")
@@ -70,24 +70,25 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         ##################################################
         # Parameters
         ##################################################
+        self.def_sync_words = def_sync_words
         self.pilot_carriers = pilot_carriers
         self.pilot_symbols = pilot_symbols
+        self.s1g_cap = s1g_cap
+        self.s1g_pilot_symbols = s1g_pilot_symbols
+        self.s1g_sync_words = s1g_sync_words
 
         ##################################################
         # Variables
         ##################################################
-        self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
         self.snr = snr = 50
-        self.sig_field = sig_field = s1g_sig
         self.samp_rate = samp_rate = 2e6
+        self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
         self.s1g_encoding = s1g_encoding = 0
-        self.s1g_cw = s1g_cw = 2
         self.s1g_carriers = s1g_carriers = (range(-28, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 28+1),)
-        self.s1g_cap = s1g_cap = True
-        self.pdu_length = pdu_length = 483
+        self.pdu_length = pdu_length = 19
         self.out_buf_size = out_buf_size = 96000
         self.interval = interval = 300
-        self.freq = freq = 900e6
+        self.freq = freq = 868e6
         self.epsilon = epsilon = 0
         self.encoding = encoding = 0
         self.def_sig = def_sig = ieee802_11.signal_field().formatter()
@@ -141,27 +142,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._snr_range = Range(-15, 100, 0.1, 50, 200)
         self._snr_win = RangeWidget(self._snr_range, self.set_snr, 'Signal to Noise Ratio (SNR)', "counter_slider", float)
         self.tab1_grid_layout_3.addWidget(self._snr_win)
-        self._sig_field_options = (s1g_sig, def_sig, )
-        self._sig_field_labels = ('Enable', 'Disable', )
-        self._sig_field_group_box = Qt.QGroupBox('Enable SIG Field')
-        self._sig_field_box = Qt.QHBoxLayout()
-        class variable_chooser_button_group(Qt.QButtonGroup):
-            def __init__(self, parent=None):
-                Qt.QButtonGroup.__init__(self, parent)
-            @pyqtSlot(int)
-            def updateButtonChecked(self, button_id):
-                self.button(button_id).setChecked(True)
-        self._sig_field_button_group = variable_chooser_button_group()
-        self._sig_field_group_box.setLayout(self._sig_field_box)
-        for i, label in enumerate(self._sig_field_labels):
-        	radio_button = Qt.QRadioButton(label)
-        	self._sig_field_box.addWidget(radio_button)
-        	self._sig_field_button_group.addButton(radio_button, i)
-        self._sig_field_callback = lambda i: Qt.QMetaObject.invokeMethod(self._sig_field_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._sig_field_options.index(i)))
-        self._sig_field_callback(self.sig_field)
-        self._sig_field_button_group.buttonClicked[int].connect(
-        	lambda i: self.set_sig_field(self._sig_field_options[i]))
-        self.tab1_grid_layout_2.addWidget(self._sig_field_group_box)
         self._samp_rate_options = (20e6, 2e6, )
         self._samp_rate_labels = ('Default Sample Rate (20 MSPS)', 'S1G Sample Rate (2 MSPS)', )
         self._samp_rate_group_box = Qt.QGroupBox('Sample Rate')
@@ -195,46 +175,13 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_encoding_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_encoding(self._s1g_encoding_options[i]))
         self.tab1_grid_layout_2.addWidget(self._s1g_encoding_tool_bar)
-        self._s1g_cw_options = [2,4,8,16]
-        self._s1g_cw_labels = ["2 MHz","4 MHz","8 MHz","16 MHz"]
-        self._s1g_cw_tool_bar = Qt.QToolBar(self)
-        self._s1g_cw_tool_bar.addWidget(Qt.QLabel('Channelwidth'+": "))
-        self._s1g_cw_combo_box = Qt.QComboBox()
-        self._s1g_cw_tool_bar.addWidget(self._s1g_cw_combo_box)
-        for label in self._s1g_cw_labels: self._s1g_cw_combo_box.addItem(label)
-        self._s1g_cw_callback = lambda i: Qt.QMetaObject.invokeMethod(self._s1g_cw_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._s1g_cw_options.index(i)))
-        self._s1g_cw_callback(self.s1g_cw)
-        self._s1g_cw_combo_box.currentIndexChanged.connect(
-        	lambda i: self.set_s1g_cw(self._s1g_cw_options[i]))
-        self.tab1_grid_layout_2.addWidget(self._s1g_cw_tool_bar)
-        self._s1g_cap_options = (True, False, )
-        self._s1g_cap_labels = ('Enable', 'Disable', )
-        self._s1g_cap_group_box = Qt.QGroupBox('S1G')
-        self._s1g_cap_box = Qt.QHBoxLayout()
-        class variable_chooser_button_group(Qt.QButtonGroup):
-            def __init__(self, parent=None):
-                Qt.QButtonGroup.__init__(self, parent)
-            @pyqtSlot(int)
-            def updateButtonChecked(self, button_id):
-                self.button(button_id).setChecked(True)
-        self._s1g_cap_button_group = variable_chooser_button_group()
-        self._s1g_cap_group_box.setLayout(self._s1g_cap_box)
-        for i, label in enumerate(self._s1g_cap_labels):
-        	radio_button = Qt.QRadioButton(label)
-        	self._s1g_cap_box.addWidget(radio_button)
-        	self._s1g_cap_button_group.addButton(radio_button, i)
-        self._s1g_cap_callback = lambda i: Qt.QMetaObject.invokeMethod(self._s1g_cap_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._s1g_cap_options.index(i)))
-        self._s1g_cap_callback(self.s1g_cap)
-        self._s1g_cap_button_group.buttonClicked[int].connect(
-        	lambda i: self.set_s1g_cap(self._s1g_cap_options[i]))
-        self.tab1_grid_layout_2.addWidget(self._s1g_cap_group_box)
-        self._pdu_length_range = Range(0, 483, 1, 483, 200)
+        self._pdu_length_range = Range(0, 483, 1, 19, 200)
         self._pdu_length_win = RangeWidget(self._pdu_length_range, self.set_pdu_length, 'PDU Length', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._pdu_length_win)
         self._interval_range = Range(10, 10000, 1, 300, 200)
         self._interval_win = RangeWidget(self._interval_range, self.set_interval, 'Message Interval', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._interval_win)
-        self._freq_range = Range(100e6, 900e6, 1e6, 900e6, 200)
+        self._freq_range = Range(100e6, 2400e6, 1e6, 868e6, 200)
         self._freq_win = RangeWidget(self._freq_range, self.set_freq, 'Frequency', "counter_slider", float)
         self.tab1_grid_layout_3.addWidget(self._freq_win)
         self._epsilon_range = Range(-20e-6, 20e-6, 1e-6, 0, 200)
@@ -281,24 +228,22 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._chan_est_callback(self.chan_est)
         self._chan_est_button_group.buttonClicked[int].connect(
         	lambda i: self.set_chan_est(self._chan_est_options[i]))
-        self.tab1_grid_layout_1.addWidget(self._chan_est_group_box)
+        self.tab1_grid_layout_0.addWidget(self._chan_est_group_box)
         self.wifi_phy_hier_0 = wifi_phy_hier(
             bandwidth=samp_rate,
             chan_est=chan_est,
             encoding=encoding,
             fft_size=64,
             frequency=freq,
-            occupied_carriers=def_carriers,
+            occupied_carriers=s1g_carriers,
             pilot_carrier=pilot_carriers,
             pilot_symbols=pilot_symbols,
             s1g_cap=s1g_cap,
-            s1g_cw=s1g_cw,
             s1g_encoding=s1g_encoding,
-            s1g_sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 1, -1j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, (-0-1j), -1, 0j, 0, 0j), (0, 0, 0, 0, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, 0, 0, 0)),
+            s1g_sync_words=s1g_sync_words,
             sensitivity=0.56,
             sig_field_bpsk_mod=[-1,1],
-            sig_formatter=sig_field,
-            sync_words=((0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (-1.4719601443879746-1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, (1.4719601443879746+1.4719601443879746j), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), (0, 0j, 0, 0j, 0, 0j, -1, 1j, -1, 1j, -1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, (-0-1j), 1, -1j, -1, 1j, 0, -1j, 1, (-0-1j), 1, -1j, 1, 1j, -1, -1j, 1, (-0-1j), -1, 1j, 1, 1j, 1, 1j, 1, 1j, -1, -1j, 1, 1j, 1, -1j, -1, 0j, 0, 0j, 0, 0j), (0, 0, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, 0, 0, 0, 0, 0)),
+            sig_formatter=s1g_sig,
         )
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
         	1024, #size
@@ -492,6 +437,12 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
+    def get_def_sync_words(self):
+        return self.def_sync_words
+
+    def set_def_sync_words(self, def_sync_words):
+        self.def_sync_words = def_sync_words
+
     def get_pilot_carriers(self):
         return self.pilot_carriers
 
@@ -506,12 +457,25 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.pilot_symbols = pilot_symbols
         self.wifi_phy_hier_0.set_pilot_symbols(self.pilot_symbols)
 
-    def get_s1g_sig(self):
-        return self.s1g_sig
+    def get_s1g_cap(self):
+        return self.s1g_cap
 
-    def set_s1g_sig(self, s1g_sig):
-        self.s1g_sig = s1g_sig
-        self.set_sig_field(self.s1g_sig)
+    def set_s1g_cap(self, s1g_cap):
+        self.s1g_cap = s1g_cap
+        self.wifi_phy_hier_0.set_s1g_cap(self.s1g_cap)
+
+    def get_s1g_pilot_symbols(self):
+        return self.s1g_pilot_symbols
+
+    def set_s1g_pilot_symbols(self, s1g_pilot_symbols):
+        self.s1g_pilot_symbols = s1g_pilot_symbols
+
+    def get_s1g_sync_words(self):
+        return self.s1g_sync_words
+
+    def set_s1g_sync_words(self, s1g_sync_words):
+        self.s1g_sync_words = s1g_sync_words
+        self.wifi_phy_hier_0.set_s1g_sync_words(self.s1g_sync_words)
 
     def get_snr(self):
         return self.snr
@@ -519,14 +483,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
     def set_snr(self, snr):
         self.snr = snr
         self.blocks_multiply_const_vxx_0.set_k(((10**(self.snr/10.0))**.5, ))
-
-    def get_sig_field(self):
-        return self.sig_field
-
-    def set_sig_field(self, sig_field):
-        self.sig_field = sig_field
-        self._sig_field_callback(self.sig_field)
-        self.wifi_phy_hier_0.set_sig_formatter(self.sig_field)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -538,6 +494,13 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
 
+    def get_s1g_sig(self):
+        return self.s1g_sig
+
+    def set_s1g_sig(self, s1g_sig):
+        self.s1g_sig = s1g_sig
+        self.wifi_phy_hier_0.set_sig_formatter(self.s1g_sig)
+
     def get_s1g_encoding(self):
         return self.s1g_encoding
 
@@ -546,27 +509,12 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_encoding_callback(self.s1g_encoding)
         self.wifi_phy_hier_0.set_s1g_encoding(self.s1g_encoding)
 
-    def get_s1g_cw(self):
-        return self.s1g_cw
-
-    def set_s1g_cw(self, s1g_cw):
-        self.s1g_cw = s1g_cw
-        self._s1g_cw_callback(self.s1g_cw)
-        self.wifi_phy_hier_0.set_s1g_cw(self.s1g_cw)
-
     def get_s1g_carriers(self):
         return self.s1g_carriers
 
     def set_s1g_carriers(self, s1g_carriers):
         self.s1g_carriers = s1g_carriers
-
-    def get_s1g_cap(self):
-        return self.s1g_cap
-
-    def set_s1g_cap(self, s1g_cap):
-        self.s1g_cap = s1g_cap
-        self._s1g_cap_callback(self.s1g_cap)
-        self.wifi_phy_hier_0.set_s1g_cap(self.s1g_cap)
+        self.wifi_phy_hier_0.set_occupied_carriers(self.s1g_carriers)
 
     def get_pdu_length(self):
         return self.pdu_length
@@ -622,7 +570,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
 
     def set_def_carriers(self, def_carriers):
         self.def_carriers = def_carriers
-        self.wifi_phy_hier_0.set_occupied_carriers(self.def_carriers)
 
     def get_chan_est(self):
         return self.chan_est
@@ -635,6 +582,9 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
 
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
+    parser.add_option(
+        "", "--s1g-cap", dest="s1g_cap", type="intx", default=True,
+        help="Set S1G Capabilities [default=%default]")
     return parser
 
 
@@ -648,7 +598,7 @@ def main(top_block_cls=wifi_loopback, options=None):
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
 
-    tb = top_block_cls()
+    tb = top_block_cls(s1g_cap=options.s1g_cap)
     tb.start()
     tb.show()
 

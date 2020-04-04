@@ -108,12 +108,8 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 {
 
 	bool encoding_found = 		false;
-	bool s1g_encoding_found = false;
-	bool s1g_cw_found = 			false;
 	bool len_found = 					false;
 	int encoding = 						BPSK_1_2;
-	int s1g_encoding = 				S1G_BPSK_1_2;
-	int s1g_cw = 							S1G_CW_2M;
 	int len = 								0;
 
 	std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
@@ -122,12 +118,6 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 		if(pmt::eq(tags[i].key, pmt::mp("encoding"))) {
 			encoding_found = true;
 			encoding = pmt::to_long(tags[i].value);
-		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_encoding"))){
-			s1g_encoding_found = true;
-			s1g_encoding = pmt::to_long(tags[i].value);
-		}else if(pmt::eq(tags[i].key, pmt::mp("s1g_cw"))){
-			s1g_cw_found = true;
-			s1g_cw = pmt::to_long(tags[i].value);
 		}else if(pmt::eq(tags[i].key, pmt::mp("psdu_len"))) {
 			len_found = true;
 			len = pmt::to_long(tags[i].value);
@@ -148,7 +138,7 @@ bool signal_field_impl::header_formatter(long packet_len, unsigned char *out, co
 
 	frame_param frame;
 	// set amount of service bits
-	frame.set_service_field_length(s1g_encoding_found);
+	frame.set_service_field_length(false);
 	frame.set_frame_params(ofdm, len);
 
 	generate_signal_field((char*)out, frame, ofdm);

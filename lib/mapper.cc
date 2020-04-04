@@ -25,12 +25,9 @@ class mapper_impl : public mapper {
 public:
 
 static const int S1G_CW_2M_DATA_CARRIERS = 52;
-static const int S1G_CW_4M_DATA_CARRIERS = 108;
-static const int S1G_CW_8M_DATA_CARRIERS = 234;
-static const int S1G_CW_16M_DATA_CARRIERS = 468;
 static const int DATA_CARRIERS = 48;
 
-mapper_impl(Encoding e, bool debug, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) :
+mapper_impl(Encoding e, bool debug, S1g_encoding s1g_enc, bool s1g_cap) :
 	block ("mapper",
 			gr::io_signature::make(0, 0, 0),
 			gr::io_signature::make(1, 1, sizeof(char))),
@@ -40,8 +37,7 @@ mapper_impl(Encoding e, bool debug, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1
 			d_scrambler(1),
 			d_ofdm(e),
 			d_s1g_cap(s1g_cap),
-			d_s1g_encoding(s1g_enc),
-			d_s1g_cw(s1g_cw) {
+			d_s1g_encoding(s1g_enc) {
 
 	message_port_register_in(pmt::mp("in"));
 	set_encoding(e);
@@ -90,38 +86,23 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			frame_param 			frame;
 
 			if(d_s1g_cap){ // S1G enabled
-				d_ofdm = ofdm_param(d_s1g_encoding, d_s1g_cw);
+				d_ofdm = ofdm_param(d_s1g_encoding, S1G_CW_2M);
 				// set amount of service bits
 				frame.set_service_field_length(d_s1g_cap);
 				frame.set_frame_params(d_ofdm, psdu_length);
-				// set amount of symbols
-				switch (d_s1g_cw) {
-					case S1G_CW_2M:
-						d_symbols_len = frame.n_sym * S1G_CW_2M_DATA_CARRIERS;
-						break;
-					case S1G_CW_4M:
-						d_symbols_len = frame.n_sym * S1G_CW_4M_DATA_CARRIERS;
-						break;
-					case S1G_CW_8M:
-						d_symbols_len = frame.n_sym * S1G_CW_8M_DATA_CARRIERS;
-						break;
-					case S1G_CW_16M:
-						d_symbols_len = frame.n_sym * S1G_CW_16M_DATA_CARRIERS;
-						break;
-					default:
-						assert(false);
-						break;
-				}
-
+				// set symbol length
+				d_symbols_len = frame.n_sym * S1G_CW_2M_DATA_CARRIERS;
 			}else{ // S1G disabled
 				d_ofdm = ofdm_param(d_encoding);
 				// set amount of service bits
 				frame.set_service_field_length(d_s1g_cap);
 				frame.set_frame_params(d_ofdm, psdu_length);
-				// set amount of symbols
+				// set symbol length
 				d_symbols_len = frame.n_sym * DATA_CARRIERS;
-
 			}
+
+
+
 			if(frame.n_sym > MAX_SYM) {
 				std::cout << "packet too large, maximum number of symbols is " << MAX_SYM << std::endl;
 				return 0;
@@ -129,9 +110,8 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 
 			d_ofdm.print();
 			frame.print();
-			std::cout << "d_s1g_encoding: " << d_s1g_encoding << std::endl;
-			std::cout << "d_s1g_cap: " << d_s1g_cap << std::endl;
-			std::cout << "d_s1g_cw: " << d_s1g_cw << std::endl;
+			// std::cout << "d_s1g_encoding: " << d_s1g_encoding << std::endl;
+			// std::cout << "d_s1g_cap: " << d_s1g_cap << std::endl;
 
 			//alloc memory for modulation steps
 			char *data_bits        = (char*)calloc(frame.n_data_bits, sizeof(char));
@@ -195,14 +175,6 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 				pmt::pmt_t s1g_encoding = pmt::from_long(d_s1g_encoding);
 				add_item_tag(0, nitems_written(0), pmt::mp("s1g_encoding"),
 					s1g_encoding, srcid);
-				// add S1G CW tag
-				pmt::pmt_t s1g_cw = pmt::from_long(d_s1g_cw);
-				add_item_tag(0, nitems_written(0), pmt::mp("s1g_cw"),
-						s1g_cw, srcid);
-				// // add S1G format tag
-				// pmt::pmt_t s1g_format = pmt::from_long(d_s1g_format);
-				// add_item_tag(0, nitems_written(0), pmt::mp("s1g_format"),
-				// 		s1g_format, srcid);
 			}
 
 			free(data_bits);
@@ -234,59 +206,20 @@ void set_encoding(Encoding mcs){
 	gr::thread::scoped_lock lock(d_mutex);
 	d_encoding = mcs;
 	std::cout << "MAPPER: encoding: " << mcs << std::endl;
-	// if(!d_s1g_cap){ // S1G disabled
-	// 	d_ofdm = ofdm_param(mcs);
-	// 	d_frame.set_service_field_length(d_s1g_cap);
-	// 	d_frame.set_frame_params(d_ofdm, psdu_length);
-	// 	frame = d_frame;
-	// }
 }
 
 void set_s1g_encoding(S1g_encoding mcs){
 	gr::thread::scoped_lock lock(d_mutex);
 	std::cout << "MAPPER: s1g_encoding: " << mcs << std::endl;
 	d_s1g_encoding = mcs;
-	// if(d_s1g_cap){ // S1G enabled
-	// 	d_ofdm = ofdm_param(d_s1g_encoding,d_s1g_cw);
-	// 	s1g_frame.set_service_field_length(d_s1g_cap);
-	// 	s1g_frame.set_frame_params(d_ofdm, psdu_length);
-	// 	frame = s1g_frame;
-	// }
 }
 
-// void set_frame_format(S1g_ppdu_format s1g_format) {
-// 	gr::thread::scoped_lock lock(d_mutex);
-// 	std::cout << "MAPPER: frame_format: " << s1g_format << std::endl;
-// 	d_s1g_format = s1g_format;
-// }
 
-void set_s1g_cw(S1g_cw cw){
-	gr::thread::scoped_lock lock(d_mutex);
-	std::cout << "MAPPER: s1g_cw: " << cw << std::endl;
-	d_s1g_cw = cw;
-	// if(d_s1g_cap){ // S1G enabled
-	// 	d_ofdm = ofdm_param(d_s1g_encoding,d_s1g_cw);
-	// 	s1g_frame.set_service_field_length(d_s1g_cap);
-	// 	s1g_frame.set_frame_params(d_ofdm, psdu_length);
-	// 	frame = s1g_frame;
-	// }
-}
 
 void enable_s1g(bool s1g_cap){
 	gr::thread::scoped_lock lock(d_mutex);
 	std::cout << "MAPPER: enable_s1g: " << s1g_cap << std::endl;
 	d_s1g_cap = s1g_cap;
-	// if(!s1g_cap){ // S1G disabled: update values
-	// 	d_ofdm = ofdm_param(d_encoding);
-	// 	d_frame.set_service_field_length(d_s1g_cap);
-	// 	d_frame.set_frame_params(d_ofdm, psdu_length);
-	// 	frame = d_frame;
-	// }else{
-	// 	d_ofdm = ofdm_param(d_s1g_encoding, d_s1g_cw);
-	// 	s1g_frame.set_service_field_length(d_s1g_cap);
-	// 	s1g_frame.set_frame_params(d_ofdm, psdu_length);
-	// 	frame = s1g_frame;
-	// }
 }
 
 private:
@@ -299,13 +232,12 @@ private:
 	Encoding     			d_encoding;
 	S1g_encoding 			d_s1g_encoding;
 	//S1g_ppdu_format 	d_s1g_format;
-	S1g_cw 			 			d_s1g_cw;
 	bool 				 			d_s1g_cap;
 	//frame_param 			frame;
 	gr::thread::mutex d_mutex;
 };
 
 mapper::sptr
-mapper::make(Encoding e, bool debug, S1g_encoding s1g_enc, S1g_cw s1g_cw, bool s1g_cap) {
-	return gnuradio::get_initial_sptr(new mapper_impl(e, debug, s1g_enc, s1g_cw, s1g_cap));
+mapper::make(Encoding e, bool debug, S1g_encoding s1g_enc, bool s1g_cap) {
+	return gnuradio::get_initial_sptr(new mapper_impl(e, debug, s1g_enc, s1g_cap));
 }
