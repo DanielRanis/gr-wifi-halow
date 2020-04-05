@@ -413,7 +413,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._lo_offset_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_lo_offset(self._lo_offset_options[i]))
         self.tab1_grid_layout_4.addWidget(self._lo_offset_tool_bar)
-        self.ieee802_11_parse_mac_0 = ieee802_11.parse_mac(False, True)
+        self.ieee802_11_parse_mac_0 = ieee802_11.parse_mac(True, True)
         self.ieee802_11_mac_0 = ieee802_11.mac(([0x23, 0x23, 0x23, 0x23, 0x23, 0x23]), ([0x42, 0x42, 0x42, 0x42, 0x42, 0x42]), ([0xff, 0xff, 0xff, 0xff, 0xff, 0xff]), False)
         self.foo_packet_pad2_0 = foo.packet_pad2(False, False, 0.001, 500, 0)
         (self.foo_packet_pad2_0).set_min_output_buffer(96000)

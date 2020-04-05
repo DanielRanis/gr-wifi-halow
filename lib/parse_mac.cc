@@ -56,10 +56,9 @@ void parse(pmt::pmt_t msg) {
 
 
 	if(pmt::is_pair(msg)){
-		// get snr
 		pmt::pmt_t dict = pmt::car(msg);
-		// snr found
-		d_snr = pmt::to_double(pmt::dict_ref(dict, pmt::mp("snr"), pmt::from_double(10)));
+		// get snr
+		d_snr = pmt::to_double(pmt::dict_ref(dict, pmt::mp("snr"), pmt::PMT_NIL));
 	}
 
 	msg = pmt::cdr(msg);
@@ -102,15 +101,18 @@ void parse(pmt::pmt_t msg) {
 
 	char *frame = (char*)pmt::blob_data(msg);
 
+	float ber;
 	// DATA
 	if((((h->frame_control) >> 2) & 63) == 2) {
 		print_ascii(frame + 24, data_len - 24);
+		calc_ber(frame + 24, data_len - 24, &ber);
 	// QoS Data
 	} else if((((h->frame_control) >> 2) & 63) == 34) {
 		print_ascii(frame + 26, data_len - 26);
 	}
 	// print snr
 	dout << "snr: " << std::to_string(d_snr) << std::endl;
+	dout << "ber: " << std::to_string(ber) << std::endl;
 }
 
 void parse_management(char *buf, int length) {
@@ -364,6 +366,26 @@ void print_ascii(char* buf, int length) {
 		}
 	}
 	dout << std::endl;
+}
+
+void calc_ber(char* buf, int length, float* ber){
+	char byte = 'x';
+	int bit_cnt = 0;
+	int bit_err = 0;
+	float b = 0.0;
+	for(int l = 0; l < length; l++) {
+		for(int i = 7; i >= 0; i--){
+			if((byte & (1 << i)) != (buf[l] & (1 << i))){
+				bit_err++;
+			}
+			bit_cnt++;
+		}
+	}
+	if(bit_cnt != 0){
+		*ber = (float)bit_err/(float)bit_cnt;
+	}else{
+		*ber = 0.0;
+	}
 }
 
 private:
