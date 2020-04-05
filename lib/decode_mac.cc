@@ -78,7 +78,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 			int len_data = pmt::to_uint64(pmt::dict_ref(dict, pmt::mp("frame_bytes"), pmt::from_uint64(MAX_PSDU_SIZE+1)));
 			int encoding = pmt::to_uint64(pmt::dict_ref(dict, pmt::mp("encoding"), pmt::from_uint64(0)));
 			d_snr = pmt::to_double(pmt::dict_ref(dict, pmt::mp("snr"), pmt::from_double(0)));
-			//std::cout << "Decode MAX: d_snr: " << std::to_string(d_snr) << std::endl;
+			std::cout << "Decode MAX: d_snr: " << std::to_string(d_snr) << std::endl;
 			d_nom_freq = pmt::to_double(pmt::dict_ref(dict, pmt::mp("freq"), pmt::from_double(0)));
 			d_freq_offset = pmt::to_double(pmt::dict_ref(dict, pmt::mp("freq_offset"), pmt::from_double(0)));
 			d_serv_bytes = 2;
@@ -149,7 +149,7 @@ void decode() {
 	uint8_t *decoded = d_decoder.decode(&d_ofdm, &d_frame, d_deinterleaved_bits, d_s1g_cap);
 	//std::cout << "Decode MAC: viterbi decoder finished" << std::endl;
 	descramble(decoded);
-	print_output();
+	//print_output();
 
 	// skip service field
 	// boost::crc_32_type result;
@@ -259,7 +259,6 @@ void descramble (uint8_t *decoded_bits) {
 void print_output() {
 
 	std::cout << std::endl;
-	std::cout << "psdu size: " << d_frame.psdu_size << std::endl;
 	for(int i = d_serv_bytes; i < d_frame.psdu_size + d_serv_bytes; i++) {
 		std::cout << std::setfill('0') << std::setw(2) << std::hex << ((unsigned int)out_bytes[i] & 0xFF) << std::dec << " ";
 		if(i % 16 == 15) {
@@ -267,14 +266,14 @@ void print_output() {
 		}
 	}
 	std::cout << std::endl;
-	// for(int i = d_serv_bytes; i < d_frame.psdu_size + d_serv_bytes; i++) {
-	// 	if((out_bytes[i] > 31) && (out_bytes[i] < 127)) {
-	// 		std::cout << ((char) out_bytes[i]);
-	// 	} else {
-	// 		std::cout << ".";
-	// 	}
-	// }
-	// std::cout << std::endl;
+	for(int i = d_serv_bytes; i < d_frame.psdu_size + d_serv_bytes; i++) {
+		if((out_bytes[i] > 31) && (out_bytes[i] < 127)) {
+			std::cout << ((char) out_bytes[i]);
+		} else {
+			std::cout << ".";
+		}
+	}
+	std::cout << std::endl;
 }
 
 private:

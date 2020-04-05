@@ -43,7 +43,6 @@ int s1g_signal_field_impl::get_bit(int b, int i) {
 
 void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &frame, ofdm_param &ofdm) {
 
-		std::cout << "generate_s1g_signal_field: S1G_SHORT " << std::endl;
 		//data bits of the signal header
 		char *signal_header = (char *) malloc(sizeof(char) * 26);
 		//signal header after...
@@ -149,7 +148,7 @@ bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out
 	int  s1g_encoding = S1G_BPSK_1_2;
 	int  len = 0;
 
-	std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
+	// std::cout << "header_formatter: packet_len: " << packet_len << std::endl;
 	// read tags
 	for(int i = 0; i < tags.size(); i++) {
 		if(pmt::eq(tags[i].key, pmt::mp("s1g_encoding"))){

@@ -348,6 +348,9 @@ void print_ascii(char* buf, int length) {
 		} else {
 			dout << ".";
 		}
+		if((i+1) % 24 == 0){
+			dout << std::endl;
+		}
 	}
 	dout << std::endl;
 }
@@ -362,5 +365,3 @@ parse_mac::sptr
 parse_mac::make(bool log, bool debug) {
 	return gnuradio::get_initial_sptr(new parse_mac_impl(log, debug));
 }
-
-

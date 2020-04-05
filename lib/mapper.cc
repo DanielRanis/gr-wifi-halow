@@ -120,7 +120,6 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			char *punctured_data   = (char*)calloc(frame.n_encoded_bits, sizeof(char));
 			char *interleaved_data = (char*)calloc(frame.n_encoded_bits, sizeof(char));
 			char *symbols          = (char*)calloc((frame.n_encoded_bits / d_ofdm.n_bpsc), sizeof(char));
-			std::cout << "symbols: " << frame.n_encoded_bits / d_ofdm.n_bpsc << std::endl;
 
 			//generate the WIFI data field, adding service field and pad bits
 			generate_bits(psdu, data_bits, frame);
@@ -166,7 +165,6 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 					psdu_bytes, srcid);
 
 			if(!d_s1g_cap){ // S1G disabled
-				std::cout << "mapper: general_work: add_item_tag: set encoding" << std::endl;
 				pmt::pmt_t encoding = pmt::from_long(d_encoding);
 				add_item_tag(0, nitems_written(0), pmt::mp("encoding"),
 					encoding, srcid);
@@ -205,12 +203,12 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 void set_encoding(Encoding mcs){
 	gr::thread::scoped_lock lock(d_mutex);
 	d_encoding = mcs;
-	std::cout << "MAPPER: encoding: " << mcs << std::endl;
+	//std::cout << "MAPPER: encoding: " << mcs << std::endl;
 }
 
 void set_s1g_encoding(S1g_encoding mcs){
 	gr::thread::scoped_lock lock(d_mutex);
-	std::cout << "MAPPER: s1g_encoding: " << mcs << std::endl;
+	//std::cout << "MAPPER: s1g_encoding: " << mcs << std::endl;
 	d_s1g_encoding = mcs;
 }
 
