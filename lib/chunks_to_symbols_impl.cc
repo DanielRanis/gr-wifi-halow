@@ -115,7 +115,6 @@ chunks_to_symbols_impl::work(int noutput_items,
 				break;
 
 			case S1G_256QAM_3_4:
-			case S1G_256QAM_5_6:
 				d_mapping = d_256qam;
 				break;
 

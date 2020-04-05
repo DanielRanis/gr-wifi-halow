@@ -61,7 +61,7 @@ struct pv1_mac_header {
 class ofdm_param {
 public:
 	ofdm_param(Encoding e);
-	ofdm_param(S1g_encoding s1g_enc, S1g_cw cw);
+	ofdm_param(S1g_encoding s1g_enc);
 	// data rate
 	Encoding encoding;
 	S1g_encoding s1g_encoding;

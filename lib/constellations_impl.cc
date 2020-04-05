@@ -244,7 +244,7 @@ constellation_256qam_impl::constellation_256qam_impl() {
 	d_constellation[102] = gr_complex( -7*level, -7*level);
 	d_constellation[100] = gr_complex( -9*level, -7*level);
 	d_constellation[108] = gr_complex(-11*level, -7*level);
-	d_constellation[124] = gr_complex(-13*level, -7*level);
+	d_constellation[104] = gr_complex(-13*level, -7*level);
 	d_constellation[ 96] = gr_complex(-15*level, -7*level);
 
 	d_constellation[226] = gr_complex( -1*level, -5*level);
@@ -317,7 +317,7 @@ constellation_256qam_impl::constellation_256qam_impl() {
 	d_constellation[103] = gr_complex(  7*level, -7*level);
 	d_constellation[101] = gr_complex(  9*level, -7*level);
 	d_constellation[109] = gr_complex( 11*level, -7*level);
-	d_constellation[125] = gr_complex( 13*level, -7*level);
+	d_constellation[105] = gr_complex( 13*level, -7*level);
 	d_constellation[ 97] = gr_complex( 15*level, -7*level);
 
 	d_constellation[227] = gr_complex(  1*level, -5*level);

@@ -86,7 +86,7 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 			frame_param 			frame;
 
 			if(d_s1g_cap){ // S1G enabled
-				d_ofdm = ofdm_param(d_s1g_encoding, S1G_CW_2M);
+				d_ofdm = ofdm_param(d_s1g_encoding);
 				// set amount of service bits
 				frame.set_service_field_length(d_s1g_cap);
 				frame.set_frame_params(d_ofdm, psdu_length);

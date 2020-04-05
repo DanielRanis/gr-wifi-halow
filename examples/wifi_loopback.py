@@ -79,13 +79,13 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.snr = snr = 10
+        self.snr = snr = 20
         self.samp_rate = samp_rate = 2e6
         self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
         self.s1g_freq = s1g_freq = 863e6
         self.s1g_encoding = s1g_encoding = 0
         self.s1g_carriers = s1g_carriers = (range(-28, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 28+1),)
-        self.pdu_length = pdu_length = 19
+        self.pdu_length = pdu_length = 250
         self.out_buf_size = out_buf_size = 96000
         self.interval = interval = 300
         self.epsilon = epsilon = 0
@@ -139,7 +139,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab2_layout_0.addLayout(self.tab2_grid_layout_0)
         self.tab2.addTab(self.tab2_widget_0, 'Performance Evaluation')
         self.top_grid_layout.addWidget(self.tab2)
-        self._snr_range = Range(-35, 30, 0.1, 10, 200)
+        self._snr_range = Range(-15, 50, 0.1, 20, 200)
         self._snr_win = RangeWidget(self._snr_range, self.set_snr, 'Signal to Noise Ratio (SNR)', "counter_slider", float)
         self.tab1_grid_layout_3.addWidget(self._snr_win)
         self._samp_rate_options = (20e6, 2e6, )
@@ -175,8 +175,8 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_freq_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_freq(self._s1g_freq_options[i]))
         self.tab1_grid_layout_2.addWidget(self._s1g_freq_tool_bar)
-        self._s1g_encoding_options = [0, 1, 2,  3, 4, 5, 6, 7, 8, 9]
-        self._s1g_encoding_labels = ["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "16-QAM 1/2 (MCS 3)", "16-QAM 3/4 (MCS 4)", "64-QAM 2/3 (MCS 5)", "64-QAM 3/4 (MCS 6)", "64-QAM 5/6 (MCS 7)",  "256-QAM 3/4 (MCS 8)",  "256-QAM 5/6 (MCS 9)"]
+        self._s1g_encoding_options = [0, 1, 2,  3, 4, 5, 6, 7, 8]
+        self._s1g_encoding_labels = ["BPSK 1/2 (MCS 0)", "QPSK 1/2 (MCS 1)", "QPSK 3/4 (MCS 2)", "16-QAM 1/2 (MCS 3)", "16-QAM 3/4 (MCS 4)", "64-QAM 2/3 (MCS 5)", "64-QAM 3/4 (MCS 6)", "64-QAM 5/6 (MCS 7)",  "256-QAM 3/4 (MCS 8)"]
         self._s1g_encoding_tool_bar = Qt.QToolBar(self)
         self._s1g_encoding_tool_bar.addWidget(Qt.QLabel('Encoding'+": "))
         self._s1g_encoding_combo_box = Qt.QComboBox()
@@ -187,7 +187,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_encoding_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_encoding(self._s1g_encoding_options[i]))
         self.tab1_grid_layout_2.addWidget(self._s1g_encoding_tool_bar)
-        self._pdu_length_range = Range(0, 483, 1, 19, 200)
+        self._pdu_length_range = Range(0, 483, 1, 250, 200)
         self._pdu_length_win = RangeWidget(self._pdu_length_range, self.set_pdu_length, 'PDU Length', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._pdu_length_win)
         self._interval_range = Range(10, 10000, 1, 300, 200)
@@ -267,7 +267,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         if not True:
           self.qtgui_time_sink_x_0.disable_legend()
 
-        labels = ['', '', '', '', '',
+        labels = ['In-Phase', 'Quadrature', '', '', '',
                   '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
@@ -347,13 +347,13 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
         self.tab2_grid_layout_0.addWidget(self._qtgui_number_sink_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-        	52*10, #size
+        	1500, #size
         	"", #name
         	1 #number of inputs
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
-        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_y_axis(-1.5, 1.5)
+        self.qtgui_const_sink_x_0.set_x_axis(-1.5, 1.5)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0.enable_grid(True)
@@ -362,7 +362,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         if not True:
           self.qtgui_const_sink_x_0.disable_legend()
 
-        labels = ['', '', '', '', '',
+        labels = ['Symbols', '', '', '', '',
                   '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]

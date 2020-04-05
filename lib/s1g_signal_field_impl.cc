@@ -54,8 +54,7 @@ void s1g_signal_field_impl::generate_s1g_signal_field(char *out, frame_param &fr
 		//char *interleaved_signal_header = (char *) malloc(sizeof(char) * 2 * 48);
 		int length = frame.psdu_size;
 		int partial_aid = 0;
-		int color = 7;
-		//ofdm_param signal_ofdm(S1G_BPSK_1_2,S1G_CW_2M);
+		int color = 0;
 		ofdm_param signal_ofdm(BPSK_1_2);
 		frame_param signal_param;
 		signal_param.set_service_field_length(false);
@@ -173,7 +172,7 @@ bool s1g_signal_field_impl::header_formatter(long packet_len, unsigned char *out
 		return true;
 	}
 
-	ofdm_param ofdm((S1g_encoding)s1g_encoding, (S1g_cw) S1G_CW_2M);
+	ofdm_param ofdm((S1g_encoding)s1g_encoding);
 
 	frame_param frame;
 	// set amount of service bits

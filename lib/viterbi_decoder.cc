@@ -377,8 +377,7 @@ viterbi_decoder::reset() {
 				d_k = 3;
 				break;
 			case S1G_64QAM_5_6:
-			case S1G_256QAM_5_6:
-				d_ntraceback = 11;
+				d_ntraceback = 20;
 				d_depuncture_pattern = PUNCTURE_5_6;
 				d_k = 5;
 				break;

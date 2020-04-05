@@ -110,3 +110,9 @@ constellation_16qam = constellation_16qam.make;
 constellation_64qam_sptr.__repr__ = lambda self: "<constellation 64QAM>"
 constellation_64qam = constellation_64qam.make;
 %}
+
+%template(constellation_256qam_sptr) boost::shared_ptr<gr::ieee802_11::constellation_256qam>;
+%pythoncode %{
+constellation_256qam_sptr.__repr__ = lambda self: "<constellation 256QAM>"
+constellation_256qam = constellation_256qam.make;
+%}

@@ -93,7 +93,7 @@ ofdm_param::ofdm_param(Encoding e) {
 }
 
 // S1G OFDM constructor
-ofdm_param::ofdm_param(S1g_encoding s1g_enc, S1g_cw cw){
+ofdm_param::ofdm_param(S1g_encoding s1g_enc){
 	s1g_encoding = s1g_enc;
 
 	switch (s1g_enc) {
@@ -316,7 +316,6 @@ void puncturing(const char *in, char *out, frame_param &frame,
 						break;
 
 					case S1G_64QAM_5_6:
-					case S1G_256QAM_5_6:
 						mod = j % 10;
 						if(!(mod == 3 || mod == 4 || mod == 7 || mod == 8)){
 							*out = in[j];

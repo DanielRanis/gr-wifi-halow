@@ -89,7 +89,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 			//S1g_encoding
 			if(d_s1g_cap){
-				ofdm = ofdm_param((S1g_encoding) encoding,(S1g_cw) S1G_CW_2M);
+				ofdm = ofdm_param((S1g_encoding) encoding);
 				d_serv_bytes = 1;
 				d_data_subcr = S1G_CW_2M_DATA_CARRIERS;
 			}
@@ -291,7 +291,7 @@ private:
 	bool d_s1g_cap;
 	int d_data_subcr;
 
-	uint8_t d_rx_symbols[52 * MAX_SYM];
+	uint8_t d_rx_symbols[S1G_CW_2M_DATA_CARRIERS * MAX_SYM];
 	uint8_t d_rx_bits[MAX_ENCODED_BITS];
 	uint8_t d_deinterleaved_bits[MAX_ENCODED_BITS];
 	uint8_t out_bytes[MAX_PSDU_SIZE + 2]; // 2 for signal field

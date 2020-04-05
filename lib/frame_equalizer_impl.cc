@@ -124,6 +124,8 @@ frame_equalizer_impl::general_work (int noutput_items,
 	int data_subcr;
 	bool is_freed = false;
 	gr_complex current_symbol[64];
+	gr_complex def_symbol[DATA_CARRIERS];
+	gr_complex s1g_symbol[S1G_CW_2M_DATA_CARRIERS];
 	gr_complex *symbols = NULL;
 	i = o = offs = 0;
 
@@ -150,9 +152,11 @@ frame_equalizer_impl::general_work (int noutput_items,
 		if(d_s1g_cap){
 			offs = 3;
 			data_subcr = S1G_CW_2M_DATA_CARRIERS;
+			symbols = &s1g_symbol[0];
 		}else{
 			offs = 2;
 			data_subcr = DATA_CARRIERS;
+			symbols = &def_symbol[0];
 		}
 
 		//not interesting -> skip
@@ -162,10 +166,6 @@ frame_equalizer_impl::general_work (int noutput_items,
 		}
 
 		std::memcpy(current_symbol, in + i*64, 64*sizeof(gr_complex));
-
-		// allocate memory for symbols
-		symbols = (gr_complex*)calloc(data_subcr, sizeof(gr_complex));
-		is_freed = false;
 
 		// compensate sampling offset
 		for(int i = 0; i < 64; i++) {
@@ -271,16 +271,9 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 		i++;
 		d_current_symbol++;
-		// clear symbol
-		free(symbols);
-		symbols = NULL;
-		is_freed = true;
 	}
 	// cleanup
-	if(!is_freed){
-		free(symbols);
-		symbols = NULL;
-	}
+	symbols = NULL;
 	consume(0, i);
 	return o;
 }

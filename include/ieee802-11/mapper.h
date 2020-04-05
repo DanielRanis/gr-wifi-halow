@@ -41,14 +41,6 @@ enum S1g_encoding {
 	S1G_64QAM_3_4 = 6,
 	S1G_64QAM_5_6 = 7,
 	S1G_256QAM_3_4 = 8,
-	S1G_256QAM_5_6 = 9,
-};
-
-enum S1g_cw {
-	S1G_CW_2M = 2,
-	S1G_CW_4M = 4,
-	S1G_CW_8M = 8,
-	S1G_CW_16M = 16,
 };
 
 namespace gr {

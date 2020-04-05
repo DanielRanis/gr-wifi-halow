@@ -42,7 +42,6 @@ public:
 	void set_bandwidth(double bw);
 	void set_frequency(double freq);
 	void set_s1g_encoding(S1g_encoding mcs);
-	void set_s1g_cw(S1g_cw cw);
 
 	void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 	int general_work(int noutput_items,
