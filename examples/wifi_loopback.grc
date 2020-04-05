@@ -448,7 +448,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
+      <value>0.0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1342,7 +1342,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 436)</value>
+      <value>(224, 412)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1389,7 +1389,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1440,7 +1440,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1542,7 +1542,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 516)</value>
+      <value>(232, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1636,7 +1636,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>epsilon</key>
@@ -1644,7 +1644,7 @@
     </param>
     <param>
       <key>freq_offset</key>
-      <value>epsilon * 5.89e9 / 10e6</value>
+      <value>epsilon * freq / 10e6</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1695,7 +1695,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 304)</value>
+      <value>(224, 308)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1754,7 +1754,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1813,7 +1813,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1915,7 +1915,7 @@
     </param>
     <param>
       <key>debug</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1923,7 +1923,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(464, 508)</value>
+      <value>(480, 516)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1966,7 +1966,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 796)</value>
+      <value>(40, 916)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2478,7 +2478,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 500)</value>
+      <value>(32, 492)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2490,7 +2490,7 @@
     </param>
     <param>
       <key>graph_type</key>
-      <value>qtgui.NUM_GRAPH_NONE</value>
+      <value>qtgui.NUM_GRAPH_HORIZ</value>
     </param>
     <param>
       <key>id</key>
@@ -2510,11 +2510,11 @@
     </param>
     <param>
       <key>label1</key>
-      <value>Error Rate</value>
+      <value>Frame Error Rate (FER)</value>
     </param>
     <param>
       <key>unit1</key>
-      <value>Percent</value>
+      <value>%</value>
     </param>
     <param>
       <key>color10</key>
@@ -2662,7 +2662,7 @@
     </param>
     <param>
       <key>max</key>
-      <value>100</value>
+      <value>500</value>
     </param>
     <param>
       <key>min</key>
@@ -2678,7 +2678,7 @@
     </param>
     <param>
       <key>update_time</key>
-      <value>0.10</value>
+      <value>0.01</value>
     </param>
   </block>
   <block>
@@ -3210,7 +3210,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 372)</value>
+      <value>(376, 308)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4254,11 +4254,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 892)</value>
+      <value>(992, 892)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5589,11 +5589,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 572)</value>
+      <value>(992, 628)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5887,7 +5887,7 @@
   </connection>
   <connection>
     <source_block_id>channels_channel_model_0</source_block_id>
-    <sink_block_id>pfb_arb_resampler_xxx_0</sink_block_id>
+    <sink_block_id>wifi_phy_hier_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -5914,12 +5914,6 @@
     <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
     <source_key>fer</source_key>
     <sink_key>pdus</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pfb_arb_resampler_xxx_0</source_block_id>
-    <sink_block_id>wifi_phy_hier_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>uhd_usrp_source_0</source_block_id>

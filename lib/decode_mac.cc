@@ -78,7 +78,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 			int len_data = pmt::to_uint64(pmt::dict_ref(dict, pmt::mp("frame_bytes"), pmt::from_uint64(MAX_PSDU_SIZE+1)));
 			int encoding = pmt::to_uint64(pmt::dict_ref(dict, pmt::mp("encoding"), pmt::from_uint64(0)));
 			d_snr = pmt::to_double(pmt::dict_ref(dict, pmt::mp("snr"), pmt::from_double(0)));
-			std::cout << "Decode MAX: d_snr: " << std::to_string(d_snr) << std::endl;
+			// std::cout << "Decode MAX: d_snr: " << std::to_string(d_snr) << std::endl;
 			d_nom_freq = pmt::to_double(pmt::dict_ref(dict, pmt::mp("freq"), pmt::from_double(0)));
 			d_freq_offset = pmt::to_double(pmt::dict_ref(dict, pmt::mp("freq_offset"), pmt::from_double(0)));
 			d_serv_bytes = 2;

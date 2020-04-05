@@ -29,7 +29,7 @@ public:
 
 parse_mac_impl(bool log, bool debug) :
 		block("parse_mac",
-				gr::io_signature::make(0, 0, 0),
+		    gr::io_signature::make(0, 0, 0),
 				gr::io_signature::make(0, 0, 0)),
 		d_log(log), d_last_seq_no(-1),
 		d_debug(debug) {
@@ -46,11 +46,20 @@ parse_mac_impl(bool log, bool debug) :
 
 void parse(pmt::pmt_t msg) {
 
+	float d_snr = 0.0;
 	if(pmt::is_eof_object(msg)) {
 		detail().get()->set_done(true);
 		return;
 	} else if(pmt::is_symbol(msg)) {
 		return;
+	}
+
+
+	if(pmt::is_pair(msg)){
+		// get snr
+		pmt::pmt_t dict = pmt::car(msg);
+		// snr found
+		d_snr = pmt::to_double(pmt::dict_ref(dict, pmt::mp("snr"), pmt::from_double(10)));
 	}
 
 	msg = pmt::cdr(msg);
@@ -100,6 +109,8 @@ void parse(pmt::pmt_t msg) {
 	} else if((((h->frame_control) >> 2) & 63) == 34) {
 		print_ascii(frame + 26, data_len - 26);
 	}
+	// print snr
+	dout << "snr: " << std::to_string(d_snr) << std::endl;
 }
 
 void parse_management(char *buf, int length) {
