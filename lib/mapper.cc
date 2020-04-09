@@ -108,8 +108,8 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 				return 0;
 			}
 
-			d_ofdm.print();
-			frame.print();
+			// d_ofdm.print();
+			// frame.print();
 			// std::cout << "d_s1g_encoding: " << d_s1g_encoding << std::endl;
 			// std::cout << "d_s1g_cap: " << d_s1g_cap << std::endl;
 

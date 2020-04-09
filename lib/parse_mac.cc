@@ -36,7 +36,8 @@ parse_mac_impl(bool log, bool debug) :
 
 	message_port_register_in(pmt::mp("in"));
 	set_msg_handler(pmt::mp("in"), boost::bind(&parse_mac_impl::parse, this, _1));
-
+	d_frames = 0;
+	d_suc_frames = 0;
 	message_port_register_out(pmt::mp("fer"));
 }
 
@@ -47,12 +48,13 @@ parse_mac_impl(bool log, bool debug) :
 void parse(pmt::pmt_t msg) {
 
 	float d_snr = 0.0;
-	if(pmt::is_eof_object(msg)) {
-		detail().get()->set_done(true);
-		return;
-	} else if(pmt::is_symbol(msg)) {
-		return;
-	}
+
+	// if(pmt::is_eof_object(msg)) {
+	// 	detail().get()->set_done(true);
+	// 	return;
+	// } else if(pmt::is_symbol(msg)) {
+	// 	return;
+	// }
 
 
 	if(pmt::is_pair(msg)){
@@ -68,8 +70,8 @@ void parse(pmt::pmt_t msg) {
 
 	mylog(boost::format("length: %1%") % data_len );
 
-	dout << std::endl << "new mac frame  (length " << data_len << ")" << std::endl;
-	dout << "=========================================" << std::endl;
+	// dout << std::endl << "new mac frame  (length " << data_len << ")" << std::endl;
+	// dout << "=========================================" << std::endl;
 	if(data_len < 20) {
 		dout << "frame too short to parse (<20)" << std::endl;
 		return;
@@ -78,8 +80,7 @@ void parse(pmt::pmt_t msg) {
 	dout << "duration: " << HEX(h->duration >> 8) << " " << HEX(h->duration  & 0xff) << std::endl;
 	dout << "frame control: " << HEX(h->frame_control >> 8) << " " << HEX(h->frame_control & 0xff);
 
-        switch((h->frame_control >> 2) & 3) {
-
+  switch((h->frame_control >> 2) & 3) {
 		case 0:
 			dout << " (MANAGEMENT)" << std::endl;
 			parse_management((char*)h, data_len);
@@ -100,19 +101,30 @@ void parse(pmt::pmt_t msg) {
 	}
 
 	char *frame = (char*)pmt::blob_data(msg);
+	// calculate FER
+	int Nerr = 200;
+	d_frames++;
+	d_err_frames = abs(d_frames - d_suc_frames);
+	dout << "***d_frames: " << d_frames << std::endl;
+	dout << "***d_suc_frames: " << d_suc_frames << std::endl;
+	dout << "***d_err_frames: " << d_err_frames << std::endl;
+	dout << "snr: " << std::to_string(d_snr) << std::endl;
+	d_fer = d_err_frames / float(d_frames);
+	dout << "d_fer: " << d_fer << std::endl;
+	if(d_err_frames == Nerr){
+		detail().get()->set_done(true);
+	}
+
 
 	float ber;
 	// DATA
 	if((((h->frame_control) >> 2) & 63) == 2) {
-		print_ascii(frame + 24, data_len - 24);
-		calc_ber(frame + 24, data_len - 24, &ber);
+		//print_ascii(frame + 24, data_len - 24);
+		//calc_ber(frame + 24, data_len - 24, &ber);
 	// QoS Data
 	} else if((((h->frame_control) >> 2) & 63) == 34) {
-		print_ascii(frame + 26, data_len - 26);
+		//print_ascii(frame + 26, data_len - 26);
 	}
-	// print snr
-	dout << "snr: " << std::to_string(d_snr) << std::endl;
-	dout << "ber: " << std::to_string(ber) << std::endl;
 }
 
 void parse_management(char *buf, int length) {
@@ -190,12 +202,12 @@ void parse_management(char *buf, int length) {
 	dout << std::endl;
 
 	dout << "seq nr: " << int(h->seq_nr >> 4) << std::endl;
-	dout << "mac 1: ";
-	print_mac_address(h->addr1, true);
-	dout << "mac 2: ";
-	print_mac_address(h->addr2, true);
-	dout << "mac 3: ";
-	print_mac_address(h->addr3, true);
+	// dout << "mac 1: ";
+	// print_mac_address(h->addr1, true);
+	// dout << "mac 2: ";
+	// print_mac_address(h->addr2, true);
+	// dout << "mac 3: ";
+	// print_mac_address(h->addr3, true);
 
 }
 
@@ -211,6 +223,7 @@ void parse_data(char *buf, int length) {
 	switch(((h->frame_control) >> 4) & 0xf) {
 		case 0:
 			dout << "Data";
+			d_suc_frames++;
 			break;
 		case 1:
 			dout << "Data + CF-ACK";
@@ -264,27 +277,60 @@ void parse_data(char *buf, int length) {
 
 	int seq_no = int(h->seq_nr >> 4);
 	dout << "seq nr: " << seq_no << std::endl;
-	dout << "mac 1: ";
-	print_mac_address(h->addr1, true);
-	dout << "mac 2: ";
-	print_mac_address(h->addr2, true);
-	dout << "mac 3: ";
-	print_mac_address(h->addr3, true);
+	// dout << "mac 1: ";
+	// print_mac_address(h->addr1, true);
+	// dout << "mac 2: ";
+	// print_mac_address(h->addr2, true);
+	// dout << "mac 3: ";
+	// print_mac_address(h->addr3, true);
 
-	float lost_frames = seq_no - d_last_seq_no - 1;
-	if(lost_frames  < 0)
-		lost_frames += 1 << 12;
+	// int n_frame = 100;
+	// float lost_frames = seq_no - d_last_seq_no - 1;
+	//
+	// if(lost_frames < 0){
+	// 	lost_frames += 1 << 12;
+	// }
+	//
+	// if(lost_frames <= 100){
+	// 	d_err_frames += lost_frames;
+	// }
+	// if(d_err_frames == 100){
+	// 		d_fer = d_err_frames / float(seq_no + 1);
+	// }
 
-	// calculate frame error rate
-	float fer = lost_frames / (lost_frames + 1);
-	dout << "instantaneous fer: " << fer << std::endl;
+	// if(seq_no == 0){
+	// 	d_suc_frames = 1;
+	// 	d_err_frames = 0;
+	// 	d_is_calculated = false;
+	// }else if(seq_no < n_frame){
+	// 	d_suc_frames++;
+	// }
+	//
+	// // frames <= 100
+	// if(seq_no <= n_frame-1){
+	// 	if(lost_frames != 0){
+	// 		d_err_frames += lost_frames;
+	// 	}
+	// }
+	// // all frames == 100
+	// if(seq_no == n_frame-1){
+	// 	d_fer = d_err_frames / float(n_frame);
+	// 	d_is_calculated = true;
+	// }
+	// // frame > 100
+	// if(!d_is_calculated && seq_no > n_frame-1){
+	// 	d_err_frames += n_frame - d_last_seq_no - 1;
+	// 	d_fer = d_err_frames / float(n_frame);
+	// 	d_is_calculated = true;
+	// }
+	//dout << "***ERRORs: " << d_err_frames << std::endl;
 
 	// keep track of values
 	d_last_seq_no = seq_no;
 
 	// publish FER estimate
-	pmt::pmt_t pdu = pmt::make_f32vector(lost_frames + 1, fer * 100);
-	message_port_pub(pmt::mp("fer"), pmt::cons( pmt::PMT_NIL, pdu ));
+	// pmt::pmt_t pdu = pmt::make_f32vector(d_err_frames, d_fer * 100);
+	// message_port_pub(pmt::mp("fer"), pmt::cons( pmt::PMT_NIL, pdu ));
 }
 
 void parse_control(char *buf, int length) {
@@ -324,11 +370,11 @@ void parse_control(char *buf, int length) {
 			break;
 	}
 	dout << std::endl;
-
-	dout << "RA: ";
-	print_mac_address(h->addr1, true);
-	dout << "TA: ";
-	print_mac_address(h->addr2, true);
+	//
+	// dout << "RA: ";
+	// print_mac_address(h->addr1, true);
+	// dout << "TA: ";
+	// print_mac_address(h->addr2, true);
 
 }
 
@@ -392,6 +438,11 @@ private:
 	bool d_log;
 	bool d_debug;
 	int d_last_seq_no;
+	int d_suc_frames;
+	int d_frames;
+	int d_err_frames;
+	int d_is_calculated;
+	float d_fer;
 };
 
 parse_mac::sptr

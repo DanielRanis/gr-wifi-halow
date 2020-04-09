@@ -538,7 +538,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>300</value>
+      <value>20</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -880,7 +880,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
+      <value>8</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1197,6 +1197,105 @@
     </param>
   </block>
   <block>
+    <key>variable_qtgui_chooser</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>5.0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1080, 4)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@3</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>snr</value>
+    </param>
+    <param>
+      <key>label0</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Signal to Noise Ratio (SNR)</value>
+    </param>
+    <param>
+      <key>labels</key>
+      <value>["-5 dB", "0 dB", "5 dB","6 dB","7 dB","8 dB", "10 dB", "11 dB","13 dB","15 dB", "20 dB"]</value>
+    </param>
+    <param>
+      <key>num_opts</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>option0</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>option1</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>option2</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>option3</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>option4</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>options</key>
+      <value>[-5.0, 0.0, 5.0, 6.0,7.0, 8.0, 10.0, 11.0, 13.0, 15.0, 20.0]</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.QHBoxLayout</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>real</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>combo_box</value>
+    </param>
+  </block>
+  <block>
     <key>variable_qtgui_range</key>
     <param>
       <key>comment</key>
@@ -1204,11 +1303,11 @@
     </param>
     <param>
       <key>value</key>
-      <value>20</value>
+      <value>26</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1746,7 +1845,7 @@
     </param>
     <param>
       <key>delay_sec</key>
-      <value>0.001</value>
+      <value>0.1</value>
     </param>
     <param>
       <key>delay</key>
@@ -1962,11 +2061,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 916)</value>
+      <value>(960, 796)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5593,7 +5692,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(992, 628)</value>
+      <value>(1008, 556)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5887,7 +5986,7 @@
   </connection>
   <connection>
     <source_block_id>channels_channel_model_0</source_block_id>
-    <sink_block_id>wifi_phy_hier_0</sink_block_id>
+    <sink_block_id>pfb_arb_resampler_xxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -5914,6 +6013,12 @@
     <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
     <source_key>fer</source_key>
     <sink_key>pdus</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pfb_arb_resampler_xxx_0</source_block_id>
+    <sink_block_id>wifi_phy_hier_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>uhd_usrp_source_0</source_block_id>
