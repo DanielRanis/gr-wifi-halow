@@ -81,16 +81,16 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         ##################################################
         self.s1g_freq = s1g_freq = 863e6
         self.tx_gain = tx_gain = 0.75
-        self.snr = snr = 26
+        self.snr = snr = 5
         self.samp_rate = samp_rate = 2e6
         self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
-        self.s1g_encoding = s1g_encoding = 8
+        self.s1g_encoding = s1g_encoding = 0
         self.s1g_carriers = s1g_carriers = (range(-28, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 28+1),)
         self.rx_gain = rx_gain = 0.55
         self.pdu_length = pdu_length = 250
         self.out_buf_size = out_buf_size = 96000
         self.lo_offset = lo_offset = 0
-        self.interval = interval = 20
+        self.interval = interval = 10
         self.freq = freq = s1g_freq
         self.epsilon = epsilon = 0.0
         self.encoding = encoding = 0
@@ -148,7 +148,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab2_layout_0.addLayout(self.tab2_grid_layout_0)
         self.tab2.addTab(self.tab2_widget_0, 'Performance Evaluation')
         self.top_grid_layout.addWidget(self.tab2)
-        self._snr_range = Range(-15, 50, 0.1, 26, 200)
+        self._snr_range = Range(-15, 50, 0.1, 5, 200)
         self._snr_win = RangeWidget(self._snr_range, self.set_snr, 'Signal to Noise Ratio (SNR)', "counter_slider", float)
         self.tab1_grid_layout_3.addWidget(self._snr_win)
         self._samp_rate_options = (20e6, 2e6, )
@@ -187,7 +187,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._pdu_length_range = Range(0, 483, 1, 250, 200)
         self._pdu_length_win = RangeWidget(self._pdu_length_range, self.set_pdu_length, 'PDU Length', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._pdu_length_win)
-        self._interval_range = Range(10, 10000, 1, 20, 200)
+        self._interval_range = Range(10, 10000, 1, 10, 200)
         self._interval_win = RangeWidget(self._interval_range, self.set_interval, 'Message Interval', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._interval_win)
         self._epsilon_range = Range(-20e-6, 20e-6, 1e-6, 0.0, 200)

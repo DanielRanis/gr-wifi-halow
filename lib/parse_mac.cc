@@ -48,7 +48,8 @@ parse_mac_impl(bool log, bool debug) :
 void parse(pmt::pmt_t msg) {
 
 	float d_snr = 0.0;
-
+	d_is_data = 0;
+	d_is_mac = 0;
 	// if(pmt::is_eof_object(msg)) {
 	// 	detail().get()->set_done(true);
 	// 	return;
@@ -101,26 +102,36 @@ void parse(pmt::pmt_t msg) {
 	}
 
 	char *frame = (char*)pmt::blob_data(msg);
+
+	dout << "is_data: " << std::to_string(d_is_data) << std::endl;
+	dout << "is_mac: " << std::to_string(d_is_mac) << std::endl;
+
 	// calculate FER
 	int Nerr = 200;
 	d_frames++;
+
+	if(d_is_data == 1 && d_is_mac == 1){
+		check_data(frame + 24, data_len - 24);
+		d_is_data = 0;
+		d_is_mac = 0;
+	}
 	d_err_frames = abs(d_frames - d_suc_frames);
+	d_fer = d_err_frames / float(d_frames);
+
 	dout << "***d_frames: " << d_frames << std::endl;
 	dout << "***d_suc_frames: " << d_suc_frames << std::endl;
 	dout << "***d_err_frames: " << d_err_frames << std::endl;
-	dout << "snr: " << std::to_string(d_snr) << std::endl;
-	d_fer = d_err_frames / float(d_frames);
 	dout << "d_fer: " << d_fer << std::endl;
+	dout << "snr: " << std::to_string(d_snr) << std::endl;
+
 	if(d_err_frames == Nerr){
 		detail().get()->set_done(true);
 	}
 
 
-	float ber;
 	// DATA
 	if((((h->frame_control) >> 2) & 63) == 2) {
-		//print_ascii(frame + 24, data_len - 24);
-		//calc_ber(frame + 24, data_len - 24, &ber);
+		print_ascii(frame + 24, data_len - 24);
 	// QoS Data
 	} else if((((h->frame_control) >> 2) & 63) == 34) {
 		//print_ascii(frame + 26, data_len - 26);
@@ -223,7 +234,8 @@ void parse_data(char *buf, int length) {
 	switch(((h->frame_control) >> 4) & 0xf) {
 		case 0:
 			dout << "Data";
-			d_suc_frames++;
+			d_is_data++;
+			//d_suc_frames++;
 			break;
 		case 1:
 			dout << "Data + CF-ACK";
@@ -277,12 +289,14 @@ void parse_data(char *buf, int length) {
 
 	int seq_no = int(h->seq_nr >> 4);
 	dout << "seq nr: " << seq_no << std::endl;
-	// dout << "mac 1: ";
-	// print_mac_address(h->addr1, true);
-	// dout << "mac 2: ";
-	// print_mac_address(h->addr2, true);
-	// dout << "mac 3: ";
-	// print_mac_address(h->addr3, true);
+	dout << "mac 1: ";
+	print_mac_address(h->addr1, true);
+	dout << "mac 2: ";
+	print_mac_address(h->addr2, true);
+	dout << "mac 3: ";
+	print_mac_address(h->addr3, true);
+
+	check_mac(h->addr1,h->addr2,h->addr3);
 
 	// int n_frame = 100;
 	// float lost_frames = seq_no - d_last_seq_no - 1;
@@ -414,7 +428,27 @@ void print_ascii(char* buf, int length) {
 	dout << std::endl;
 }
 
-void calc_ber(char* buf, int length, float* ber){
+void check_mac(uint8_t *a1, uint8_t *a2, uint8_t *a3){
+	int mac_err = 0;
+	uint8_t addr1[6];
+	uint8_t addr2[6];
+	uint8_t addr3[6];
+	for (int i = 0; i < 6; i++) {
+		addr1[i] = 0x42;
+		addr2[i] = 0x23;
+		addr3[i] = 0xFF;
+
+		if(a1[i] != addr1[i] || a2[i] != addr2[i] || a3[i] != addr3[i]){
+			mac_err++;
+		}
+	}
+	dout << "***mac_err: " << mac_err << std::endl;
+	// all MACs valid
+	if(mac_err == 0){
+		d_is_mac++;
+	}
+}
+void check_data(char* buf, int length){
 	char byte = 'x';
 	int bit_cnt = 0;
 	int bit_err = 0;
@@ -427,10 +461,11 @@ void calc_ber(char* buf, int length, float* ber){
 			bit_cnt++;
 		}
 	}
-	if(bit_cnt != 0){
-		*ber = (float)bit_err/(float)bit_cnt;
-	}else{
-		*ber = 0.0;
+	dout << "***bit_err: " << bit_err << std::endl;
+	// successfully received whole frame
+	if(bit_err == 0){
+		d_suc_frames++;
+		return;
 	}
 }
 
@@ -441,7 +476,8 @@ private:
 	int d_suc_frames;
 	int d_frames;
 	int d_err_frames;
-	int d_is_calculated;
+	int d_is_data;
+	int d_is_mac;
 	float d_fer;
 };
 
