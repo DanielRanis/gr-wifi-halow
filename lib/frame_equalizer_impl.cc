@@ -69,19 +69,19 @@ frame_equalizer_impl::set_algorithm(Equalizer algo) {
 	switch(algo) {
 
 	case COMB:
-		dout << "Comb" << std::endl;
+		//dout << "Comb" << std::endl;
 		d_equalizer = new equalizer::comb();
 		break;
 	case LS:
-		dout << "LS" << std::endl;
+		//dout << "LS" << std::endl;
 		d_equalizer = new equalizer::ls();
 		break;
 	case LMS:
-		dout << "LMS" << std::endl;
+		//dout << "LMS" << std::endl;
 		d_equalizer = new equalizer::lms();
 		break;
 	case STA:
-		dout << "STA" << std::endl;
+		//dout << "STA" << std::endl;
 		d_equalizer = new equalizer::sta();
 		break;
 	default:
@@ -146,7 +146,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 			d_epsilon0 = pmt::to_double(tags.front().value) * d_bw / (2 * M_PI * d_freq);
 			d_er = 0;
 
-			dout << "epsilon: " << d_epsilon0 << std::endl;
+			dout << "***frame_equalizer: epsilon: " << d_epsilon0 << std::endl;
 		}
 
 		if(d_s1g_cap){
@@ -254,7 +254,10 @@ frame_equalizer_impl::general_work (int noutput_items,
  				 dict = pmt::dict_add(dict, pmt::mp("enable_s1g"), pmt::from_bool(d_s1g_cap));
  				 dict = pmt::dict_add(dict, pmt::mp("snr"), pmt::from_double(d_equalizer->get_snr()));
  				 dict = pmt::dict_add(dict, pmt::mp("freq"), pmt::from_double(d_freq));
+				 //dout << "***frame_equalizer: freq: " << std::to_string(d_freq) << std::endl;
+
  				 dict = pmt::dict_add(dict, pmt::mp("freq_offset"), pmt::from_double(d_freq_offset_from_synclong));
+				 dout << "***frame_equalizer: freq_offset: " << std::to_string(d_freq_offset_from_synclong) << std::endl;
  				 add_item_tag(0, nitems_written(0) + o,
  					  pmt::string_to_symbol("wifi_start"),
  					  dict,
@@ -416,7 +419,7 @@ frame_equalizer_impl::parse_signal(uint8_t *decoded_bits) {
 			 //std::cout << "S1G 256-QAM 3/4 Encoding   " << std::endl;
 			 break;
 		  default:
-			 std::cout << "unknown encoding" << std::endl;
+			 //std::cout << "unknown encoding" << std::endl;
 			 return false;
 	 }
 	}else{
@@ -426,52 +429,52 @@ frame_equalizer_impl::parse_signal(uint8_t *decoded_bits) {
 			d_frame_encoding = 0;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 24);
 			d_frame_mod = d_bpsk;
-			dout << "Encoding: 3 Mbit/s   ";
+			//dout << "Encoding: 3 Mbit/s   ";
 			break;
 		case 15:
 			d_frame_encoding = 1;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 36);
 			d_frame_mod = d_bpsk;
-			dout << "Encoding: 4.5 Mbit/s   ";
+			//dout << "Encoding: 4.5 Mbit/s   ";
 			break;
 		case 10:
 			d_frame_encoding = 2;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 48);
 			d_frame_mod = d_qpsk;
-			dout << "Encoding: 6 Mbit/s   ";
+			//dout << "Encoding: 6 Mbit/s   ";
 			break;
 		case 14:
 			d_frame_encoding = 3;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 72);
 			d_frame_mod = d_qpsk;
-			dout << "Encoding: 9 Mbit/s   ";
+			//dout << "Encoding: 9 Mbit/s   ";
 			break;
 		case 9:
 			d_frame_encoding = 4;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 96);
 			d_frame_mod = d_16qam;
-			dout << "Encoding: 12 Mbit/s   ";
+			//dout << "Encoding: 12 Mbit/s   ";
 			break;
 		case 13:
 			d_frame_encoding = 5;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 144);
 			d_frame_mod = d_16qam;
-			dout << "Encoding: 18 Mbit/s   ";
+			//dout << "Encoding: 18 Mbit/s   ";
 			break;
 		case 8:
 			d_frame_encoding = 6;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 192);
 			d_frame_mod = d_64qam;
-			dout << "Encoding: 24 Mbit/s   ";
+			//dout << "Encoding: 24 Mbit/s   ";
 			break;
 		case 12:
 			d_frame_encoding = 7;
 			d_frame_symbols = (int) ceil((16 + 8 * d_frame_bytes + 6) / (double) 216);
 			d_frame_mod = d_64qam;
-			dout << "Encoding: 27 Mbit/s   ";
+			//dout << "Encoding: 27 Mbit/s   ";
 			break;
 		default:
-			dout << "unknown encoding" << std::endl;
+			//dout << "unknown encoding" << std::endl;
 			return false;
 		}
 		mylog(boost::format("encoding: %1% - length: %2% - symbols: %3%")

@@ -38,6 +38,7 @@ parse_mac_impl(bool log, bool debug) :
 	set_msg_handler(pmt::mp("in"), boost::bind(&parse_mac_impl::parse, this, _1));
 	d_frames = 0;
 	d_suc_frames = 0;
+	temp_snr = 0.0;
 	message_port_register_out(pmt::mp("fer"));
 }
 
@@ -108,24 +109,36 @@ void parse(pmt::pmt_t msg) {
 
 	// calculate FER
 	int Nerr = 200;
-	d_frames++;
+	float avg_snr = 0.0;
 
-	if(d_is_data == 1 && d_is_mac == 1){
-		check_data(frame + 24, data_len - 24);
-		d_is_data = 0;
-		d_is_mac = 0;
-	}
-	d_err_frames = abs(d_frames - d_suc_frames);
-	d_fer = d_err_frames / float(d_frames);
+	if(d_debug){
+		d_frames++;
 
-	dout << "***d_frames: " << d_frames << std::endl;
-	dout << "***d_suc_frames: " << d_suc_frames << std::endl;
-	dout << "***d_err_frames: " << d_err_frames << std::endl;
-	dout << "d_fer: " << d_fer << std::endl;
-	dout << "snr: " << std::to_string(d_snr) << std::endl;
+		// average snr value
+		temp_snr += (float) d_snr;
+		avg_snr = temp_snr/float(d_frames);
 
-	if(d_err_frames == Nerr){
-		detail().get()->set_done(true);
+
+		dout << "***avg_snr: " << std::to_string(avg_snr) << std::endl;
+
+		if(d_is_data == 1 && d_is_mac == 1){
+			check_data(frame + 24, data_len - 24);
+			d_is_data = 0;
+			d_is_mac = 0;
+		}
+		d_err_frames = abs(d_frames - d_suc_frames);
+		d_fer = d_err_frames / float(d_frames);
+
+		dout << "***d_frames: " << d_frames << std::endl;
+		dout << "***d_suc_frames: " << d_suc_frames << std::endl;
+		dout << "***d_err_frames: " << d_err_frames << std::endl;
+		dout << "***d_fer: " << d_fer << std::endl;
+		dout << "***snr: " << std::to_string(d_snr) << std::endl;
+
+
+		if(d_err_frames == Nerr){
+			detail().get()->set_done(true);
+		}
 	}
 
 
@@ -479,6 +492,7 @@ private:
 	int d_is_data;
 	int d_is_mac;
 	float d_fer;
+	float temp_snr ;
 };
 
 parse_mac::sptr
