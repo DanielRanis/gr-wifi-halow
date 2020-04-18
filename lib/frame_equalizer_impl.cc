@@ -169,7 +169,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 		// compensate sampling offset
 		for(int i = 0; i < 64; i++) {
-			current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 + d_er)*(i-32)/64));
+			current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 - d_er)*(i-32)/64));
 		}
 
 		gr_complex p = equalizer::base::POLARITY[(d_current_symbol - 2) % 127];
@@ -216,8 +216,9 @@ frame_equalizer_impl::general_work (int noutput_items,
 		// update estimate of residual frequency offset
 		if(d_current_symbol >= 2){
 
-			double alpha = 0.1;
+			double alpha = 1.0/32.0;
 			d_er = (1-alpha) * d_er + alpha * er;
+			//d_er = d_er * d_bw / (2*M_PI*80.0*d_freq);
 		}
 
 		// do equalization
@@ -235,8 +236,15 @@ frame_equalizer_impl::general_work (int noutput_items,
 					dict = pmt::dict_add(dict, pmt::mp("encoding"), pmt::from_uint64(d_frame_encoding));
 					dict = pmt::dict_add(dict, pmt::mp("enable_s1g"), pmt::from_bool(d_s1g_cap));
 					dict = pmt::dict_add(dict, pmt::mp("snr"), pmt::from_double(d_equalizer->get_snr()));
+					dout << "***frame_equalizer: snr: " << std::to_string(d_equalizer->get_snr()) << std::endl;
+
 					dict = pmt::dict_add(dict, pmt::mp("freq"), pmt::from_double(d_freq));
+					dout << "***frame_equalizer: freq: " << std::to_string(d_freq) << std::endl;
+
 					dict = pmt::dict_add(dict, pmt::mp("freq_offset"), pmt::from_double(d_freq_offset_from_synclong));
+					dout << "***frame_equalizer: freq_offset: " << std::to_string(d_freq_offset_from_synclong) << std::endl;
+					dout << "***frame_equalizer: d_er: " << std::to_string(d_er) << std::endl;
+
 					add_item_tag(0, nitems_written(0) + o,
 							pmt::string_to_symbol("wifi_start"),
 							dict,
@@ -253,11 +261,14 @@ frame_equalizer_impl::general_work (int noutput_items,
  				 dict = pmt::dict_add(dict, pmt::mp("encoding"), pmt::from_uint64(d_frame_encoding));
  				 dict = pmt::dict_add(dict, pmt::mp("enable_s1g"), pmt::from_bool(d_s1g_cap));
  				 dict = pmt::dict_add(dict, pmt::mp("snr"), pmt::from_double(d_equalizer->get_snr()));
+				 dout << "***frame_equalizer: snr: " << std::to_string(d_equalizer->get_snr()) << std::endl;
+
  				 dict = pmt::dict_add(dict, pmt::mp("freq"), pmt::from_double(d_freq));
-				 //dout << "***frame_equalizer: freq: " << std::to_string(d_freq) << std::endl;
+				 dout << "***frame_equalizer: freq: " << std::to_string(d_freq) << std::endl;
 
  				 dict = pmt::dict_add(dict, pmt::mp("freq_offset"), pmt::from_double(d_freq_offset_from_synclong));
 				 dout << "***frame_equalizer: freq_offset: " << std::to_string(d_freq_offset_from_synclong) << std::endl;
+				 dout << "***frame_equalizer: d_er: " << std::to_string(d_er) << std::endl;
  				 add_item_tag(0, nitems_written(0) + o,
  					  pmt::string_to_symbol("wifi_start"),
  					  dict,

@@ -90,69 +90,6 @@
     </param>
   </block>
   <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>25e3</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(968, 4)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value>tab1@3</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>cfo</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Carrier Frequency Offset (CFO) [Hz]</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>-25e3</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>1e3</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>25e3</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-  </block>
-  <block>
     <key>variable_qtgui_chooser</key>
     <param>
       <key>comment</key>
@@ -160,15 +97,15 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(192, 8)</value>
+      <value>(184, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -412,7 +349,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
+      <value>6</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -420,7 +357,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(368, 4)</value>
+      <value>(352, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -504,6 +441,132 @@
     </param>
   </block>
   <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(968, 4)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@3</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>epsilon_cfo</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>CFO [ppm]</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>-20</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>+20</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1096, 4)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@3</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>epsilon_sfo</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>SFO [ppm]</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>-20</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>+20</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
+    </param>
+  </block>
+  <block>
     <key>variable</key>
     <param>
       <key>comment</key>
@@ -546,7 +609,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 4)</value>
+      <value>(656, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -735,7 +798,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 4)</value>
+      <value>(520, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -880,7 +943,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>8</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1113,7 +1176,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(344, 132)</value>
+      <value>(688, 132)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1197,105 +1260,6 @@
     </param>
   </block>
   <block>
-    <key>variable_qtgui_chooser</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>5.0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1080, 4)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value>tab1@3</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>snr</value>
-    </param>
-    <param>
-      <key>label0</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Signal to Noise Ratio (SNR)</value>
-    </param>
-    <param>
-      <key>labels</key>
-      <value>["-5 dB", "0 dB", "5 dB","6 dB","7 dB","8 dB", "10 dB", "11 dB","13 dB","15 dB", "20 dB"]</value>
-    </param>
-    <param>
-      <key>num_opts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>option0</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>option1</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>option2</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>option3</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>option4</key>
-      <value>4</value>
-    </param>
-    <param>
-      <key>options</key>
-      <value>[-5.0, 0.0, 5.0, 6.0,7.0, 8.0, 10.0, 11.0, 13.0, 15.0, 20.0]</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.QHBoxLayout</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>real</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>combo_box</value>
-    </param>
-  </block>
-  <block>
     <key>variable_qtgui_range</key>
     <param>
       <key>comment</key>
@@ -1303,7 +1267,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>30</value>
+      <value>9</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1311,7 +1275,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 4)</value>
+      <value>(800, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1347,7 +1311,7 @@
     </param>
     <param>
       <key>stop</key>
-      <value>50</value>
+      <value>100</value>
     </param>
     <param>
       <key>rangeType</key>
@@ -1492,7 +1456,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(680, 820)</value>
+      <value>(608, 820)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1743,11 +1707,11 @@
     </param>
     <param>
       <key>freq_offset</key>
-      <value>5*(cfo/freq)*freq /10e6</value>
+      <value>((epsilon_cfo/1e6) * freq)/samp_rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(840, 788)</value>
+      <value>(768, 788)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1857,7 +1821,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 788)</value>
+      <value>(472, 788)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1877,7 +1841,7 @@
     </param>
     <param>
       <key>pad_front</key>
-      <value>500</value>
+      <value>20000</value>
     </param>
     <param>
       <key>pad_tail</key>
@@ -2043,6 +2007,69 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>pfb_arb_resampler_xxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(952, 796)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pfb_arb_resampler_xxx_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nfilts</key>
+      <value>32</value>
+    </param>
+    <param>
+      <key>rrate</key>
+      <value>1.0+(epsilon_sfo/1e6)</value>
+    </param>
+    <param>
+      <key>samp_delay</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>atten</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>taps</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>ccf</value>
     </param>
   </block>
   <block>
@@ -2518,7 +2545,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value>tab2</value>
+      <value></value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3293,7 +3320,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(688, 132)</value>
+      <value>(360, 132)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3390,121 +3417,6 @@
     <param>
       <key>num_tabs</key>
       <value>5</value>
-    </param>
-  </block>
-  <block>
-    <key>qtgui_tab_widget</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(696, 260)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>tab2</value>
-    </param>
-    <param>
-      <key>label0</key>
-      <value>Performance Evaluation</value>
-    </param>
-    <param>
-      <key>label1</key>
-      <value>Frequency Spectrum</value>
-    </param>
-    <param>
-      <key>label10</key>
-      <value>Tab 10</value>
-    </param>
-    <param>
-      <key>label11</key>
-      <value>Tab 11</value>
-    </param>
-    <param>
-      <key>label12</key>
-      <value>Tab 12</value>
-    </param>
-    <param>
-      <key>label13</key>
-      <value>Tab 13</value>
-    </param>
-    <param>
-      <key>label14</key>
-      <value>Tab 14</value>
-    </param>
-    <param>
-      <key>label15</key>
-      <value>Tab 15</value>
-    </param>
-    <param>
-      <key>label16</key>
-      <value>Tab 16</value>
-    </param>
-    <param>
-      <key>label17</key>
-      <value>Tab 17</value>
-    </param>
-    <param>
-      <key>label18</key>
-      <value>Tab 18</value>
-    </param>
-    <param>
-      <key>label19</key>
-      <value>Tab 19</value>
-    </param>
-    <param>
-      <key>label2</key>
-      <value>Tab 2</value>
-    </param>
-    <param>
-      <key>label3</key>
-      <value>Tab 3</value>
-    </param>
-    <param>
-      <key>label4</key>
-      <value>Tab 4</value>
-    </param>
-    <param>
-      <key>label5</key>
-      <value>Tab 5</value>
-    </param>
-    <param>
-      <key>label6</key>
-      <value>Tab 6</value>
-    </param>
-    <param>
-      <key>label7</key>
-      <value>Tab 7</value>
-    </param>
-    <param>
-      <key>label8</key>
-      <value>Tab 8</value>
-    </param>
-    <param>
-      <key>label9</key>
-      <value>Tab 9</value>
-    </param>
-    <param>
-      <key>num_tabs</key>
-      <value>1</value>
     </param>
   </block>
   <block>
@@ -5800,7 +5712,7 @@
     </param>
     <param>
       <key>chan_est</key>
-      <value>chan_est</value>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -5923,7 +5835,7 @@
   </connection>
   <connection>
     <source_block_id>channels_channel_model_0</source_block_id>
-    <sink_block_id>wifi_phy_hier_0</sink_block_id>
+    <sink_block_id>pfb_arb_resampler_xxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -5950,6 +5862,12 @@
     <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
     <source_key>fer</source_key>
     <sink_key>pdus</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pfb_arb_resampler_xxx_0</source_block_id>
+    <sink_block_id>wifi_phy_hier_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>uhd_usrp_source_0</source_block_id>

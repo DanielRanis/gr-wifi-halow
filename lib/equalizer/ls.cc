@@ -33,7 +33,7 @@ void ls::equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boo
 	if(n == 0) {
 		std::memcpy(d_H, in, 64 * sizeof(gr_complex));
 
-	} else if(n == 1) {
+	} else if(n == 1) { //channel estimation
 		double signal = 0;
 		double noise = 0;
 		for(int i = 0; i < 64; i++) {
@@ -52,7 +52,7 @@ void ls::equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boo
 
 		d_snr = 10 * std::log10(signal / noise / 2);
 
-	} else {
+	} else { // channel equalization
 
 		int c = 0;
 		for(int i = 0; i < 64; i++) {

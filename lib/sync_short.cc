@@ -108,6 +108,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 				d_plateau = 0;
 			}
 
+			// coarse compensation
 			out[o] = in[o] * exp(gr_complex(0, -d_freq_offset * d_copied));
 			o++;
 			d_copied++;

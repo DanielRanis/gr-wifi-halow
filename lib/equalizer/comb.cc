@@ -23,6 +23,13 @@ void comb::equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, b
 
 	gr_complex pilot[4];
 
+	int offs;
+	if(s1g_cap){
+		offs = 2;
+	}else{
+		offs = 0;
+	}
+
 	if(n < 2) {
 		pilot[0] =  in[11];
 		pilot[1] = -in[25];
@@ -61,7 +68,7 @@ void comb::equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, b
 
 	int c = 0;
 	for(int i = 0; i < 64; i++) {
-		if( (i == 11) || (i == 25) || (i == 32) || (i == 39) || (i == 53) || (i < 6) || ( i > 58)) {
+		if( (i == 11) || (i == 25) || (i == 32) || (i == 39) || (i == 53) || (i < 6-offs) || ( i > 58+offs)) {
 			continue;
 		} else {
 			symbols[c] = in[i] / d_H[i];

@@ -73,6 +73,7 @@ private:
 	double d_freq_offset_from_synclong;  // Hz, estimation from "sync_long" block
 	double d_bw;  // Hz
 	double d_er;
+	double u1;
 	double d_epsilon0;
 	gr_complex d_prev_pilots[4];
 

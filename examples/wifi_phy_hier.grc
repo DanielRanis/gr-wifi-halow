@@ -1407,57 +1407,6 @@
     </param>
   </block>
   <block>
-    <key>ieee802_11_insert_nltf</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>fft_size</key>
-      <value>fft_size</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(984, 420)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>ieee802_11_insert_nltf_0</value>
-    </param>
-    <param>
-      <key>len_tag_key</key>
-      <value>"packet_len"</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>max_symbols * 48 * 8</value>
-    </param>
-    <param>
-      <key>s1g_cap</key>
-      <value>s1g_cap</value>
-    </param>
-  </block>
-  <block>
     <key>ieee802_11_mapper</key>
     <param>
       <key>alias</key>
@@ -1650,7 +1599,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>(range(-26, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 26+1),)</value>
+      <value>(range(-28, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 28+1),)</value>
     </param>
   </block>
   <block>
@@ -2371,7 +2320,7 @@
   </connection>
   <connection>
     <source_block_id>digital_ofdm_carrier_allocator_cvc_0_0_0</source_block_id>
-    <sink_block_id>ieee802_11_insert_nltf_0</sink_block_id>
+    <sink_block_id>fft_vxx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2422,12 +2371,6 @@
     <sink_block_id>pad_sink_1</sink_block_id>
     <source_key>symbols</source_key>
     <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>ieee802_11_insert_nltf_0</source_block_id>
-    <sink_block_id>fft_vxx_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>ieee802_11_mapper_0</source_block_id>
