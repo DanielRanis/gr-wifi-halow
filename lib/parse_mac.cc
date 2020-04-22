@@ -136,9 +136,9 @@ void parse(pmt::pmt_t msg) {
 		dout << "***snr: " << std::to_string(d_snr) << std::endl;
 
 
-		if(d_err_frames == Nerr){
-			detail().get()->set_done(true);
-		}
+		// if(d_err_frames == Nerr){
+		// 	detail().get()->set_done(true);
+		// }
 	}
 
 

@@ -59,6 +59,7 @@ void ls::equalize(gr_complex *in, int n, gr_complex *symbols, uint8_t *bits, boo
 			if( (i == 11) || (i == 25) || (i == 32) || (i == 39) || (i == 53) || (i < 6-offs) || ( i > 58+offs)) {
 				continue;
 			} else {
+
 				symbols[c] = in[i] / d_H[i];
 				bits[c] = mod->decision_maker(&symbols[c]);
 				c++;

@@ -167,9 +167,9 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 		std::memcpy(current_symbol, in + i*64, 64*sizeof(gr_complex));
 
-		// compensate sampling offset
+		// compensate sampling offset (phase compensation)
 		for(int i = 0; i < 64; i++) {
-			current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 - d_er)*(i-32)/64));
+		//	current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 + d_er)*(i-32)/64));
 		}
 
 		gr_complex p = equalizer::base::POLARITY[(d_current_symbol - 2) % 127];
@@ -208,7 +208,9 @@ frame_equalizer_impl::general_work (int noutput_items,
 		d_prev_pilots[2] = current_symbol[39] *  p;
 		d_prev_pilots[3] = current_symbol[53] * -p;
 
-		// compensate residual frequency offset
+		//dout << "***frame_equalizer: beta: " << beta << std::endl;
+
+		// compensate residual frequency offset (residual cfo)
 		for(int i = 0; i < 64; i++) {
 			current_symbol[i] *= exp(gr_complex(0, -beta));
 		}
@@ -216,8 +218,8 @@ frame_equalizer_impl::general_work (int noutput_items,
 		// update estimate of residual frequency offset
 		if(d_current_symbol >= 2){
 
-			double alpha = 1.0/32.0;
-			d_er = (1-alpha) * d_er + alpha * er;
+			double alpha = 0.1;
+		  d_er = (1-alpha) * d_er + alpha * er;
 			//d_er = d_er * d_bw / (2*M_PI*80.0*d_freq);
 		}
 

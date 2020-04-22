@@ -97,11 +97,11 @@
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -109,7 +109,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>tab1@0</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -186,6 +186,69 @@
     <param>
       <key>widget</key>
       <value>radio_buttons</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.3</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(944, 420)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@4</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>const</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Amplitude Factor</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>0.0</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>1.0</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
     </param>
   </block>
   <block>
@@ -349,7 +412,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>6</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -488,11 +551,11 @@
     </param>
     <param>
       <key>step</key>
-      <value>1</value>
+      <value>0.01</value>
     </param>
     <param>
       <key>stop</key>
-      <value>+20</value>
+      <value>20</value>
     </param>
     <param>
       <key>rangeType</key>
@@ -551,11 +614,11 @@
     </param>
     <param>
       <key>step</key>
-      <value>1</value>
+      <value>0.01</value>
     </param>
     <param>
       <key>stop</key>
-      <value>+20</value>
+      <value>20</value>
     </param>
     <param>
       <key>rangeType</key>
@@ -668,7 +731,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -753,6 +816,69 @@
     <param>
       <key>widget</key>
       <value>combo_box</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1.1e6</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(984, 188)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value>tab1@4</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>lo_offset</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>SDR LO Offset</value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>50e3</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>10e6</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
     </param>
   </block>
   <block>
@@ -853,7 +979,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0.5</value>
+      <value>0.55</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1267,7 +1393,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>9</value>
+      <value>50</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1330,7 +1456,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0.27</value>
+      <value>0.6</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1452,7 +1578,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1495,7 +1621,7 @@
     </param>
     <param>
       <key>const</key>
-      <value>0.6</value>
+      <value>const</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1503,7 +1629,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1699,7 +1825,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>epsilon</key>
@@ -1711,7 +1837,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 788)</value>
+      <value>(784, 788)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1817,7 +1943,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1876,7 +2002,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2025,11 +2151,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 796)</value>
+      <value>(1000, 796)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2053,7 +2179,7 @@
     </param>
     <param>
       <key>rrate</key>
-      <value>1.0+(epsilon_sfo/1e6)</value>
+      <value>1.0+(epsilon_cfo/1e6)</value>
     </param>
     <param>
       <key>samp_delay</key>
@@ -2875,7 +3001,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3320,7 +3446,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 132)</value>
+      <value>(352, 132)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3546,7 +3672,7 @@
     </param>
     <param>
       <key>bw0</key>
-      <value>0</value>
+      <value>samp_rate</value>
     </param>
     <param>
       <key>center_freq0</key>
@@ -4202,7 +4328,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -4369,7 +4495,7 @@
     </param>
     <param>
       <key>bw0</key>
-      <value>0</value>
+      <value>samp_rate</value>
     </param>
     <param>
       <key>center_freq0</key>
@@ -5537,7 +5663,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5712,7 +5838,7 @@
     </param>
     <param>
       <key>chan_est</key>
-      <value>0</value>
+      <value>chan_est</value>
     </param>
     <param>
       <key>comment</key>
