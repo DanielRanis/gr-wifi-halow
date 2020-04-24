@@ -76,6 +76,10 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 			pmt::pmt_t dict = tags[0].value;
 			int len_data = pmt::to_uint64(pmt::dict_ref(dict, pmt::mp("frame_bytes"), pmt::from_uint64(MAX_PSDU_SIZE+1)));
+			std::cout << "Decode MAX: len_data: " << std::to_string(len_data) << std::endl;
+			if(len_data < 5){
+				len_data = MAX_PSDU_SIZE;
+			}
 			int encoding = pmt::to_uint64(pmt::dict_ref(dict, pmt::mp("encoding"), pmt::from_uint64(0)));
 			d_snr = pmt::to_double(pmt::dict_ref(dict, pmt::mp("snr"), pmt::from_double(0)));
 			// std::cout << "Decode MAX: d_snr: " << std::to_string(d_snr) << std::endl;
@@ -176,7 +180,6 @@ void decode() {
 
 void deinterleave() {
 
-//TODO: Adopt deinterleaving of data field
 	int n_col,n_row;
 	int n_bpsc = d_ofdm.n_bpsc;
 	int n_cbps = d_ofdm.n_cbps;

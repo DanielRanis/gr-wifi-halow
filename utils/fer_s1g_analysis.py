@@ -114,16 +114,17 @@ if fer:
     ax1.legend(['MCS 0: BPSK 1/2', 
                 'MCS 1: QPSK 1/2', 
                 'MCS 2: QPSK 3/4',
-                'MCS 3: 16-QAM 1/23',
-                'MCS 4: 16-QAM 3/44',
-                'MCS 5: 64-QAM 2/35',
-                'MCS 6: 64-QAM 3/46',
-                'MCS 7: 64-QAM 5/67',
+                'MCS 3: 16-QAM 1/2',
+                'MCS 4: 16-QAM 3/4',
+                'MCS 5: 64-QAM 2/3',
+                'MCS 6: 64-QAM 3/4',
+                'MCS 7: 64-QAM 5/6',
                 'MCS 8: 256-QAM 3/4'])
     ax1.set_ylabel('FER')
     ax1.set_xlabel('Signal to Noise Ratio (SNR) in dB')
     plt.grid(True, which="both")
     plt.xlim([0,40])
+    plt.ylim([0.0000001,1.1])
     fig1.tight_layout()
     plt.show()
 
@@ -167,5 +168,6 @@ if offset:
     ax2.set_xlabel('Signal to Noise Ratio (SNR) in dB')
     plt.grid(True, which="both")
     plt.xlim([0,40])
+    plt.ylim([0.0000001,1.1])
     fig2.tight_layout()
     plt.show()

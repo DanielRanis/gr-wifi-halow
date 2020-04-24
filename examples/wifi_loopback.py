@@ -80,16 +80,16 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.s1g_freq = s1g_freq = 863e6
-        self.tx_gain = tx_gain = 0.6
+        self.tx_gain = tx_gain = 65
         self.snr = snr = 50
         self.samp_rate = samp_rate = 2e6
         self.s1g_sig = s1g_sig = ieee802_11.s1g_signal_field().formatter()
-        self.s1g_encoding = s1g_encoding = 1
+        self.s1g_encoding = s1g_encoding = 8
         self.s1g_carriers = s1g_carriers = (range(-28, -21) + range(-20, -7) + range(-6, 0) + range(1, 7) + range(8, 21) + range(22, 28+1),)
-        self.rx_gain = rx_gain = 0.55
+        self.rx_gain = rx_gain = 40
         self.pdu_length = pdu_length = 250
         self.out_buf_size = out_buf_size = 96000
-        self.lo_offset = lo_offset = 1.1e6
+        self.lo_offset = lo_offset = 0.00e6
         self.interval = interval = 10
         self.freq = freq = s1g_freq
         self.epsilon_sfo = epsilon_sfo = 0
@@ -131,7 +131,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab1_layout_4.addLayout(self.tab1_grid_layout_4)
         self.tab1.addTab(self.tab1_widget_4, 'SDR Settings')
         self.top_grid_layout.addWidget(self.tab1)
-        self._tx_gain_range = Range(0, 1, 0.01, 0.6, 200)
+        self._tx_gain_range = Range(0, 90, 0.01, 65, 200)
         self._tx_gain_win = RangeWidget(self._tx_gain_range, self.set_tx_gain, "tx_gain", "counter_slider", float)
         self.tab1_grid_layout_4.addWidget(self._tx_gain_win)
         self.tab3 = Qt.QTabWidget()
@@ -179,13 +179,13 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_encoding_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_encoding(self._s1g_encoding_options[i]))
         self.tab1_grid_layout_2.addWidget(self._s1g_encoding_tool_bar)
-        self._rx_gain_range = Range(0, 1, 0.01, 0.55, 200)
+        self._rx_gain_range = Range(0, 90, 0.01, 40, 200)
         self._rx_gain_win = RangeWidget(self._rx_gain_range, self.set_rx_gain, "rx_gain", "counter_slider", float)
         self.tab1_grid_layout_4.addWidget(self._rx_gain_win)
         self._pdu_length_range = Range(0, 483, 1, 250, 200)
         self._pdu_length_win = RangeWidget(self._pdu_length_range, self.set_pdu_length, 'PDU Length [Byte]', "counter_slider", int)
         self.tab1_grid_layout_0.addWidget(self._pdu_length_win)
-        self._lo_offset_range = Range(0, 10e6, 50e3, 1.1e6, 200)
+        self._lo_offset_range = Range(0, 10e6, 5e3, 0.00e6, 200)
         self._lo_offset_win = RangeWidget(self._lo_offset_range, self.set_lo_offset, 'SDR LO Offset', "counter_slider", float)
         self.tab1_grid_layout_4.addWidget(self._lo_offset_win)
         self._interval_range = Range(10, 10000, 1, 10, 200)
@@ -253,10 +253,10 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.uhd_usrp_source_0.set_samp_rate(samp_rate)
         self.uhd_usrp_source_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
         self.uhd_usrp_source_0.set_center_freq(uhd.tune_request(freq, rf_freq = freq - lo_offset, rf_freq_policy=uhd.tune_request.POLICY_MANUAL), 0)
-        self.uhd_usrp_source_0.set_normalized_gain(rx_gain, 0)
+        self.uhd_usrp_source_0.set_gain(rx_gain, 0)
         self.uhd_usrp_source_0.set_bandwidth(samp_rate, 0)
-        self.uhd_usrp_source_0.set_auto_dc_offset(False, 0)
-        self.uhd_usrp_source_0.set_auto_iq_balance(False, 0)
+        self.uhd_usrp_source_0.set_auto_dc_offset(True, 0)
+        self.uhd_usrp_source_0.set_auto_iq_balance(True, 0)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
         	",".join(('', "")),
         	uhd.stream_args(
@@ -268,8 +268,20 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
         self.uhd_usrp_sink_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
         self.uhd_usrp_sink_0.set_center_freq(uhd.tune_request(freq, rf_freq = freq - lo_offset, rf_freq_policy=uhd.tune_request.POLICY_MANUAL), 0)
-        self.uhd_usrp_sink_0.set_normalized_gain(tx_gain, 0)
+        self.uhd_usrp_sink_0.set_gain(tx_gain, 0)
         self.uhd_usrp_sink_0.set_bandwidth(samp_rate, 0)
+        self.tab4 = Qt.QTabWidget()
+        self.tab4_widget_0 = Qt.QWidget()
+        self.tab4_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab4_widget_0)
+        self.tab4_grid_layout_0 = Qt.QGridLayout()
+        self.tab4_layout_0.addLayout(self.tab4_grid_layout_0)
+        self.tab4.addTab(self.tab4_widget_0, 'Tx Spectrum')
+        self.tab4_widget_1 = Qt.QWidget()
+        self.tab4_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab4_widget_1)
+        self.tab4_grid_layout_1 = Qt.QGridLayout()
+        self.tab4_layout_1.addLayout(self.tab4_grid_layout_1)
+        self.tab4.addTab(self.tab4_widget_1, 'Rx Spectrum')
+        self.top_grid_layout.addWidget(self.tab4)
         self._snr_range = Range(-15, 100, 0.1, 50, 200)
         self._snr_win = RangeWidget(self._snr_range, self.set_snr, 'Signal to Noise Ratio (SNR) [dB]', "counter_slider", float)
         self.tab1_grid_layout_3.addWidget(self._snr_win)
@@ -285,61 +297,10 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self._s1g_freq_combo_box.currentIndexChanged.connect(
         	lambda i: self.set_s1g_freq(self._s1g_freq_options[i]))
         self.tab1_grid_layout_2.addWidget(self._s1g_freq_tool_bar)
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
-        	1024, #size
-        	samp_rate, #samp_rate
-        	"", #name
-        	1 #number of inputs
-        )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-3, 3)
-
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_TAG, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "packet_len")
-        self.qtgui_time_sink_x_0.enable_autoscale(False)
-        self.qtgui_time_sink_x_0.enable_grid(True)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(True)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
-
-        if not True:
-          self.qtgui_time_sink_x_0.disable_legend()
-
-        labels = ['In-Phase', 'Quadrature', '', '', '',
-                  '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-                  "magenta", "yellow", "dark red", "dark green", "blue"]
-        styles = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-                   -1, -1, -1, -1, -1]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in xrange(2):
-            if len(labels[i]) == 0:
-                if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
-            else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.tab3_grid_layout_0.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_sink_x_0 = qtgui.sink_c(
         	1024, #fftsize
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
-        	0, #fc
+        	freq, #fc
         	samp_rate, #bw
         	"", #name
         	True, #plotfreq
@@ -355,37 +316,6 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
 
 
 
-        self.qtgui_number_sink_0 = qtgui.number_sink(
-            gr.sizeof_float,
-            0,
-            qtgui.NUM_GRAPH_HORIZ,
-            1
-        )
-        self.qtgui_number_sink_0.set_update_time(0.01)
-        self.qtgui_number_sink_0.set_title('')
-
-        labels = ['Frame Error Rate (FER)', '', '', '', '',
-                  '', '', '', '', '']
-        units = ['%', '', '', '', '',
-                 '', '', '', '', '']
-        colors = [("blue", "red"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
-                  ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
-        factor = [3, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        for i in xrange(1):
-            self.qtgui_number_sink_0.set_min(i, 0)
-            self.qtgui_number_sink_0.set_max(i, 500)
-            self.qtgui_number_sink_0.set_color(i, colors[i][0], colors[i][1])
-            if len(labels[i]) == 0:
-                self.qtgui_number_sink_0.set_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_number_sink_0.set_label(i, labels[i])
-            self.qtgui_number_sink_0.set_unit(i, units[i])
-            self.qtgui_number_sink_0.set_factor(i, factor[i])
-
-        self.qtgui_number_sink_0.enable_autoscale(False)
-        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
         	2000, #size
         	"", #name
@@ -429,8 +359,8 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.tab3_grid_layout_1.addWidget(self._qtgui_const_sink_x_0_win)
         self.ieee802_11_parse_mac_0 = ieee802_11.parse_mac(False, True)
         self.ieee802_11_mac_0 = ieee802_11.mac(([0x23, 0x23, 0x23, 0x23, 0x23, 0x23]), ([0x42, 0x42, 0x42, 0x42, 0x42, 0x42]), ([0xff, 0xff, 0xff, 0xff, 0xff, 0xff]), False)
-        self.foo_packet_pad2_0_0 = foo.packet_pad2(False, False, 1, 10000, 10000)
-        (self.foo_packet_pad2_0_0).set_min_output_buffer(100000)
+        self.foo_packet_pad2_0_0 = foo.packet_pad2(False, False, 0.001, 80000, 80000)
+        (self.foo_packet_pad2_0_0).set_min_output_buffer(800000)
         self._epsilon_sfo_range = Range(-20, 20, 0.01, 0, 200)
         self._epsilon_sfo_win = RangeWidget(self._epsilon_sfo_range, self.set_epsilon_sfo, 'SFO [ppm]', "counter_slider", float)
         self.tab1_grid_layout_3.addWidget(self._epsilon_sfo_win)
@@ -450,8 +380,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         	lambda i: self.set_def_freq(self._def_freq_options[i]))
         self.tab1_grid_layout_1.addWidget(self._def_freq_tool_bar)
         self.blocks_pdu_to_tagged_stream_0_0 = blocks.pdu_to_tagged_stream(blocks.complex_t, 'packet_len')
-        self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.float_t, 'packet_len')
-        self.blocks_multiply_const_vxx_1 = blocks.multiply_const_vcc((1, ))
+        self.blocks_multiply_const_vxx_1 = blocks.multiply_const_vcc((5, ))
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_vcc((const, ))
         (self.blocks_multiply_const_vxx_0_0).set_min_output_buffer(100000)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("".join("x" for i in range(pdu_length))), interval)
@@ -463,13 +392,10 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.ieee802_11_mac_0, 'app in'))
         self.msg_connect((self.ieee802_11_mac_0, 'phy out'), (self.wifi_phy_hier_0, 'mac_in'))
-        self.msg_connect((self.ieee802_11_parse_mac_0, 'fer'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))
         self.msg_connect((self.wifi_phy_hier_0, 'carrier'), (self.blocks_pdu_to_tagged_stream_0_0, 'pdus'))
         self.msg_connect((self.wifi_phy_hier_0, 'mac_out'), (self.ieee802_11_parse_mac_0, 'in'))
         self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.foo_packet_pad2_0_0, 0))
         self.connect((self.blocks_multiply_const_vxx_1, 0), (self.qtgui_sink_x_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_1, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.qtgui_number_sink_0, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.foo_packet_pad2_0_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.wifi_phy_hier_0, 0))
@@ -527,7 +453,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
 
     def set_tx_gain(self, tx_gain):
         self.tx_gain = tx_gain
-        self.uhd_usrp_sink_0.set_normalized_gain(self.tx_gain, 0)
+        self.uhd_usrp_sink_0.set_gain(self.tx_gain, 0)
 
 
     def get_snr(self):
@@ -547,8 +473,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.uhd_usrp_source_0.set_bandwidth(self.samp_rate, 0)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0.set_bandwidth(self.samp_rate, 0)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
-        self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.qtgui_sink_x_0.set_frequency_range(self.freq, self.samp_rate)
 
     def get_s1g_sig(self):
         return self.s1g_sig
@@ -577,7 +502,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
 
     def set_rx_gain(self, rx_gain):
         self.rx_gain = rx_gain
-        self.uhd_usrp_source_0.set_normalized_gain(self.rx_gain, 0)
+        self.uhd_usrp_source_0.set_gain(self.rx_gain, 0)
 
 
     def get_pdu_length(self):
@@ -616,6 +541,7 @@ class wifi_loopback(gr.top_block, Qt.QWidget):
         self.wifi_phy_hier_0.set_frequency(self.freq)
         self.uhd_usrp_source_0.set_center_freq(uhd.tune_request(self.freq, rf_freq = self.freq - self.lo_offset, rf_freq_policy=uhd.tune_request.POLICY_MANUAL), 0)
         self.uhd_usrp_sink_0.set_center_freq(uhd.tune_request(self.freq, rf_freq = self.freq - self.lo_offset, rf_freq_policy=uhd.tune_request.POLICY_MANUAL), 0)
+        self.qtgui_sink_x_0.set_frequency_range(self.freq, self.samp_rate)
 
     def get_epsilon_sfo(self):
         return self.epsilon_sfo

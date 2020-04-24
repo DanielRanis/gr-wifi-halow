@@ -169,7 +169,7 @@ frame_equalizer_impl::general_work (int noutput_items,
 
 		// compensate sampling offset (phase compensation)
 		for(int i = 0; i < 64; i++) {
-		//	current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 + d_er)*(i-32)/64));
+		  current_symbol[i] *= exp(gr_complex(0, 2*M_PI*d_current_symbol*80*(d_epsilon0 + d_er)*(i-32)/64));
 		}
 
 		gr_complex p = equalizer::base::POLARITY[(d_current_symbol - 2) % 127];
