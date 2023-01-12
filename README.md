@@ -22,4 +22,3 @@ Project description ... coming soon ...
 
 --------
 ###### Author: Daniel Ranisavljevic
-###### Email: [es18m009@technikum-wien.at](es18m009@technikum-wien.at)
